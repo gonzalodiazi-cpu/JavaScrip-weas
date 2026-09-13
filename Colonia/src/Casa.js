@@ -8,6 +8,11 @@ export class Casa{
         this.colonos = new Map()
     }
     crearColono(nombre) {
+
+        if (this.colonos.size >= this.capacidad) {
+            return
+        }
+        
         this.colonia.gastarComida(50)
 
         const colono = new Colono(nombre, this.colonia)

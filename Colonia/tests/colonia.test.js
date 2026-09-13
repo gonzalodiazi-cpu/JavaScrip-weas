@@ -26,3 +26,18 @@ describe("Colonia", () => {
     expect(casa.colonos.get("Juan").nombre).toBe("Juan");
   });
 });
+
+it("no crea un colono cuando la casa está llena", () => {
+  const colonia = new Colonia();
+
+  colonia.crearCasa("Casa 1");
+
+  const casa = colonia.casas.get("Casa 1");
+
+  casa.crearColono("Juan");
+  casa.crearColono("Pedro");
+  casa.crearColono("Luis");
+
+  expect(casa.colonos.size).toBe(casa.capacidad);
+  expect(casa.colonos.has("Luis")).toBe(false);
+});
