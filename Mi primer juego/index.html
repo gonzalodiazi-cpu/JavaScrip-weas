@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mi primer juego</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="interfaz_principio">
+        <h1>Atrapa el cuadrado</h1>
+
+        <p id="puntos">Puntos: 0</p>
+        <p id="tiempo">Tiempo: 5</p>
+    </div>
+
+    <div id="juego">
+        <button id="cuadrado">■</button>
+    </div>
+
+    <div id="gameOver">
+        <h2>GAME OVER</h2>
+        <p>Tu puntuación: <span id="puntuacionFinal">0</span></p>
+    </div>
+
+    <script src="js/movimiento.js"></script>
+    <script src="js/tiempo.js"></script>
+    <script src="js/juego.js"></script>
+
+</body>
+</html>
