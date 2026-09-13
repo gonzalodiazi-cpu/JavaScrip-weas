@@ -4,6 +4,7 @@ export class Casa{
     constructor(nombre, colonia) {
         this.nombre = nombre
         this.colonia = colonia
+        this.costoCrearColono = 50
         this.capacidad = 2
         this.colonos = new Map()
     }
@@ -12,8 +13,8 @@ export class Casa{
         if (this.colonos.size >= this.capacidad) {
             return
         }
-        
-        this.colonia.gastarComida(50)
+
+        this.colonia.gastarComida(this.costoCrearColono)
 
         const colono = new Colono(nombre, this.colonia)
         this.colonos.set(nombre, colono)
