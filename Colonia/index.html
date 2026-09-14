@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Colonia</title>
+</head>
+<body>
+    <canvas id="juego" width="1200" height="800"></canvas>
+
+    <script type="module">
+        import { iniciarJuego } from "./src/Main.js"
+
+        const canvas = document.getElementById("juego")
+
+        iniciarJuego(canvas)
+    </script>
+</body>
+</html>

@@ -84,13 +84,15 @@ describe("Renderizador", () => {
         expect(contexto.fillRect).toHaveBeenCalledWith(10, 20, 10, 10)
     })
 
-    it("Un renderizador limpia el canvas antes de dibujar el mundo", () => {
+    it("Un renderizador limpia todo el canvas antes de dibujar el mundo", () => {
         const contexto = {
             fillRect: vi.fn(),
             clearRect: vi.fn()
         }
 
         const canvas = {
+            width: 1200,
+            height: 800,
             getContext: () => contexto
         }
 
@@ -103,6 +105,11 @@ describe("Renderizador", () => {
 
         renderizador.dibujarMundo(mundo)
 
-        expect(contexto.clearRect).toHaveBeenCalled()
+        expect(contexto.clearRect).toHaveBeenCalledWith(
+            0,
+            0,
+            1200,
+            800
+        )
     })
 })
