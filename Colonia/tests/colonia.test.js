@@ -61,4 +61,32 @@ describe("Colonia", () => {
     expect(casa.colonos.size).toBe(1);
     expect(casa.colonos.has("Pedro")).toBe(false);
   });
+
+  it("Una colonia no puede crear mas casas que ayuntamiento.capacidadCasas", () => {
+  // preparar
+    const colonia = new Colonia()
+
+  // ejecutar
+    colonia.crearCasa("Casa 1")
+    colonia.crearCasa("Casa 2")
+    colonia.crearCasa("Casa 3")
+
+  // comprobar
+    expect(colonia.casas.size).toBe(colonia.ayuntamiento.capacidadCasas)
+    expect(colonia.casas.has("Casa 3")).toBe(false)
+  });
+
+  it("Una colonia no puede crear casas si no tiene dinero suficiente", () => {
+  // preparar
+    const colonia = new Colonia()
+    
+  // ejecutar
+    colonia.gastarDinero(colonia.dinero - colonia.costoCrearCasa)
+    colonia.crearCasa("Casa 1")
+    colonia.crearCasa("Casa 2")
+
+  // comprobar
+    expect(colonia.casas.size).toBe(1)
+    expect(colonia.casas.has("Casa 2")).toBe(false)
+  });
 });
