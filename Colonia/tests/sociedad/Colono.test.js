@@ -1,6 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { Colonia } from "@src/sociedad/Colonia.js";
 import { Colono } from "@src/sociedad/Colono.js";
+import { Desempleado } from "@src/sociedad/trabajos/Desempleado.js";
+import { Leñador } from "@src/sociedad/trabajos/Leñador.js";
 
 describe("Colono", () => {
   it("Un colono tiene una posición al ser creado", () => {
@@ -20,18 +22,20 @@ describe("Colono", () => {
     const colono = new Colono("Juan", colonia, posicion)
 
   // comprobar
-    expect(colono.trabajo).toBe(null)
+    expect(colono.trabajo).toBeInstanceOf(Desempleado)
   })
-  it("Un colono desempleado puede recibir un trabajo", () => {
-  // preparar
+
+  it("Un colono puede cambiar de trabajo", () => {
+    // preparar
     const colonia = new Colonia()
     const posicion = { x: 10, y: 5 }
     const colono = new Colono("Juan", colonia, posicion)
+    const nuevoTrabajo = new Desempleado()
 
-  // ejecutar
-    colono.asignarTrabajo("leñador")
+    // ejecutar
+    colono.asignarTrabajo(nuevoTrabajo)
 
-  // comprobar
-    expect(colono.trabajo).toBe("leñador")
+    // comprobar
+    expect(colono.trabajo).toBe(nuevoTrabajo)
   })
 });
