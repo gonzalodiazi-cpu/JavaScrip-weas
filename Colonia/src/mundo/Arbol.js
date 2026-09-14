@@ -1,4 +1,4 @@
-import { Recurso } from "./Recurso"
+import { Recurso } from "./Recurso.js"
 export class Arbol {
     constructor(posicion) {
         this.etapaCrecimiento = 1

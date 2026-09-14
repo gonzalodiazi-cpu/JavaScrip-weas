@@ -1,5 +1,5 @@
-import { Arbol } from "@src/mundo/Arbol.js";
-import { Recurso } from "./Recurso";
+import { Arbol } from "./Arbol.js";
+import { Recurso } from "./Recurso.js";
 export class Mundo {
     constructor() {
         this.arboles = []

@@ -1,13 +1,13 @@
-import { Mundo } from "@src/mundo/Mundo.js"
-import { Juego } from "@src/Juego.js"
-import { Renderizador } from "@src/visualizacion/Renderizador.js"
-import { Colono } from "@src/sociedad/Colono.js"
-import { Colonia } from "@src/sociedad/Colonia.js"
+import { Mundo } from "./mundo/Mundo.js"
+import { Juego } from "./Juego.js"
+import { Renderizador } from "./visualizacion/Renderizador.js"
+import { Colono } from "./sociedad/Colono.js"
+import { Colonia } from "./sociedad/Colonia.js"
 
 export function iniciarJuego(canvas) {
     const mundo = new Mundo()
 
-    mundo.crearArbol({ x: 300, y: 200 })
+    mundo.crearArbol({ x: 500, y: 500 })
 
     const arbol = mundo.arboles[0]
 
@@ -26,7 +26,7 @@ export function iniciarJuego(canvas) {
 
     const juego = new Juego(
         mundo,
-        requestAnimationFrame,
+        requestAnimationFrame.bind(window),
         renderizador
     )
 
