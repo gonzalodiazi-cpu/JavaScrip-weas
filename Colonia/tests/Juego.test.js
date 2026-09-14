@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest"
+import { describe, it, expect, vi } from "vitest"
 import { Juego } from "@src/Juego.js"
 import { Mundo } from "@src/mundo/Mundo.js"
 import { Colono } from "@src/sociedad/Colono.js"
@@ -67,5 +67,19 @@ describe("Juego", () => {
         siguienteFrame()
 
         expect(cantidadDeFrames).toBe(2)
+    })
+
+    it("Un juego renderiza su mundo después de actualizarlo", () => {
+        const mundo = new Mundo()
+
+        const renderizador = {
+            dibujarMundo: vi.fn()
+        }
+
+        const juego = new Juego(mundo, null, renderizador)
+
+        juego.actualizar()
+
+        expect(renderizador.dibujarMundo).toHaveBeenCalledWith(mundo)
     })
 })
