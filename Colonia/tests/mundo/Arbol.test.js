@@ -4,7 +4,7 @@ import { Arbol } from "@src/mundo/Arbol.js";
 describe("Arbol", () => {
   it("Un árbol nuevo comienza en etapa 1 y tiene 2 unidades de madera y 10 de durabilidad", () => {
     // preparar
-    const arbol = new Arbol()
+    const arbol = new Arbol({x:5,y:10})
     
     // ejecutar
 
@@ -17,7 +17,7 @@ describe("Arbol", () => {
 
   it("Un árbol en etapa 1 crece a etapa 2 y pasa de tener 2 a 3 unidades de madera y 20 de durabilidad", () => {
   // preparar
-    const arbol = new Arbol()
+    const arbol = new Arbol({x:5,y:10})
 
   // ejecutar
     arbol.crecer()
@@ -29,7 +29,7 @@ describe("Arbol", () => {
   });
   it("Un árbol en etapa 2 crece a etapa 3 y pasa de tener 3 a 10 unidades de madera y 50 durabilidad", () => {
   // preparar
-    const arbol = new Arbol()
+    const arbol = new Arbol({x:5,y:10})
 
   // ejecutar
     arbol.crecer()
@@ -42,7 +42,7 @@ describe("Arbol", () => {
   });
   it("Un Árbol no puede crecer más alla de la etapa 3", () => {
   // preparar
-    const arbol = new Arbol()
+    const arbol = new Arbol({x:5,y:10})
 
   // ejecutar
     arbol.crecer()
@@ -56,7 +56,7 @@ describe("Arbol", () => {
   });
   it("Talar un árbol reduce su durabilidad", () => {
   // preparar
-    const arbol = new Arbol()
+    const arbol = new Arbol({x:5,y:10})
 
   // ejecutar
     arbol.talar(5)
@@ -66,7 +66,7 @@ describe("Arbol", () => {
   })
   it("Un árbol no puede tener durabilidad menor que 0", () => {
   // preparar
-    const arbol = new Arbol()
+    const arbol = new Arbol({x:5,y:10})
 
   // ejecutar
     arbol.talar(arbol.durabilidad + 1)
@@ -76,12 +76,22 @@ describe("Arbol", () => {
   })
   it("Un árbol está talado cuando su durabilidad llega a 0", () => {
   // preparar
-    const arbol = new Arbol()
+    const arbol = new Arbol({x:5,y:10})
 
   // ejecutar
     arbol.talar(arbol.durabilidad)
 
   // comprobar
     expect(arbol.talado).toBe(true)
+  })
+  it("Un árbol tiene una posición al ser creado", () => {
+  // preparar
+    const posicion = { x: 10, y: 5 }
+
+  // ejecutar
+    const arbol = new Arbol(posicion)
+
+  // comprobar
+    expect(arbol.posicion).toEqual(posicion)
   })
 });

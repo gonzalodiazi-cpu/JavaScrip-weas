@@ -1,9 +1,10 @@
 export class Arbol {
-    constructor() {
+    constructor(posicion) {
         this.etapaCrecimiento = 1
         this.madera = 2
         this.durabilidad = 10
         this.talado = false
+        this.posicion=posicion
     }
     crecer() {
 
