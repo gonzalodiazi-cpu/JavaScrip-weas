@@ -1,3 +1,4 @@
+import { Recurso } from "./Recurso"
 export class Arbol {
     constructor(posicion) {
         this.etapaCrecimiento = 1
@@ -5,6 +6,7 @@ export class Arbol {
         this.durabilidad = 10
         this.talado = false
         this.posicion=posicion
+        this.recurso= null
     }
     crecer() {
 
@@ -27,6 +29,7 @@ export class Arbol {
         if (daño>=this.durabilidad) {
             this.durabilidad = 0
             this.talado = true
+            this.recurso = new Recurso("madera", this.madera, this.posicion)
         }
         else {
             this.durabilidad -=daño

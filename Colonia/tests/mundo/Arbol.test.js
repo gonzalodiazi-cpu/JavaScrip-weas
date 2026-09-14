@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { Arbol } from "@src/mundo/Arbol.js";
+import { Recurso } from "@src/mundo/Recurso.js";
 
 describe("Arbol", () => {
   it("Un árbol nuevo comienza en etapa 1 y tiene 2 unidades de madera y 10 de durabilidad", () => {
@@ -94,4 +95,20 @@ describe("Arbol", () => {
   // comprobar
     expect(arbol.posicion).toEqual(posicion)
   })
+  it("Un árbol talado deja un recurso de madera en el suelo", () => {
+    // preparar
+    const posicion = { x: 10, y: 5 }
+    const arbol = new Arbol(posicion)
+    const madera = arbol.madera
+
+    // ejecutar
+    arbol.talar(arbol.durabilidad)
+
+    // comprobar
+    expect(arbol.recurso).toBeInstanceOf(Recurso)
+    expect(arbol.recurso.tipo).toBe("madera")
+    expect(arbol.recurso.cantidad).toBe(madera)
+    expect(arbol.recurso.posicion).toEqual(posicion)
+  })
+
 });
