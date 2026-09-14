@@ -12,7 +12,7 @@ describe("Leñador", () => {
 
 
     // comprobar
-    expect(leñador.bonoTala).toBeGreaterThan(desempleado.bonoTala)
+    expect(leñador.dañoTala).toBeGreaterThan(desempleado.dañoTala)
   })
 
   it("Un leñador tiene una velocidad de tala mayor que un desempleado", () => {

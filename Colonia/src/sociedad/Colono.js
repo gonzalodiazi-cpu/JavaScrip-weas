@@ -10,4 +10,7 @@ export class Colono {
   asignarTrabajo(trabajo) {
     this.trabajo = trabajo
   }
+  talar(arbol) {
+    arbol.talar(this.trabajo.dañoTala)
+  }
 }
