@@ -5,5 +5,6 @@ export class Leñador extends Trabajo {
         super()
         this.dañoTala = 3
         this.velocidadTala =1.5
+        this.velocidadMovimiento = 1.5
     }
 }

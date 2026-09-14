@@ -73,4 +73,39 @@ describe("Colono", () => {
     // comprobar
     expect(arbol.durabilidad).toBe(durabilidadInicial - daño)
   })
+
+  it("Un colono avanza hacia una posición según su velocidad", () => {
+    const colonia = new Colonia()
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colono.avanzarHacia({ x: 10, y: 0 })
+
+    expect(colono.posicion).toEqual({ x: 1, y: 0 })
+  })
+  it("Un colono cambia su velocidad al cambiar de trabajo", () => {
+    const colonia = new Colonia()
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+    const leñador = new Leñador()
+
+    colono.asignarTrabajo(leñador)
+
+    expect(colono.velocidad).toBe(leñador.velocidadMovimiento)
+  })
+  it("Un colono llega exactamente al destino si está más cerca que su velocidad", () => {
+    const colonia = new Colonia()
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colono.avanzarHacia({ x: 0.5, y: 0 })
+
+    expect(colono.posicion).toEqual({ x: 0.5, y: 0 })
+  })
+  it("Un colono puede establecer una posición como destino", () => {
+    const colonia = new Colonia()
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+    const destino = { x: 10, y: 5 }
+
+    colono.establecerDestino(destino)
+
+    expect(colono.destino).toEqual(destino)
+  })
 });

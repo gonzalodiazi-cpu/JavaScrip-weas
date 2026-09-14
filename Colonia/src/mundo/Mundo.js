@@ -12,7 +12,7 @@ export class Mundo {
     agregarRecurso(recurso) {
         this.recursos.push(recurso)
     }
-    actualizar() {
+    procesarArbolesTalados() {
         const arbolesTalados = this.arboles.filter(arbol => arbol.talado)
 
         for (const arbol of arbolesTalados) {

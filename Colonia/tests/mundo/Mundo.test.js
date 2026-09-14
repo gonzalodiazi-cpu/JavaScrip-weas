@@ -50,7 +50,7 @@ describe("Mundo", () => {
 
     arbol.talar(arbol.durabilidad)
 
-    mundo.actualizar()
+    mundo.procesarArbolesTalados()
 
     expect(mundo.arboles.length).toBe(0)
     expect(mundo.recursos.length).toBe(1)
