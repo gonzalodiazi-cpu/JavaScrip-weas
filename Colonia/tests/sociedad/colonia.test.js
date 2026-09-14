@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Colonia } from "@src/Colonia.js";
+import { Colonia } from "@src/sociedad/Colonia.js";
 
 describe("Colonia", () => {
   it("crea una casa con capacidad 2 y descuenta su costo", () => {
