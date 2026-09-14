@@ -3,6 +3,7 @@ export class Arbol {
         this.etapaCrecimiento = 1
         this.madera = 2
         this.durabilidad = 10
+        this.talado = false
     }
     crecer() {
 
@@ -19,6 +20,15 @@ export class Arbol {
         if (this.etapaCrecimiento == 3) {
             this.madera = 10
             this.durabilidad = 50
+        }
+    }
+    talar(daño) {
+        if (daño>=this.durabilidad) {
+            this.durabilidad = 0
+            this.talado = true
+        }
+        else {
+            this.durabilidad -=daño
         }
     }
 }

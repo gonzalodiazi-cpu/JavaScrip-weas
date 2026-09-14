@@ -54,4 +54,34 @@ describe("Arbol", () => {
     expect(arbol.madera).toBe(10)
     expect(arbol.durabilidad).toBe(50)
   });
+  it("Talar un árbol reduce su durabilidad", () => {
+  // preparar
+    const arbol = new Arbol()
+
+  // ejecutar
+    arbol.talar(5)
+
+  // comprobar
+    expect(arbol.durabilidad).toBe(5)
+  })
+  it("Un árbol no puede tener durabilidad menor que 0", () => {
+  // preparar
+    const arbol = new Arbol()
+
+  // ejecutar
+    arbol.talar(arbol.durabilidad + 1)
+
+  // comprobar
+    expect(arbol.durabilidad).toBe(0)
+  })
+  it("Un árbol está talado cuando su durabilidad llega a 0", () => {
+  // preparar
+    const arbol = new Arbol()
+
+  // ejecutar
+    arbol.talar(arbol.durabilidad)
+
+  // comprobar
+    expect(arbol.talado).toBe(true)
+  })
 });
