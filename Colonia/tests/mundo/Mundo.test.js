@@ -1,7 +1,9 @@
 import { describe, it, expect } from "vitest";
 import { Mundo } from "@src/mundo/Mundo.js";
 import { Arbol } from "@src/mundo/Arbol.js";
-import { Recurso } from "../../src/mundo/Recurso";
+import { Recurso } from "../../src/mundo/Recurso.js";
+import { Colono } from "../../src/sociedad/Colono.js";
+import { Colonia } from "../../src/sociedad/Colonia.js";
 
 
 describe("Mundo", () => {
@@ -60,5 +62,27 @@ describe("Mundo", () => {
     expect(recurso.tipo).toBe("madera")
     expect(recurso.cantidad).toBe(arbol.madera)
     expect(recurso.posicion).toEqual(posicion)
+  })
+  it("Un mundo puede agregar un colono", () => {
+    const mundo = new Mundo()
+    const colonia = new Colonia()
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    mundo.agregarColono(colono)
+
+    expect(mundo.colonos.length).toBe(1)
+    expect(mundo.colonos[0]).toBe(colono)
+  })
+  it("Un mundo actualiza el movimiento de sus colonos", () => {
+    const mundo = new Mundo()
+    const colonia = new Colonia()
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colono.establecerDestino({ x: 10, y: 0 })
+    mundo.agregarColono(colono)
+
+    mundo.actualizar()
+
+    expect(colono.posicion).toEqual({ x: 1, y: 0 })
   })
 })

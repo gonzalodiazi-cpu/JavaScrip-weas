@@ -4,6 +4,7 @@ export class Mundo {
     constructor() {
         this.arboles = []
         this.recursos = []
+        this.colonos = []
     }
     crearArbol(posicion) {
         const arbol = new Arbol(posicion)
@@ -12,6 +13,10 @@ export class Mundo {
     agregarRecurso(recurso) {
         this.recursos.push(recurso)
     }
+    agregarColono(colono) {
+        this.colonos.push(colono)
+    }
+
     procesarArbolesTalados() {
         const arbolesTalados = this.arboles.filter(arbol => arbol.talado)
 
@@ -25,6 +30,11 @@ export class Mundo {
         }
 
         this.arboles = this.arboles.filter(arbol => !arbol.talado)
+    }
+    actualizar() {
+        for (const colono of this.colonos) {
+            colono.actualizarMovimiento()
+        }
     }
     
 }
