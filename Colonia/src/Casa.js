@@ -14,6 +14,10 @@ export class Casa{
             return
         }
 
+        if (this.colonia.comida<this.costoCrearColono) {
+            return
+        }
+
         this.colonia.gastarComida(this.costoCrearColono)
 
         const colono = new Colono(nombre, this.colonia)

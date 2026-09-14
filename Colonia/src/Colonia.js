@@ -3,7 +3,7 @@ import { Casa } from "./Casa.js"
 export class Colonia {
     constructor() {
         this.dinero =500
-        this.comida = 100
+        this.comida = 200
         this.costoCrearCasa = 100
         this.casas= new Map()
     }
