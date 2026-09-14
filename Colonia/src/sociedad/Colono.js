@@ -3,5 +3,9 @@ export class Colono {
     this.nombre = nombre
     this.colonia = colonia
     this.posicion = posicion
+    this.trabajo = null
+  }
+  asignarTrabajo(trabajo) {
+    this.trabajo = trabajo
   }
 }
