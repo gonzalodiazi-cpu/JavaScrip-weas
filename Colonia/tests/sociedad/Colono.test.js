@@ -108,4 +108,25 @@ describe("Colono", () => {
 
     expect(colono.destino).toEqual(destino)
   })
+  it("Un colono actualiza su movimiento hacia su destino", () => {
+    const colonia = new Colonia()
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colono.establecerDestino({ x: 10, y: 0 })
+
+    colono.actualizarMovimiento()
+
+    expect(colono.posicion).toEqual({ x: 1, y: 0 })
+  })
+  it("Un colono deja de tener destino al llegar a él", () => {
+    const colonia = new Colonia()
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colono.establecerDestino({ x: 1, y: 0 })
+
+    colono.actualizarMovimiento()
+
+    expect(colono.posicion).toEqual({ x: 1, y: 0 })
+    expect(colono.destino).toBeNull()
+  })
 });

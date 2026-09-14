@@ -32,7 +32,20 @@ export class Colono {
         y: this.posicion.y + (dy / distancia) * this.velocidad
     }
   }
+
   establecerDestino(objetivo) {
     this.destino = objetivo
   }
+  actualizarMovimiento() {
+    if (this.destino === null) {
+        return
+    }
+
+    this.avanzarHacia(this.destino)
+
+    if (this.posicion.x === this.destino.x &&
+        this.posicion.y === this.destino.y) {
+        this.destino = null
+    }
+}
 }
