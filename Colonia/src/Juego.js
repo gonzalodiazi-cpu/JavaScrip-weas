@@ -7,8 +7,11 @@ export class Juego {
         this.mundo.actualizar()
     }
     iniciar() {
-        this.requestAnimationFrame(() => {
+        const actualizar = () => {
             this.actualizar()
-        })
+            this.requestAnimationFrame(actualizar)
+        }
+
+        this.requestAnimationFrame(actualizar)
     }
 }

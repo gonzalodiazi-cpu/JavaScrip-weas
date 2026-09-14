@@ -32,8 +32,13 @@ describe("Juego", () => {
 
         mundo.agregarColono(colono)
 
+        let primeraLlamada = true
+
         const requestAnimationFrame = (callback) => {
-            callback()
+            if (primeraLlamada) {
+                primeraLlamada = false
+                callback()
+            }
         }
 
         const juego = new Juego(mundo, requestAnimationFrame)
@@ -41,5 +46,26 @@ describe("Juego", () => {
         juego.iniciar()
 
         expect(colono.posicion).toEqual({ x: 1, y: 0 })
+    })
+    it("Un juego programa el siguiente frame después de actualizar", () => {
+        const mundo = new Mundo()
+
+        let siguienteFrame
+        let cantidadDeFrames = 0
+
+        const requestAnimationFrame = (callback) => {
+            siguienteFrame = callback
+            cantidadDeFrames += 1
+        }
+
+        const juego = new Juego(mundo, requestAnimationFrame)
+
+        juego.iniciar()
+
+        expect(cantidadDeFrames).toBe(1)
+
+        siguienteFrame()
+
+        expect(cantidadDeFrames).toBe(2)
     })
 })
