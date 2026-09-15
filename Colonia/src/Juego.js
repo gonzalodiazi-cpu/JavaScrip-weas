@@ -5,8 +5,8 @@ export class Juego {
         this.renderizador = renderizador
     }
 
-    actualizar() {
-        this.mundo.actualizar()
+    actualizar(deltaTime) {
+        this.mundo.actualizar(deltaTime)
 
         if (this.renderizador) {
             this.renderizador.dibujarMundo(this.mundo)
@@ -14,8 +14,16 @@ export class Juego {
     }
 
     iniciar() {
-        const actualizar = () => {
-            this.actualizar()
+        let tiempoAnterior=null
+        const actualizar = (tiempoActual) => {
+            if (tiempoAnterior==null) {
+                tiempoAnterior=tiempoActual
+            }
+
+            const deltaTime=tiempoActual-tiempoAnterior
+            tiempoAnterior=tiempoActual
+
+            this.actualizar(deltaTime)
             this.requestAnimationFrame(actualizar)
         }
 

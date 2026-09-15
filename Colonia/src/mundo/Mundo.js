@@ -31,10 +31,13 @@ export class Mundo {
 
         this.arboles = this.arboles.filter(arbol => !arbol.talado)
     }
-    actualizar() {
+    actualizar(deltaTime) {
+        const deltaTimeEnSegundos=deltaTime/1000
         for (const colono of this.colonos) {
             colono.actualizarMovimiento()
         }
+        for (const arbol of this.arboles)
+            arbol.actualizar(deltaTimeEnSegundos)
     }
     
 }

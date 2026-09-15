@@ -5,22 +5,16 @@ import { Colono } from "@src/sociedad/Colono.js"
 import { Colonia } from "@src/sociedad/Colonia.js"
 
 describe("Juego", () => {
-    it("Un juego actualiza su mundo", () => {
-        const mundo = new Mundo()
+    it("Un juego actualiza su mundo con el tiempo transcurrido", () => {
+        const mundo = {
+            actualizar: vi.fn()
+        }
+
         const juego = new Juego(mundo)
 
-        const colono = new Colono(
-            "Juan",
-            new Colonia(),
-            { x: 0, y: 0 }
-        )
+        juego.actualizar(100)
 
-        colono.establecerDestino({ x: 10, y: 0 })
-        mundo.agregarColono(colono)
-
-        juego.actualizar()
-
-        expect(colono.posicion).toEqual({ x: 1, y: 0 })
+        expect(mundo.actualizar).toHaveBeenCalledWith(100)
     })
 
     it("Un juego inicia la actualización de su mundo", () => {
@@ -81,5 +75,24 @@ describe("Juego", () => {
         juego.actualizar()
 
         expect(renderizador.dibujarMundo).toHaveBeenCalledWith(mundo)
+    })
+    it("Un juego calcula el tiempo transcurrido entre frames", () => {
+        let callback
+        const requestAnimationFrame = vi.fn(cb => {
+            callback = cb
+        })
+
+        const mundo = {
+            actualizar: vi.fn()
+        }
+
+        const juego = new Juego(mundo, requestAnimationFrame)
+
+        juego.iniciar()
+
+        callback(100)
+        callback(150)
+
+        expect(mundo.actualizar).toHaveBeenLastCalledWith(50)
     })
 })

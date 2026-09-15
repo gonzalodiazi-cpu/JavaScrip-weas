@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { Mundo } from "@src/mundo/Mundo.js";
 import { Arbol } from "@src/mundo/Arbol.js";
 import { Recurso } from "../../src/mundo/Recurso.js";
@@ -84,5 +84,17 @@ describe("Mundo", () => {
     mundo.actualizar()
 
     expect(colono.posicion).toEqual({ x: 1, y: 0 })
+  })
+  it("Un mundo actualiza sus árboles convirtiendo el tiempo a segundos", () => {
+    const arbol = {
+        actualizar: vi.fn()
+    }
+
+    const mundo = new Mundo()
+    mundo.arboles.push(arbol)
+
+    mundo.actualizar(100)
+
+    expect(arbol.actualizar).toHaveBeenCalledWith(0.1)
   })
 })

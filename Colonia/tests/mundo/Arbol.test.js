@@ -94,6 +94,42 @@ describe("Arbol", () => {
   // comprobar
     expect(arbol.posicion).toEqual(posicion)
   })
+  it("Un árbol crece cuando transcurre su tiempo de crecimiento", () => {
+    const arbol = new Arbol({x: 5, y: 10})
 
+    arbol.actualizar(arbol.tiempoRequeridoParaCrecer)
+
+    expect(arbol.etapaCrecimiento).toBe(2)
+  })
+  it("Un árbol no crece antes de que transcurra su tiempo de crecimiento", () => {
+    const arbol = new Arbol({x: 5, y: 10})
+
+    arbol.actualizar(arbol.tiempoRequeridoParaCrecer - 0.1)
+
+    expect(arbol.etapaCrecimiento).toBe(1)
+  })
+  it("Un árbol en etapa 3 deja de acumular tiempo", () => {
+    const arbol = new Arbol({x: 5, y: 10})
+
+    arbol.crecer()
+    arbol.crecer()
+
+    arbol.actualizar(3)
+
+    expect(arbol.tiempoAcumuladoParaCrecer).toBe(0)
+  })
+  it("Un árbol acumula el tiempo entre actualizaciones", () => {
+    const arbol = new Arbol({x: 5, y: 10})
+
+    arbol.actualizar(2)
+    arbol.actualizar(2)
+
+    expect(arbol.tiempoAcumuladoParaCrecer).toBe(4)
+    expect(arbol.etapaCrecimiento).toBe(1)
+
+    arbol.actualizar(1)
+
+    expect(arbol.etapaCrecimiento).toBe(2)
+  })
 
 });

@@ -8,6 +8,8 @@ export class Arbol {
         this.posicion=posicion
         this.ancho = 200
         this.alto = 200
+        this.tiempoRequeridoParaCrecer = 5
+        this.tiempoAcumuladoParaCrecer = 0
     }
     crecer() {
 
@@ -33,6 +35,16 @@ export class Arbol {
         }
         else {
             this.durabilidad -=daño
+        }
+    }
+    actualizar(deltaTime) {
+        if (this.etapaCrecimiento==3) {
+            return
+        }
+        this.tiempoAcumuladoParaCrecer += deltaTime
+        if (this.tiempoAcumuladoParaCrecer>=this.tiempoRequeridoParaCrecer) {
+            this.crecer()
+            this.tiempoAcumuladoParaCrecer=0
         }
     }
 }
