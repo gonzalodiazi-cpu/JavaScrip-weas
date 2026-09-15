@@ -7,6 +7,7 @@ import {Leñador} from "./sociedad/trabajos/Leñador.js"
 import { Trabajo } from "./sociedad/trabajos/Trabajo.js"
 import { GestorImagenes } from "./visualizacion/GestorImagenes.js"
 import { Recurso } from "./mundo/Recurso.js"
+import { Casa } from "./sociedad/Casa.js"
 
 export function iniciarJuego(canvas, requestAnimationFrame) {
     const mundo = new Mundo()
@@ -41,6 +42,8 @@ export function iniciarJuego(canvas, requestAnimationFrame) {
 
     const trabajo = new Leñador()
 
+    const casa = new Casa("Casa 1", colonia, {x:200, y: 300})
+
     colono2.asignarTrabajo(trabajo)
 
     colono.establecerDestino(arbol.posicion)
@@ -53,6 +56,8 @@ export function iniciarJuego(canvas, requestAnimationFrame) {
     mundo.agregarColono(colono2)
     mundo.agregarColono(colono3)
     mundo.agregarColono(colono4)
+
+    mundo.agregarCasa(casa)
 
     const gestorImagenes = new GestorImagenes()
     const renderizador = new Renderizador(canvas, gestorImagenes)

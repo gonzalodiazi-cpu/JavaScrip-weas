@@ -10,6 +10,17 @@ export class Renderizador {
             y: objeto.posicion.y - objeto.alto
         }
     }
+    dibujarCasa(casa) {
+        const imagen = this.gestorImagenes.obtener("Casa")
+        const posicion = this.obtPosDib(casa)
+        this.contexto.drawImage(
+            imagen,
+            posicion.x,
+            posicion.y,
+            casa.ancho,
+            casa.alto
+        )
+    }
     dibujarColono(colono) {
         const imagen = this.gestorImagenes.obtener(colono.trabajo.imagen)
         const posicion = this.obtPosDib(colono)
@@ -53,6 +64,9 @@ export class Renderizador {
     }
         dibujarMundo(mundo) {
         this.contexto.clearRect(0,0,this.canvas.width,this.canvas.height)
+        for (const casa of mundo.casas) {
+            this.dibujarCasa(casa)
+        }
 
         for (const arbol of mundo.arboles) {
             this.dibujarArbol(arbol)

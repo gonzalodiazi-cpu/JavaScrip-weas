@@ -4,6 +4,7 @@ import { Colono } from "@src/sociedad/Colono.js"
 import { Colonia } from "@src/sociedad/Colonia.js"
 import { Arbol } from "@src/mundo/Arbol.js"
 import { Recurso } from "@src/mundo/Recurso.js"
+import { Casa } from "../../src/sociedad/Casa"
 
 describe("Renderizador", () => {
     it("Un renderizador obtiene el contexto del canvas", () => {
@@ -130,7 +131,7 @@ describe("Renderizador", () => {
         )
     })
 
-    it("Un renderizador dibuja los árboles, recursos y colonos del mundo", () => {
+    it("Un renderizador dibuja los árboles, casas, recursos y colonos del mundo", () => {
         const contexto = {
             drawImage: vi.fn(),
             clearRect: vi.fn()
@@ -143,6 +144,7 @@ describe("Renderizador", () => {
         const imagenArbol = {}
         const imagenColono = {}
         const imagenRecurso = {}
+        const imagenCasa = {}
 
         const gestorImagenes = {
             obtener: vi.fn((nombre) => {
@@ -156,6 +158,9 @@ describe("Renderizador", () => {
                 if (nombre === "Madera") {
                     return imagenRecurso
                 }
+                if (nombre === "Casa") {
+                    return imagenCasa
+                }
             })
         }
 
@@ -167,6 +172,8 @@ describe("Renderizador", () => {
             x: 30,
             y: 40
         })
+
+        const casa = new Casa("Casa 1", colonia, {x: 200, y:300})
 
         const colono = new Colono(
             "Juan",
@@ -183,7 +190,8 @@ describe("Renderizador", () => {
         const mundo = {
             arboles: [arbol],
             colonos: [colono],
-            recursos: [recurso]
+            recursos: [recurso],
+            casas: [casa]
         }
 
         renderizador.dibujarMundo(mundo)
@@ -210,6 +218,13 @@ describe("Renderizador", () => {
             recurso.ancho,
             recurso.alto
         )
+        expect(contexto.drawImage).toHaveBeenCalledWith(
+            imagenCasa,
+            casa.posicion.x - casa.ancho / 2,
+            casa.posicion.y - casa.alto,
+            casa.ancho,
+            casa.alto
+        )
     })
 
     it("Un renderizador limpia todo el canvas antes de dibujar el mundo", () => {
@@ -233,7 +248,8 @@ describe("Renderizador", () => {
         const mundo = {
             arboles: [],
             colonos: [],
-            recursos: []
+            recursos: [],
+            casas: []
         }
 
         renderizador.dibujarMundo(mundo)

@@ -5,6 +5,7 @@ export class Mundo {
         this.arboles = []
         this.recursos = []
         this.colonos = []
+        this.casas = []
     }
     crearArbol(posicion) {
         const arbol = new Arbol(posicion)
@@ -15,6 +16,9 @@ export class Mundo {
     }
     agregarColono(colono) {
         this.colonos.push(colono)
+    }
+    agregarCasa(casa) {
+        this.casas.push(casa)
     }
 
     procesarArbolesTalados() {
