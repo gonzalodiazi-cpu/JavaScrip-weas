@@ -36,12 +36,32 @@ export class Renderizador {
             arbol.alto
         )
     }
-    dibujarMundo(mundo) {
+    dibujarRecurso(recurso) {
+        const imagen = this.gestorImagenes.obtener(
+            recurso.tipo.charAt(0).toUpperCase() + recurso.tipo.slice(1)
+        )
+
+        const posicion = this.obtPosDib(recurso)
+
+        this.contexto.drawImage(
+            imagen,
+            posicion.x,
+            posicion.y,
+            recurso.ancho,
+            recurso.alto
+        )
+    }
+        dibujarMundo(mundo) {
         this.contexto.clearRect(0,0,this.canvas.width,this.canvas.height)
 
         for (const arbol of mundo.arboles) {
             this.dibujarArbol(arbol)
         }
+        
+        for (const recurso of mundo.recursos) {
+            this.dibujarRecurso(recurso)
+        }
+
         for (const colono of mundo.colonos) {
             this.dibujarColono(colono)
         }

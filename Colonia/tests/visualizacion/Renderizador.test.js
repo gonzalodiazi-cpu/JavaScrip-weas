@@ -3,6 +3,7 @@ import { Renderizador } from "@src/visualizacion/Renderizador.js"
 import { Colono } from "@src/sociedad/Colono.js"
 import { Colonia } from "@src/sociedad/Colonia.js"
 import { Arbol } from "@src/mundo/Arbol.js"
+import { Recurso } from "@src/mundo/Recurso.js"
 
 describe("Renderizador", () => {
     it("Un renderizador obtiene el contexto del canvas", () => {
@@ -93,8 +94,43 @@ describe("Renderizador", () => {
             arbol.alto
         )
     })
+    it("Un renderizador dibuja un recurso", () => {
+        const contexto = {
+            drawImage: vi.fn()
+        }
 
-    it("Un renderizador dibuja los árboles y colonos del mundo", () => {
+        const canvas = {
+            getContext: () => contexto
+        }
+
+        const imagen = {}
+
+        const gestorImagenes = {
+            obtener: vi.fn(() => imagen)
+        }
+
+        const renderizador = new Renderizador(canvas, gestorImagenes)
+
+        const recurso = new Recurso(
+            "madera",
+            10,
+            { x: 30, y: 40 }
+        )
+
+        renderizador.dibujarRecurso(recurso)
+
+        expect(gestorImagenes.obtener).toHaveBeenCalledWith("Madera")
+
+        expect(contexto.drawImage).toHaveBeenCalledWith(
+            imagen,
+            recurso.posicion.x - recurso.ancho / 2,
+            recurso.posicion.y - recurso.alto,
+            recurso.ancho,
+            recurso.alto
+        )
+    })
+
+    it("Un renderizador dibuja los árboles, recursos y colonos del mundo", () => {
         const contexto = {
             drawImage: vi.fn(),
             clearRect: vi.fn()
@@ -106,6 +142,7 @@ describe("Renderizador", () => {
 
         const imagenArbol = {}
         const imagenColono = {}
+        const imagenRecurso = {}
 
         const gestorImagenes = {
             obtener: vi.fn((nombre) => {
@@ -115,6 +152,9 @@ describe("Renderizador", () => {
 
                 if (nombre === "Arbol_etapa_1") {
                     return imagenArbol
+                }
+                if (nombre === "Madera") {
+                    return imagenRecurso
                 }
             })
         }
@@ -134,9 +174,16 @@ describe("Renderizador", () => {
             { x: 10, y: 20 }
         )
 
+        const recurso = new Recurso(
+            "madera",
+            10,
+            { x: 50, y: 60 }
+        )
+
         const mundo = {
             arboles: [arbol],
-            colonos: [colono]
+            colonos: [colono],
+            recursos: [recurso]
         }
 
         renderizador.dibujarMundo(mundo)
@@ -155,6 +202,13 @@ describe("Renderizador", () => {
             colono.posicion.y-colono.alto,
             colono.ancho,
             colono.alto
+        )
+        expect(contexto.drawImage).toHaveBeenCalledWith(
+            imagenRecurso,
+            recurso.posicion.x - recurso.ancho / 2,
+            recurso.posicion.y - recurso.alto,
+            recurso.ancho,
+            recurso.alto
         )
     })
 
@@ -178,7 +232,8 @@ describe("Renderizador", () => {
 
         const mundo = {
             arboles: [],
-            colonos: []
+            colonos: [],
+            recursos: []
         }
 
         renderizador.dibujarMundo(mundo)

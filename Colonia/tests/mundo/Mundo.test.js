@@ -97,4 +97,16 @@ describe("Mundo", () => {
 
     expect(arbol.actualizar).toHaveBeenCalledWith(0.1)
   })
+  it("Un mundo procesa los árboles talados al actualizarse", () => {
+    const mundo = new Mundo()
+    mundo.crearArbol({ x: 10, y: 5 })
+
+    const arbol = mundo.arboles[0]
+    arbol.talar(arbol.durabilidad)
+
+    mundo.actualizar()
+
+    expect(mundo.arboles.length).toBe(0)
+    expect(mundo.recursos.length).toBe(1)
+  })
 })

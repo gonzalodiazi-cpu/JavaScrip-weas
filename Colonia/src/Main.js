@@ -6,15 +6,15 @@ import { Colonia } from "./sociedad/Colonia.js"
 import {Leñador} from "./sociedad/trabajos/Leñador.js"
 import { Trabajo } from "./sociedad/trabajos/Trabajo.js"
 import { GestorImagenes } from "./visualizacion/GestorImagenes.js"
+import { Recurso } from "./mundo/Recurso.js"
 
 export function iniciarJuego(canvas, requestAnimationFrame) {
     const mundo = new Mundo()
 
     mundo.crearArbol({ x: 900, y: 500 })
+    mundo.crearArbol({x:900, y: 300})
 
     const arbol = mundo.arboles[0]
-    arbol.crecer()
-    arbol.crecer()
     
 
     const colonia = new Colonia()
@@ -62,6 +62,16 @@ export function iniciarJuego(canvas, requestAnimationFrame) {
         requestAnimationFrame,
         renderizador
     )
+
+
+    if (typeof document !== "undefined") {
+        const botonDebug = document.getElementById("boton-debug")
+
+        botonDebug.addEventListener("click", () => {
+            mundo.arboles[0].talar(mundo.arboles[0].durabilidad)
+    })
+    }
+
 
     juego.iniciar()
 }

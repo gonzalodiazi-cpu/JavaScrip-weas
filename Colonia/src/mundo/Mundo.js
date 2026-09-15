@@ -38,6 +38,7 @@ export class Mundo {
         }
         for (const arbol of this.arboles)
             arbol.actualizar(deltaTimeEnSegundos)
+        this.procesarArbolesTalados()
     }
     
 }
