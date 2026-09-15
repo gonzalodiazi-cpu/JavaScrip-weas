@@ -6,6 +6,8 @@ export class Arbol {
         this.durabilidad = 10
         this.talado = false
         this.posicion=posicion
+        this.ancho = 200
+        this.alto = 200
     }
     crecer() {
 

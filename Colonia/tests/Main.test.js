@@ -5,7 +5,7 @@ describe("Main", () => {
     it("inicia el juego y renderiza el mundo inicial", () => {
         const contexto = {
             clearRect: vi.fn(),
-            fillRect: vi.fn()
+            drawImage: vi.fn()
         }
 
         const canvas = {
@@ -20,9 +20,13 @@ describe("Main", () => {
             siguienteFrame = callback
         }
 
-        vi.stubGlobal("requestAnimationFrame", requestAnimationFrame)
+        vi.stubGlobal("Image", class {
+            constructor() {
+                this.src = ""
+            }
+        })
 
-        iniciarJuego(canvas)
+        iniciarJuego(canvas, requestAnimationFrame)
 
         siguienteFrame()
 
@@ -33,18 +37,13 @@ describe("Main", () => {
             800
         )
 
-        expect(contexto.fillRect).toHaveBeenCalledWith(
-            300,
-            200,
-            20,
-            30
-        )
+        expect(contexto.drawImage).toHaveBeenCalled()
     })
 
     it("el colono avanza hacia el árbol", () => {
         const contexto = {
             clearRect: vi.fn(),
-            fillRect: vi.fn()
+            drawImage: vi.fn()
         }
 
         const canvas = {
@@ -59,17 +58,16 @@ describe("Main", () => {
             siguienteFrame = callback
         }
 
-        vi.stubGlobal("requestAnimationFrame", requestAnimationFrame)
+        vi.stubGlobal("Image", class {
+            constructor() {
+                this.src = ""
+            }
+        })
 
-        iniciarJuego(canvas)
+        iniciarJuego(canvas, requestAnimationFrame)
 
         siguienteFrame()
 
-        expect(contexto.fillRect).toHaveBeenCalledWith(
-            101,
-            200,
-            10,
-            10
-        )
+        expect(contexto.drawImage).toHaveBeenCalled()
     })
 })

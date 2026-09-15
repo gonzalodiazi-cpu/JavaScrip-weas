@@ -1,5 +1,8 @@
 import { describe, it, expect, vi } from "vitest"
 import { Renderizador } from "@src/visualizacion/Renderizador.js"
+import { Colono } from "@src/sociedad/Colono.js"
+import { Colonia } from "@src/sociedad/Colonia.js"
+import { Arbol } from "@src/mundo/Arbol.js"
 
 describe("Renderizador", () => {
     it("Un renderizador obtiene el contexto del canvas", () => {
@@ -9,53 +12,91 @@ describe("Renderizador", () => {
             getContext: () => contexto
         }
 
-        const renderizador = new Renderizador(canvas)
+        const gestorImagenes = {
+            obtener: vi.fn()
+        }
+
+        const renderizador = new Renderizador(canvas, gestorImagenes)
 
         expect(renderizador.contexto).toBe(contexto)
     })
 
     it("Un renderizador dibuja un colono", () => {
         const contexto = {
-            fillRect: vi.fn()
+            drawImage: vi.fn()
         }
 
         const canvas = {
             getContext: () => contexto
         }
 
-        const renderizador = new Renderizador(canvas)
+        const imagen = {}
 
-        const colono = {
-            posicion: { x: 10, y: 20 }
+        const gestorImagenes = {
+            obtener: vi.fn(() => imagen)
         }
+
+        const renderizador = new Renderizador(canvas, gestorImagenes)
+
+        const colonia = new Colonia()
+        const colono = new Colono(
+            "Juan",
+            colonia,
+            { x: 10, y: 20 }
+        )
 
         renderizador.dibujarColono(colono)
 
-        expect(contexto.fillRect).toHaveBeenCalledWith(10, 20, 10, 10)
+        expect(gestorImagenes.obtener).toHaveBeenCalledWith(
+            colono.trabajo.imagen
+        )
+
+        expect(contexto.drawImage).toHaveBeenCalledWith(
+            imagen,
+            colono.posicion.x - colono.ancho / 2,
+            colono.posicion.y - colono.alto,
+            colono.ancho,
+            colono.alto
+        )
     })
+
     it("Un renderizador dibuja un árbol", () => {
         const contexto = {
-            fillRect: vi.fn()
+            drawImage: vi.fn()
         }
 
         const canvas = {
             getContext: () => contexto
         }
 
-        const renderizador = new Renderizador(canvas)
+        const imagen = {}
 
-        const arbol = {
-            posicion: { x: 30, y: 40 }
+        const gestorImagenes = {
+            obtener: vi.fn(() => imagen)
         }
+
+        const renderizador = new Renderizador(canvas, gestorImagenes)
+
+        const arbol = new Arbol({ x: 30, y: 40 })
 
         renderizador.dibujarArbol(arbol)
 
-        expect(contexto.fillRect).toHaveBeenCalledWith(30, 40, 20, 30)
+        expect(gestorImagenes.obtener).toHaveBeenCalledWith(
+            `Arbol_etapa_${arbol.etapaCrecimiento}`
+        )
+
+        expect(contexto.drawImage).toHaveBeenCalledWith(
+            imagen,
+            arbol.posicion.x - arbol.ancho/2,
+            arbol.posicion.y - arbol.alto,
+            arbol.ancho,
+            arbol.alto
+        )
     })
 
     it("Un renderizador dibuja los árboles y colonos del mundo", () => {
         const contexto = {
-            fillRect: vi.fn(),
+            drawImage: vi.fn(),
             clearRect: vi.fn()
         }
 
@@ -63,15 +104,35 @@ describe("Renderizador", () => {
             getContext: () => contexto
         }
 
-        const renderizador = new Renderizador(canvas)
+        const imagenArbol = {}
+        const imagenColono = {}
 
-        const arbol = {
-            posicion: { x: 30, y: 40 }
+        const gestorImagenes = {
+            obtener: vi.fn((nombre) => {
+                if (nombre === "Colono") {
+                    return imagenColono
+                }
+
+                if (nombre === "Arbol_etapa_1") {
+                    return imagenArbol
+                }
+            })
         }
 
-        const colono = {
-            posicion: { x: 10, y: 20 }
-        }
+        const renderizador = new Renderizador(canvas, gestorImagenes)
+
+        const colonia = new Colonia()
+
+        const arbol = new Arbol({
+            x: 30,
+            y: 40
+        })
+
+        const colono = new Colono(
+            "Juan",
+            colonia,
+            { x: 10, y: 20 }
+        )
 
         const mundo = {
             arboles: [arbol],
@@ -80,13 +141,26 @@ describe("Renderizador", () => {
 
         renderizador.dibujarMundo(mundo)
 
-        expect(contexto.fillRect).toHaveBeenCalledWith(30, 40, 20, 30)
-        expect(contexto.fillRect).toHaveBeenCalledWith(10, 20, 10, 10)
+        expect(contexto.drawImage).toHaveBeenCalledWith(
+            imagenArbol,
+            arbol.posicion.x-arbol.ancho/2,
+            arbol.posicion.y - arbol.alto,
+            arbol.ancho,
+            arbol.alto
+        )
+
+        expect(contexto.drawImage).toHaveBeenCalledWith(
+            imagenColono,
+            colono.posicion.x-colono.ancho/2,
+            colono.posicion.y-colono.alto,
+            colono.ancho,
+            colono.alto
+        )
     })
 
     it("Un renderizador limpia todo el canvas antes de dibujar el mundo", () => {
         const contexto = {
-            fillRect: vi.fn(),
+            drawImage: vi.fn(),
             clearRect: vi.fn()
         }
 
@@ -96,7 +170,11 @@ describe("Renderizador", () => {
             getContext: () => contexto
         }
 
-        const renderizador = new Renderizador(canvas)
+        const gestorImagenes = {
+            obtener: vi.fn()
+        }
+
+        const renderizador = new Renderizador(canvas, gestorImagenes)
 
         const mundo = {
             arboles: [],

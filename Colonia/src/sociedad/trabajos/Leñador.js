@@ -6,5 +6,6 @@ export class Leñador extends Trabajo {
         this.dañoTala = 3
         this.velocidadTala =1.5
         this.velocidadMovimiento = 1.5
+        this.imagen = "Leñador"
     }
 }

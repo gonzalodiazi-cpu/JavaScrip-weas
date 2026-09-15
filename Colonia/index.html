@@ -11,7 +11,10 @@
 
         const canvas = document.getElementById("juego")
 
-        iniciarJuego(canvas)
+        iniciarJuego(
+            canvas,
+            window.requestAnimationFrame.bind(window)
+        )
     </script>
 </body>
 </html>

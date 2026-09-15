@@ -5,6 +5,8 @@ export class Colono {
     this.nombre = nombre
     this.colonia = colonia
     this.posicion = posicion
+    this.ancho = 75
+    this.alto = 75
     this.trabajo = new Desempleado()
     this.velocidad = this.trabajo.velocidadMovimiento
     this.destino = null
