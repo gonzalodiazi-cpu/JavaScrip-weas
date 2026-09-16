@@ -1,7 +1,15 @@
 import { describe, it, expect } from "vitest";
 import { Colonia } from "@src/sociedad/Colonia.js";
+import { Casa } from "../../src/sociedad/Casa";
 
 describe("Casa", () => {
+  it("Una casa tiene una imagen", () => {
+    const colonia = new Colonia()
+    const casa = new Casa("Casa 1", colonia, { x: 100, y: 100 })
+
+    expect(casa.imagen).toBe("Casa")
+  })
+
   it("crea un colono y descuenta comida de la colonia", () => {
     const colonia = new Colonia();
     const comida_Actual = colonia.comida;

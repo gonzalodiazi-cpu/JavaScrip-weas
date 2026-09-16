@@ -14,4 +14,10 @@ describe("Recurso", () => {
     expect(recurso.cantidad).toBe(10)
     expect(recurso.posicion).toEqual(posicion)
   })
+
+  it("Un recurso tiene una imagen según su tipo", () => {
+    const recurso = new Recurso("madera", 10, { x: 100, y: 100 })
+
+    expect(recurso.imagen).toBe("Madera")
+  })
 })

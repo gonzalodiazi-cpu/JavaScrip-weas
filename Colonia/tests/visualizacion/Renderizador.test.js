@@ -47,10 +47,10 @@ describe("Renderizador", () => {
             { x: 10, y: 20 }
         )
 
-        renderizador.dibujarColono(colono)
+        renderizador.dibujarObjeto(colono)
 
         expect(gestorImagenes.obtener).toHaveBeenCalledWith(
-            colono.trabajo.imagen
+            colono.imagen
         )
 
         expect(contexto.drawImage).toHaveBeenCalledWith(
@@ -81,10 +81,10 @@ describe("Renderizador", () => {
 
         const arbol = new Arbol({ x: 30, y: 40 })
 
-        renderizador.dibujarArbol(arbol)
+        renderizador.dibujarObjeto(arbol)
 
         expect(gestorImagenes.obtener).toHaveBeenCalledWith(
-            `Arbol_etapa_${arbol.etapaCrecimiento}`
+            arbol.imagen
         )
 
         expect(contexto.drawImage).toHaveBeenCalledWith(
@@ -118,9 +118,9 @@ describe("Renderizador", () => {
             { x: 30, y: 40 }
         )
 
-        renderizador.dibujarRecurso(recurso)
+        renderizador.dibujarObjeto(recurso)
 
-        expect(gestorImagenes.obtener).toHaveBeenCalledWith("Madera")
+        expect(gestorImagenes.obtener).toHaveBeenCalledWith(recurso.imagen)
 
         expect(contexto.drawImage).toHaveBeenCalledWith(
             imagen,
@@ -260,5 +260,30 @@ describe("Renderizador", () => {
             1200,
             800
         )
+    })
+
+    it("Un renderizador puede dibujar un objeto", () => {
+        const canvas = {
+            getContext: () => ({
+                drawImage: vi.fn()
+            })
+        }
+
+        const gestorImagenes = {
+            obtener: vi.fn(() => "imagen")
+        }
+
+        const renderizador = new Renderizador(canvas, gestorImagenes)
+
+        const objeto = {
+            imagen: "Casa",
+            posicion: { x: 100, y: 200 },
+            ancho: 50,
+            alto: 60
+        }
+
+        renderizador.dibujarObjeto(objeto)
+
+        expect(gestorImagenes.obtener).toHaveBeenCalledWith("Casa")
     })
 })

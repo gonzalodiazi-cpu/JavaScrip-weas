@@ -6,4 +6,8 @@ export class Recurso {
         this.ancho=50
         this.alto=50
     }
+
+    get imagen() {
+        return this.tipo.charAt(0).toUpperCase() + this.tipo.slice(1)
+    }
 }

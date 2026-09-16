@@ -1,5 +1,6 @@
 export class Ayuntamiento {
-    constructor() {
+    constructor(posicion) {
+        this.posicion=posicion
         this.capacidadCasas = 2
     }
 }

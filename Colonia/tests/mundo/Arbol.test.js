@@ -132,4 +132,14 @@ describe("Arbol", () => {
     expect(arbol.etapaCrecimiento).toBe(2)
   })
 
+  it("Un árbol tiene una imagen según su etapa de crecimiento", () => {
+    const arbol = new Arbol({ x: 100, y: 100 })
+
+    expect(arbol.imagen).toBe("Arbol_etapa_1")
+
+    arbol.crecer()
+
+    expect(arbol.imagen).toBe("Arbol_etapa_2")
+  })
+
 });

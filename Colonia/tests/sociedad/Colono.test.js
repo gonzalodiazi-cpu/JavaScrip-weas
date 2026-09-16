@@ -339,4 +339,14 @@ describe("Colono", () => {
 
     expect(colono.objetivo).toBe(arbol)
   })
+  it("Un colono tiene una imagen según su trabajo", () => {
+    const colonia = new Colonia()
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    expect(colono.imagen).toBe("Colono")
+
+    colono.asignarTrabajo(colonia.leñador)
+
+    expect(colono.imagen).toBe("Leñador")
+  })
 });

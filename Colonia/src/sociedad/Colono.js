@@ -28,6 +28,9 @@ export class Colono {
       }
     })
   }
+  get imagen() {
+    return this.trabajo.imagen
+  }
 
   asignarTrabajo(trabajo) {
     this.trabajo=trabajo

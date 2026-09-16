@@ -10,6 +10,7 @@ export class Casa{
         this.posicion = posicion
         this.ancho = 100
         this.alto = 100
+        this.imagen = "Casa"
     }
     crearColono(nombre) {
 

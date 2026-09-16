@@ -12,6 +12,10 @@ export class Arbol {
         this.tiempoAcumuladoParaCrecer = 0
         this.talador = null
     }
+    get imagen() {
+        return `Arbol_etapa_${this.etapaCrecimiento}`
+    }
+
     crecer() {
 
         if (this.etapaCrecimiento == 3) {
