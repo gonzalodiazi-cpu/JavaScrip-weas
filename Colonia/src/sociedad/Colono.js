@@ -15,9 +15,6 @@ export class Colono {
     this.trabajo = trabajo
     this.velocidad =trabajo.velocidadMovimiento
   }
-  talar(arbol) {
-    arbol.talar(this.trabajo.dañoTala)
-  }
   avanzarHacia(destino) {
     const dx = destino.x - this.posicion.x
     const dy = destino.y - this.posicion.y
@@ -69,5 +66,10 @@ export class Colono {
     }
 
     this.buscar(optimo)
+  }
+  talar(arbol) {
+    if (arbol.posicion.x===this.posicion.x && arbol.posicion.y===this.posicion.y) {
+      arbol.talar(this.trabajo.dañoTala)
+    }
   }
 }
