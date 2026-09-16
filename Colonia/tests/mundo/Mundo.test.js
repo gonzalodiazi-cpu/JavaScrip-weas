@@ -7,6 +7,13 @@ import { Colonia } from "../../src/sociedad/Colonia.js";
 
 
 describe("Mundo", () => {
+  it("Un mundo tiene un ancho y un alto", () => {
+    const mundo = new Mundo(1200, 800)
+
+    expect(mundo.ancho).toBe(1200)
+    expect(mundo.alto).toBe(800)
+  })
+  
   it("Un mundo comienza sin árboles ni recursos", () => {
     // ejecutar
     const mundo = new Mundo()
@@ -65,7 +72,7 @@ describe("Mundo", () => {
   })
   it("Un mundo puede agregar un colono", () => {
     const mundo = new Mundo()
-    const colonia = new Colonia()
+    const colonia = new Colonia(mundo)
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
     mundo.agregarColono(colono)
@@ -75,7 +82,7 @@ describe("Mundo", () => {
   })
   it("Un mundo actualiza el movimiento de sus colonos", () => {
     const mundo = new Mundo()
-    const colonia = new Colonia()
+    const colonia = new Colonia(mundo)
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
     colono.establecerDestino({ x: 10, y: 0 })

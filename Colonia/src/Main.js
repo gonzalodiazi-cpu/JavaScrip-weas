@@ -7,7 +7,7 @@ import { GestorImagenes } from "./visualizacion/GestorImagenes.js"
 import { Casa } from "./sociedad/Casa.js"
 
 export function iniciarJuego(canvas, requestAnimationFrame) {
-    const mundo = new Mundo()
+    const mundo = new Mundo(canvas.width,canvas.height)
 
     mundo.crearArbol({ x: 900, y: 500 })
     mundo.crearArbol({ x: 900, y: 300 })

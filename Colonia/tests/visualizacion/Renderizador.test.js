@@ -5,7 +5,12 @@ import { Colonia } from "@src/sociedad/Colonia.js"
 import { Arbol } from "@src/mundo/Arbol.js"
 import { Recurso } from "@src/mundo/Recurso.js"
 import { Casa } from "../../src/sociedad/Casa"
+import { Mundo } from "../../src/mundo/Mundo"
 
+function crearColonia() {
+    const mundo = new Mundo(1200, 800)
+    return new Colonia(mundo)
+}
 describe("Renderizador", () => {
     it("Un renderizador obtiene el contexto del canvas", () => {
         const contexto = {}
@@ -40,7 +45,7 @@ describe("Renderizador", () => {
 
         const renderizador = new Renderizador(canvas, gestorImagenes)
 
-        const colonia = new Colonia()
+        const colonia = crearColonia()
         const colono = new Colono(
             "Juan",
             colonia,
@@ -166,7 +171,7 @@ describe("Renderizador", () => {
 
         const renderizador = new Renderizador(canvas, gestorImagenes)
 
-        const colonia = new Colonia()
+        const colonia = crearColonia()
 
         const arbol = new Arbol({
             x: 30,

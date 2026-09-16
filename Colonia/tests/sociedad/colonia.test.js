@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { Colonia } from "@src/sociedad/Colonia.js";
 import { Leñador } from "@src/sociedad/trabajos/Leñador.js"
+import { crearColonia } from "../helpers/crearColonia";
 
 describe("Colonia", () => {
   it("Una colonia pertenece a un mundo", () => {
@@ -10,7 +11,7 @@ describe("Colonia", () => {
     expect(colonia.mundo).toBe(mundo)
   })
   it("Crea una casa con capacidad 2 y descuenta su costo", () => {
-    const colonia = new Colonia();
+    const colonia = crearColonia();
     const dinero_Actual = colonia.dinero;
 
     colonia.crearCasa("Casa 1");
@@ -21,7 +22,7 @@ describe("Colonia", () => {
   });
 
   it("Una colonia no puede crear mas casas que ayuntamiento.capacidadCasas", () => {
-    const colonia = new Colonia();
+    const colonia = crearColonia();
 
     colonia.crearCasa("Casa 1");
     colonia.crearCasa("Casa 2");
@@ -32,7 +33,7 @@ describe("Colonia", () => {
   });
 
   it("Una colonia no puede crear casas si no tiene dinero suficiente", () => {
-    const colonia = new Colonia();
+    const colonia = crearColonia();
 
     colonia.gastarDinero(colonia.dinero - colonia.costoCrearCasa);
     colonia.crearCasa("Casa 1");
@@ -43,7 +44,7 @@ describe("Colonia", () => {
   });
 
   it("una colonia tiene instanciado un trabajo, en este caso leñador", () => {
-    const colonia = new Colonia();
+    const colonia = crearColonia();
 
     expect(colonia.leñador).toBeInstanceOf(Leñador);
   });

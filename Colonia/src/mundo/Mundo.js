@@ -1,11 +1,13 @@
 import { Arbol } from "./Arbol.js";
 import { Recurso } from "./Recurso.js";
 export class Mundo {
-    constructor() {
+    constructor(ancho,alto) {
         this.arboles = []
         this.recursos = []
         this.colonos = []
         this.casas = []
+        this.ancho = ancho
+        this.alto=alto
     }
     crearArbol(posicion) {
         const arbol = new Arbol(posicion)
