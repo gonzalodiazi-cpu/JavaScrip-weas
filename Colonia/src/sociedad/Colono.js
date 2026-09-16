@@ -49,5 +49,25 @@ export class Colono {
         this.posicion.y === this.destino.y) {
         this.destino = null
     }
-}
+  }
+  buscar(objeto) {
+    this.establecerDestino(objeto.posicion)
+  }
+  buscarOptimo(objetos) {
+    let optimo = objetos[0]
+    let distanciaOptima = Infinity
+
+    for (const objeto of objetos) {
+        const dx = objeto.posicion.x - this.posicion.x
+        const dy = objeto.posicion.y - this.posicion.y
+        const distancia = dx * dx + dy * dy
+
+        if (distancia < distanciaOptima) {
+            distanciaOptima = distancia
+            optimo = objeto
+        }
+    }
+
+    this.buscar(optimo)
+  }
 }

@@ -129,4 +129,24 @@ describe("Colono", () => {
     expect(colono.posicion).toEqual({ x: 1, y: 0 })
     expect(colono.destino).toBeNull()
   })
+  it("Un colono puede buscar un objeto y establecerlo como destino", () => {
+    const colonia = new Colonia()
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+    const arbol = new Arbol({ x: 10, y: 20 })
+
+    colono.buscar(arbol)
+
+    expect(colono.destino).toEqual(arbol.posicion)
+  })
+  it("busca el objeto más cercano", () => {
+    const colonia = new Colonia()
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    const arbolLejano = new Arbol({ x: 20, y: 0 })
+    const arbolCercano = new Arbol({ x: 5, y: 0 })
+
+    colono.buscarOptimo([arbolLejano, arbolCercano])
+
+    expect(colono.destino).toEqual(arbolCercano.posicion)
+  })
 });
