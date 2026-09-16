@@ -1,4 +1,5 @@
 import { Desempleado } from "./trabajos/Desempleado.js"
+import { EstadisticasColono } from "./EstadisticasColono.js"
 
 export class Colono {
   constructor(nombre, colonia, posicion) {
@@ -7,13 +8,28 @@ export class Colono {
     this.posicion = posicion
     this.ancho = 75
     this.alto = 75
-    this.trabajo = new Desempleado()
-    this.velocidad = this.trabajo.velocidadMovimiento
+    this.trabajo = colonia.desempleado
+    this.estadisticas = new EstadisticasColono(colonia.estadisticasBaseColono, this.trabajo)
     this.destino = null
+
+    return new Proxy(this, {
+      get(colono, propiedad) {
+        if (propiedad in colono) {
+          return colono[propiedad]
+        }
+
+        if (propiedad in colono.estadisticas) {
+          return colono.estadisticas[propiedad]
+        }
+
+        return undefined
+      }
+    })
   }
+
   asignarTrabajo(trabajo) {
-    this.trabajo = trabajo
-    this.velocidad =trabajo.velocidadMovimiento
+    this.trabajo=trabajo
+    this.estadisticas.trabajo=trabajo
   }
   avanzarHacia(destino) {
     const dx = destino.x - this.posicion.x
@@ -35,6 +51,7 @@ export class Colono {
   establecerDestino(objetivo) {
     this.destino = objetivo
   }
+
   actualizarMovimiento() {
     if (this.destino === null) {
         return
@@ -47,9 +64,11 @@ export class Colono {
         this.destino = null
     }
   }
+
   buscar(objeto) {
     this.establecerDestino(objeto.posicion)
   }
+
   buscarOptimo(objetos) {
     let optimo = objetos[0]
     let distanciaOptima = Infinity
@@ -67,9 +86,10 @@ export class Colono {
 
     this.buscar(optimo)
   }
+
   talar(arbol) {
     if (arbol.posicion.x===this.posicion.x && arbol.posicion.y===this.posicion.y) {
-      arbol.talar(this.trabajo.dañoTala)
+      arbol.talar(this.dañoTala)
     }
   }
 }

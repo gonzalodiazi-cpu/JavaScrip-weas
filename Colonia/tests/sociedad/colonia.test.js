@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { Colonia } from "@src/sociedad/Colonia.js";
+import { Leñador } from "@src/sociedad/trabajos/Leñador.js"
 
 describe("Colonia", () => {
   it("crea una casa con capacidad 2 y descuenta su costo", () => {
@@ -33,5 +34,11 @@ describe("Colonia", () => {
 
     expect(colonia.casas.size).toBe(1);
     expect(colonia.casas.has("Casa 2")).toBe(false);
+  });
+
+  it("una colonia tiene instanciado un trabajo, en este caso leñador", () => {
+    const colonia = new Colonia();
+
+    expect(colonia.leñador).toBeInstanceOf(Leñador);
   });
 });

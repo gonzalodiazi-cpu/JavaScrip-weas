@@ -1,8 +1,8 @@
 export class Trabajo {
     constructor() {
-        this.velocidadTala = 1
-        this.dañoTala = 1
-        this.velocidadMovimiento = 1
+        this.modificadorVelocidadTala = 0
+        this.modificadorDañoTala = 0
+        this.modificadorVelocidad = 0
         this.imagen = "Colono"
     }
 }

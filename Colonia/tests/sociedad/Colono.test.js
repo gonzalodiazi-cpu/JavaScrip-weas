@@ -25,19 +25,47 @@ describe("Colono", () => {
   // comprobar
     expect(colono.trabajo).toBeInstanceOf(Desempleado)
   })
+  
+  it("Un colono comienza con el trabajo desempleado de su colonia", () => {
+    const colonia = new Colonia()
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    expect(colono.trabajo).toBe(colonia.desempleado)
+  })
+
+  it("Las estadísticas del colono consideran la base actual de su colonia", () => {
+    const colonia = new Colonia()
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colonia.estadisticasBaseColono.velocidad = 2
+
+    expect(colono.velocidad).toBe(2)
+  })
+
 
   it("Un colono puede cambiar de trabajo", () => {
     // preparar
     const colonia = new Colonia()
     const posicion = { x: 10, y: 5 }
     const colono = new Colono("Juan", colonia, posicion)
-    const nuevoTrabajo = new Desempleado()
-
+    const nuevoTrabajo = colonia.leñador
     // ejecutar
     colono.asignarTrabajo(nuevoTrabajo)
 
     // comprobar
     expect(colono.trabajo).toBe(nuevoTrabajo)
+  })
+
+  it("las estadísticas del colono consideran el modificador de velocidad de su trabajo", () => {
+    const colonia = new Colonia()
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colonia.estadisticasBaseColono.velocidad = 2
+    colonia.leñador.modificadorVelocidad = 0.5
+
+    colono.asignarTrabajo(colonia.leñador)
+
+    expect(colono.velocidad).toBe(2.5)
   })
 
   it("Un colono puede talar un árbol", () => {
@@ -54,25 +82,24 @@ describe("Colono", () => {
     expect(arbol.durabilidad).toBe(9)
   })
 
-  it("Un colono tala según el daño de su trabajo", () => {
-    // preparar
-    const colonia = new Colonia()
-    const posicion = { x: 10, y: 10 }
-    const colono = new Colono("Juan", colonia, posicion)
-    const leñador = new Leñador()
-    const arbol = new Arbol({ x: 10, y: 10 })
+    it("Un colono tala según el daño de su trabajo", () => {
+      // preparar
+      const colonia = new Colonia()
+      const posicion = { x: 10, y: 10 }
+      const colono = new Colono("Juan", colonia, posicion)
+      const arbol = new Arbol({ x: 10, y: 10 })
 
-    colono.asignarTrabajo(leñador)
+      colono.asignarTrabajo(colonia.leñador)
 
-    const durabilidadInicial = arbol.durabilidad
-    const daño = leñador.dañoTala
+      const durabilidadInicial = arbol.durabilidad
+      const daño = colono.dañoTala
 
-    // ejecutar
-    colono.talar(arbol)
+      // ejecutar
+      colono.talar(arbol)
 
-    // comprobar
-    expect(arbol.durabilidad).toBe(durabilidadInicial - daño)
-  })
+      // comprobar
+      expect(arbol.durabilidad).toBe(durabilidadInicial - daño)
+    })
 
   it("Un colono avanza hacia una posición según su velocidad", () => {
     const colonia = new Colonia()
@@ -85,11 +112,13 @@ describe("Colono", () => {
   it("Un colono cambia su velocidad al cambiar de trabajo", () => {
     const colonia = new Colonia()
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
-    const leñador = new Leñador()
 
-    colono.asignarTrabajo(leñador)
+    colono.asignarTrabajo(colonia.leñador)
 
-    expect(colono.velocidad).toBe(leñador.velocidadMovimiento)
+    expect(colono.velocidad).toBe(
+        colonia.estadisticasBaseColono.velocidad +
+        colonia.leñador.modificadorVelocidad
+    )
   })
   it("Un colono llega exactamente al destino si está más cerca que su velocidad", () => {
     const colonia = new Colonia()
@@ -157,7 +186,7 @@ describe("Colono", () => {
     const durabilidadInicial = arbol.durabilidad
     colono.talar(arbol)
 
-    expect(arbol.durabilidad).toBe(durabilidadInicial-colono.trabajo.dañoTala)
+    expect(arbol.durabilidad).toBe(durabilidadInicial-colono.dañoTala)
   })
   it("no puede talar un árbol cuando no está en la misma posición", () => {
     const colonia = new Colonia()

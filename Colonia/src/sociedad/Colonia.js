@@ -1,5 +1,9 @@
 import { Casa } from "./Casa.js"
 import { Ayuntamiento } from "./Ayuntamiento.js";
+import { EstadisticasBaseColono } from "./EstadisticasBaseColono.js"
+import { EstadisticasColono } from "./EstadisticasColono.js"
+import { Leñador } from "./trabajos/Leñador.js"
+import { Desempleado } from "./trabajos/Desempleado.js";
 export class Colonia {
     constructor() {
         this.dinero =500
@@ -7,6 +11,9 @@ export class Colonia {
         this.costoCrearCasa = 100
         this.casas= new Map()
         this.ayuntamiento= new Ayuntamiento()
+        this.estadisticasBaseColono= new EstadisticasBaseColono()
+        this.leñador = new Leñador()
+        this.desempleado = new Desempleado()
     }
     crearCasa(nombre) {
         if (this.casas.size >= this.ayuntamiento.capacidadCasas) {
