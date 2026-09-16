@@ -38,6 +38,7 @@ export class Mundo {
     actualizar(deltaTime) {
         const deltaTimeEnSegundos=deltaTime/1000
         for (const colono of this.colonos) {
+            colono.actualizar()
             colono.actualizarMovimiento()
         }
         for (const arbol of this.arboles)

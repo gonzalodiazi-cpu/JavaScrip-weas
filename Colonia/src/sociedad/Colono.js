@@ -11,6 +11,8 @@ export class Colono {
     this.trabajo = colonia.desempleado
     this.estadisticas = new EstadisticasColono(colonia.estadisticasBaseColono, this.trabajo)
     this.destino = null
+    this.objetivo = null
+    this.actividad= null
 
     return new Proxy(this, {
       get(colono, propiedad) {
@@ -66,11 +68,12 @@ export class Colono {
   }
 
   buscar(objeto) {
+    this.objetivo=objeto
     this.establecerDestino(objeto.posicion)
   }
 
   buscarOptimo(objetos) {
-    let optimo = objetos[0]
+    let optimo = null
     let distanciaOptima = Infinity
 
     for (const objeto of objetos) {
@@ -83,13 +86,43 @@ export class Colono {
             optimo = objeto
         }
     }
-
-    this.buscar(optimo)
+    if (optimo !==null) {
+      this.buscar(optimo)
+    }
   }
 
   talar(arbol) {
     if (arbol.posicion.x===this.posicion.x && arbol.posicion.y===this.posicion.y) {
       arbol.talar(this.dañoTala)
+    }
+  }
+
+  talarArboles() {
+    if (this.objetivo === null) {
+        const arbolesDisponibles = this.colonia.mundo.arboles.filter(
+            arbol => arbol.talador === null && !arbol.talado
+        )
+
+        this.buscarOptimo(arbolesDisponibles)
+
+        if (this.objetivo !== null) {
+            this.objetivo.talador = this
+        }
+
+        return
+    }
+
+    this.talar(this.objetivo)
+
+    if (this.objetivo.talado) {
+        this.objetivo.talador = null
+        this.objetivo = null
+        this.destino = null
+    }
+  }
+  actualizar() {
+    if (this.actividad !== null) {
+        this.actividad()
     }
   }
 }

@@ -85,6 +85,24 @@ describe("Mundo", () => {
 
     expect(colono.posicion).toEqual({ x: 1, y: 0 })
   })
+
+  it("Un mundo actualiza las actividades de sus colonos", () => {
+    const mundo = new Mundo()
+    const colonia = new Colonia(mundo)
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    let ejecutada = false
+    colono.actividad = () => {
+        ejecutada = true
+    }
+
+    mundo.agregarColono(colono)
+
+    mundo.actualizar()
+
+    expect(ejecutada).toBe(true)
+  })
+
   it("Un mundo actualiza sus árboles convirtiendo el tiempo a segundos", () => {
     const arbol = {
         actualizar: vi.fn()
@@ -108,5 +126,86 @@ describe("Mundo", () => {
 
     expect(mundo.arboles.length).toBe(0)
     expect(mundo.recursos.length).toBe(1)
+  })
+  it("un colono tala un árbol mediante las actualizaciones del mundo", () => {
+    const mundo = new Mundo()
+    const arbol = new Arbol({ x: 1, y: 0 })
+    mundo.arboles.push(arbol)
+
+    const colonia = new Colonia(mundo)
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colono.actividad = colono.talarArboles
+    mundo.agregarColono(colono)
+
+    mundo.actualizar()
+
+    expect(colono.objetivo).toBe(arbol)
+    expect(colono.posicion).toEqual({ x: 1, y: 0 })
+
+    mundo.actualizar()
+
+    expect(arbol.durabilidad).toBe(
+        10 - colono.dañoTala
+    )
+  })
+  it("un colono busca otro árbol después de terminar de talar uno", () => {
+    const mundo = new Mundo()
+
+    const arbol1 = new Arbol({ x: 1, y: 0 })
+    arbol1.durabilidad = 1
+
+    const arbol2 = new Arbol({ x: 5, y: 0 })
+    mundo.arboles.push(arbol1, arbol2)
+
+    const colonia = new Colonia(mundo)
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colono.actividad = colono.talarArboles
+    mundo.agregarColono(colono)
+
+    mundo.actualizar()
+    expect(colono.objetivo).toBe(arbol1)
+
+    mundo.actualizar()
+
+    mundo.actualizar()
+    expect(colono.objetivo).toBe(arbol2)
+  })
+  it("un colono queda sin objetivo cuando no quedan árboles disponibles", () => {
+    const mundo = new Mundo()
+
+    const colonia = new Colonia(mundo)
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colono.actividad = colono.talarArboles
+    mundo.agregarColono(colono)
+
+    mundo.actualizar()
+
+    expect(colono.objetivo).toBeNull()
+  })
+  it("varios colonos pueden talar árboles en paralelo", () => {
+    const mundo = new Mundo()
+
+    const arbol1 = new Arbol({ x: 1, y: 0 })
+    const arbol2 = new Arbol({ x: 5, y: 0 })
+    mundo.arboles.push(arbol1, arbol2)
+
+    const colonia = new Colonia(mundo)
+
+    const colono1 = new Colono("Juan", colonia, { x: 0, y: 0 })
+    const colono2 = new Colono("Pedro", colonia, { x: 0, y: 0 })
+
+    colono1.actividad = colono1.talarArboles
+    colono2.actividad = colono2.talarArboles
+
+    mundo.agregarColono(colono1)
+    mundo.agregarColono(colono2)
+
+    mundo.actualizar()
+
+    expect(colono1.objetivo).toBe(arbol1)
+    expect(colono2.objetivo).toBe(arbol2)
   })
 })

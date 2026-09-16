@@ -4,8 +4,10 @@ import { EstadisticasBaseColono } from "./EstadisticasBaseColono.js"
 import { EstadisticasColono } from "./EstadisticasColono.js"
 import { Leñador } from "./trabajos/Leñador.js"
 import { Desempleado } from "./trabajos/Desempleado.js";
+import { Mundo } from "../mundo/Mundo.js";
 export class Colonia {
-    constructor() {
+    constructor(mundo) {
+        this.mundo = mundo
         this.dinero =500
         this.comida = 200
         this.costoCrearCasa = 100

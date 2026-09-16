@@ -10,6 +10,7 @@ export class Arbol {
         this.alto = 200
         this.tiempoRequeridoParaCrecer = 5
         this.tiempoAcumuladoParaCrecer = 0
+        this.talador = null
     }
     crecer() {
 

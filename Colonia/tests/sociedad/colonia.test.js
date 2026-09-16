@@ -3,7 +3,13 @@ import { Colonia } from "@src/sociedad/Colonia.js";
 import { Leñador } from "@src/sociedad/trabajos/Leñador.js"
 
 describe("Colonia", () => {
-  it("crea una casa con capacidad 2 y descuenta su costo", () => {
+  it("Una colonia pertenece a un mundo", () => {
+    const mundo = {}
+    const colonia = new Colonia(mundo)
+
+    expect(colonia.mundo).toBe(mundo)
+  })
+  it("Crea una casa con capacidad 2 y descuenta su costo", () => {
     const colonia = new Colonia();
     const dinero_Actual = colonia.dinero;
 

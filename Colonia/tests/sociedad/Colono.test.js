@@ -196,4 +196,147 @@ describe("Colono", () => {
     colono.talar(arbol)
     expect(arbol.durabilidad).toBe(durabilidadInicial)
   })
+  it("un colono puede elegir un árbol disponible para talar", () => {
+    const mundo = {
+        arboles: [
+            new Arbol({ x: 20, y: 0 }),
+            new Arbol({ x: 5, y: 0 })
+        ]
+    }
+
+    const colonia = new Colonia(mundo)
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colono.talarArboles()
+
+    expect(colono.objetivo).toBe(mundo.arboles[1])
+  })
+  it("Un árbol elegido para talar queda reservado para ese colono", () => {
+    const mundo = {
+        arboles: [
+            new Arbol({ x: 5, y: 0 }),
+            new Arbol({ x: 10, y: 0 })
+        ]
+    }
+
+    const colonia = new Colonia(mundo)
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colono.talarArboles()
+
+    expect(mundo.arboles[0].talador).toBe(colono)
+  })
+  it("Un colono no elige un árbol que ya está siendo talado por otro colono", () => {
+    const mundo = {
+        arboles: [
+            new Arbol({ x: 5, y: 0 }),
+            new Arbol({ x: 10, y: 0 })
+        ]
+    }
+
+    const colonia = new Colonia(mundo)
+
+    const colono1 = new Colono("Juan", colonia, { x: 0, y: 0 })
+    const colono2 = new Colono("Pedro", colonia, { x: 0, y: 0 })
+
+    colono1.talarArboles()
+    colono2.talarArboles()
+
+    expect(colono1.objetivo).toBe(mundo.arboles[0])
+    expect(colono2.objetivo).toBe(mundo.arboles[1])
+  })
+  it("un colono con un árbol asignado no busca otro árbol", () => {
+    const mundo = {
+        arboles: [
+            new Arbol({ x: 5, y: 0 }),
+            new Arbol({ x: 10, y: 0 })
+        ]
+    }
+
+    const colonia = new Colonia(mundo)
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colono.talarArboles()
+    const objetivo = colono.objetivo
+
+    colono.talarArboles()
+
+    expect(colono.objetivo).toBe(objetivo)
+  })
+  it("Un colono tala su árbol objetivo cuando llega a él", () => {
+    const arbol = new Arbol({ x: 0, y: 0 })
+    const mundo = { arboles: [arbol] }
+    const colonia = new Colonia(mundo)
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colono.talarArboles()
+
+    const durabilidadInicial = arbol.durabilidad
+
+    colono.talarArboles()
+
+    expect(arbol.durabilidad).toBe(
+        durabilidadInicial - colono.dañoTala
+    )
+  })
+
+  it("Un colono se mueve hacia su árbol objetivo y luego lo tala", () => {
+    const arbol = new Arbol({ x: 1, y: 0 })
+    const mundo = { arboles: [arbol] }
+    const colonia = new Colonia(mundo)
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colono.talarArboles()
+
+    const durabilidadInicial = arbol.durabilidad
+
+    colono.actualizarMovimiento()
+    colono.talarArboles()
+
+    expect(colono.posicion).toEqual({ x: 1, y: 0 })
+    expect(arbol.durabilidad).toBe(
+        durabilidadInicial - colono.dañoTala
+    )
+  })
+
+  it("Un colono libera su árbol objetivo cuando lo tala", () => {
+    const arbol = new Arbol({ x: 0, y: 0 })
+    arbol.durabilidad = 1
+
+    const mundo = { arboles: [arbol] }
+    const colonia = new Colonia(mundo)
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colono.talarArboles()
+    colono.talarArboles()
+
+    expect(arbol.talado).toBe(true)
+    expect(colono.objetivo).toBeNull()
+    expect(arbol.talador).toBeNull()
+  })
+  it("Un colono ejecuta su actividad al actualizarse", () => {
+    const colonia = new Colonia()
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    let ejecutada = false
+    colono.actividad = () => {
+        ejecutada = true
+    }
+
+    colono.actualizar()
+
+    expect(ejecutada).toBe(true)
+  })
+  it("un colono ejecuta talarArboles cuando esa es su actividad", () => {
+    const arbol = new Arbol({ x: 0, y: 0 })
+    const mundo = { arboles: [arbol] }
+    const colonia = new Colonia(mundo)
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colono.actividad = colono.talarArboles
+
+    colono.actualizar()
+
+    expect(colono.objetivo).toBe(arbol)
+  })
 });
