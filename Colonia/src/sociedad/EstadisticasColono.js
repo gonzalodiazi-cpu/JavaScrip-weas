@@ -12,4 +12,10 @@ export class EstadisticasColono {
     get velocidadTala() {
         return this.base.velocidadTala + this.trabajo.modificadorVelocidadTala
     }
+    get cantidadSlotsInventario() {
+        return this.base.cantidadSlotsInventario
+    }
+    get capacidadSlotsInventario() {
+        return this.base.capacidadSlotsInventario
+    }
 }

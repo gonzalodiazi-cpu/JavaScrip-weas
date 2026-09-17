@@ -350,4 +350,14 @@ describe("Colono", () => {
 
     expect(colono.imagen).toBe("Leñador")
   })
+  it("El inventario de un colono refleja sus estadísticas actuales", () => {
+    const colonia = crearColonia()
+    const colono = new Colono("Ivan", colonia, { x: 0, y: 0 })
+
+    colonia.estadisticasBaseColono.cantidadSlotsInventario = 7
+    colonia.estadisticasBaseColono.capacidadSlotsInventario = 20
+
+    expect(colono.inventario.cantidadSlotsInventario).toBe(7)
+    expect(colono.inventario.capacidadSlotsInventario).toBe(20)
+  })
 });

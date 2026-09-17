@@ -1,5 +1,6 @@
 import { Desempleado } from "./trabajos/Desempleado.js"
 import { EstadisticasColono } from "./EstadisticasColono.js"
+import { Inventario } from "../Inventario/Inventario.js"
 
 export class Colono {
   constructor(nombre, colonia, posicion) {
@@ -13,6 +14,7 @@ export class Colono {
     this.destino = null
     this.objetivo = null
     this.actividad= null
+    this.inventario = new Inventario(this.estadisticas)
 
     return new Proxy(this, {
       get(colono, propiedad) {
