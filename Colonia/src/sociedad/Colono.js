@@ -1,6 +1,6 @@
 import { Desempleado } from "./trabajos/Desempleado.js"
 import { EstadisticasColono } from "./EstadisticasColono.js"
-import { Inventario } from "../Inventario/Inventario.js"
+import { Inventario } from "../inventario/Inventario.js"
 
 export class Colono {
   constructor(nombre, colonia, posicion) {

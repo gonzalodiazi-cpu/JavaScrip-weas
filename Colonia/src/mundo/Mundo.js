@@ -28,7 +28,7 @@ export class Mundo {
 
         for (const arbol of arbolesTalados) {
             const recurso = new Recurso(
-                "madera",
+                "Madera",
                 arbol.madera,
                 arbol.posicion
             )

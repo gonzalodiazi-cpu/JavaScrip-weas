@@ -66,7 +66,7 @@ describe("Mundo", () => {
 
     const recurso = mundo.recursos[0]
 
-    expect(recurso.tipo).toBe("madera")
+    expect(recurso.tipo).toBe("Madera")
     expect(recurso.cantidad).toBe(arbol.madera)
     expect(recurso.posicion).toEqual(posicion)
   })
