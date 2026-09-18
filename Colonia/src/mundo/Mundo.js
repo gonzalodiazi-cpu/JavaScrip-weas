@@ -6,6 +6,8 @@ export class Mundo {
         this.recursos = []
         this.colonos = []
         this.casas = []
+        this.colonias=[]
+        this.ayuntamientos=[]
         this.ancho = ancho
         this.alto=alto
     }
@@ -22,6 +24,12 @@ export class Mundo {
     agregarCasa(casa) {
         this.casas.push(casa)
     }
+    agregarColonia(colonia) {
+        this.colonias.push(colonia)
+    }
+    agregarAyuntamiento(ayuntamiento) {
+        this.ayuntamientos.push(ayuntamiento)
+    }
 
     procesarArbolesTalados() {
         const arbolesTalados = this.arboles.filter(arbol => arbol.talado)
@@ -37,6 +45,10 @@ export class Mundo {
 
         this.arboles = this.arboles.filter(arbol => !arbol.talado)
     }
+    procesarRecursosAgotados() {
+
+        this.recursos = this.recursos.filter(recurso => !recurso.agotado)
+    }
     actualizar(deltaTime) {
         const deltaTimeEnSegundos=deltaTime/1000
         for (const colono of this.colonos) {
@@ -46,6 +58,7 @@ export class Mundo {
         for (const arbol of this.arboles)
             arbol.actualizar(deltaTimeEnSegundos)
         this.procesarArbolesTalados()
+        this.procesarRecursosAgotados()
     }
     
 }

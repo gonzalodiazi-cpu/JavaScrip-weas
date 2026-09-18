@@ -5,6 +5,8 @@ import { Desempleado } from "@src/sociedad/trabajos/Desempleado.js";
 import { Arbol } from "@src/mundo/Arbol.js";
 import { Leñador } from "@src/sociedad/trabajos/Leñador.js";
 import { crearColonia } from "../helpers/crearColonia";
+import { crearColono } from "../helpers/crearColono";
+import { Recurso } from "../../src/mundo/Recurso";
 
 describe("Colono", () => {
   it("Un colono tiene una posición al ser creado", () => {
@@ -360,4 +362,195 @@ describe("Colono", () => {
     expect(colono.inventario.cantidadSlotsInventario).toBe(7)
     expect(colono.inventario.capacidadSlotsInventario).toBe(20)
   })
+  it("Un colono guarda un recurso cuando está en su misma posición", () => {
+    const colono = crearColono()
+    const recurso = new Recurso("Madera", 8, colono.posicion)
+
+    colono.recoger(recurso)
+
+    expect(colono.inventario.recursos.get("Madera")).toBe(8)
+  })
+  it("Un colono elige un recurso del tipo que está buscando", () => {
+    const colonia = crearColonia()
+    const colono = new Colono("Juan", colonia, {x: 0, y: 0})
+
+    const madera = new Recurso("Madera", 10, {x: 100, y: 0})
+    const piedra = new Recurso("Piedra", 10, {x: 50, y: 0})
+
+    colonia.mundo.agregarRecurso(madera)
+    colonia.mundo.agregarRecurso(piedra)
+
+    colono.recogerRecursos("Madera")
+
+    expect(colono.objetivo).toBe(madera)
+  })
+  it("Un colono puede elegir un recurso disponible para recoger", () => {
+    const recurso = new Recurso("Madera", 8, { x: 10, y: 0 })
+    const mundo = { recursos: [recurso] }
+    const colonia = new Colonia(mundo)
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colono.recogerRecursos()
+
+    expect(colono.objetivo).toBe(recurso)
+  })
+  it("Un recurso elegido para recoger queda reservado para ese colono", () => {
+    const recurso = new Recurso("Madera", 8, { x: 10, y: 0 })
+    const mundo = { recursos: [recurso] }
+    const colonia = new Colonia(mundo)
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colono.recogerRecursos()
+
+    expect(recurso.recogedor).toBe(colono)
+  })
+  it("Un colono no elige un recurso que ya está siendo recogido por otro colono", () => {
+    const recurso1 = new Recurso("Madera", 8, { x: 5, y: 0 })
+    const recurso2 = new Recurso("Madera", 8, { x: 10, y: 0 })
+    const mundo = { recursos: [recurso1, recurso2] }
+    const colonia = new Colonia(mundo)
+
+    const colono1 = new Colono("Juan", colonia, { x: 0, y: 0 })
+    const colono2 = new Colono("Pedro", colonia, { x: 0, y: 0 })
+
+    colono1.recogerRecursos()
+    colono2.recogerRecursos()
+
+    expect(colono1.objetivo).toBe(recurso1)
+    expect(colono2.objetivo).toBe(recurso2)
+  })
+  it("Un colono recoge su recurso objetivo cuando llega a él", () => {
+    const recurso = new Recurso("Madera", 8, { x: 0, y: 0 })
+    const mundo = { recursos: [recurso] }
+    const colonia = new Colonia(mundo)
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colono.recogerRecursos()
+    colono.recogerRecursos()
+
+    expect(colono.inventario.recursos.get("Madera")).toBe(8)
+  })
+  it("Un colono libera su recurso objetivo cuando lo recoge completamente", () => {
+    const recurso = new Recurso("Madera", 8, { x: 0, y: 0 })
+    const mundo = { recursos: [recurso] }
+    const colonia = new Colonia(mundo)
+    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
+
+    colono.recogerRecursos()
+    colono.recogerRecursos()
+
+    expect(recurso.recogedor).toBeNull()
+    expect(colono.objetivo).toBeNull()
+  })
+  it("Un colono va al ayuntamiento cuando no puede recoger más madera", () => {
+    const colonia = crearColonia()
+    const colono = new Colono("Juan", colonia, {x: 0, y: 0})
+
+    colono.inventario.agregar(
+        new Recurso("Madera", 50, {x: 0, y: 0})
+    )
+
+    const madera = new Recurso("Madera", 10, {x: 100, y: 0})
+    colonia.mundo.agregarRecurso(madera)
+
+    colono.recogerRecursos("Madera")
+
+    expect(colono.destino).toBe(colonia.ayuntamiento.posicion)
+  })
+  it("Un colono deposita su madera al llegar al ayuntamiento", () => {
+    const colonia = crearColonia()
+    const colono = new Colono(
+        "Juan",
+        colonia,
+        colonia.ayuntamiento.posicion
+    )
+
+    const recurso = new Recurso("Madera", 10, {x: 0, y: 0})
+    colono.inventario.agregar(recurso)
+
+    colono.recogerRecursos("Madera")
+
+    expect(colonia.madera).toBe(10)
+    expect(colono.inventario.recursos.has("Madera")).toBe(false)
+  })
+  it("Un colono vuelve a buscar madera después de depositarla", () => {
+    const colonia = crearColonia()
+    const colono = new Colono(
+        "Juan",
+        colonia,
+        colonia.ayuntamiento.posicion
+    )
+
+    const maderaInventario = new Recurso("Madera", 10, {x: 0, y: 0})
+    colono.inventario.agregar(maderaInventario)
+
+    const maderaDisponible = new Recurso("Madera", 10, {x: 100, y: 0})
+    colonia.mundo.agregarRecurso(maderaDisponible)
+
+    colono.recogerRecursos("Madera")
+
+    expect(colono.objetivo).toBe(maderaDisponible)
+    expect(colono.destino).toBe(maderaDisponible.posicion)
+  })
+  it("Un colono termina la actividad cuando no queda madera en el mundo ni en su inventario", () => {
+    const colonia = crearColonia()
+    const colono = new Colono(
+        "Juan",
+        colonia,
+        colonia.ayuntamiento.posicion
+    )
+
+    colono.actividad = colono.recogerRecursos
+
+    colono.recogerRecursos("Madera")
+
+    expect(colono.inventario.recursos.has("Madera")).toBe(false)
+    expect(colono.actividad).toBe(null)
+  })
+  it("Un colono va al ayuntamiento cuando no queda madera en el mundo pero tiene madera en su inventario", () => {
+    const colonia = crearColonia()
+    const colono = new Colono(
+        "Juan",
+        colonia,
+        {x: 0, y: 0}
+    )
+
+    const madera = new Recurso("Madera", 10, {x: 0, y: 0})
+    colono.inventario.agregar(madera)
+
+    colono.recogerRecursos("Madera")
+
+    expect(colono.destino).toBe(colonia.ayuntamiento.posicion)
+  })
+  it("Un colono termina la actividad cuando no queda madera ni en el mundo ni en su inventario", () => {
+    const colonia = crearColonia()
+    const colono = new Colono(
+        "Juan",
+        colonia,
+        {x: 0, y: 0}
+    )
+
+    colono.actividad = colono.recogerRecursos
+
+    colono.recogerRecursos("Madera")
+
+    expect(colono.actividad).toBe(null)
+  })
+  it("Un colono va al ayuntamiento cuando llena su inventario al recoger madera", () => {
+    const colonia = crearColonia()
+    const colono = new Colono("Juan", colonia, {x: 0, y: 0})
+
+    const maderaInicial = new Recurso("Madera", 45, {x: 0, y: 0})
+    colono.inventario.agregar(maderaInicial)
+
+    const madera = new Recurso("Madera", 10, {x: 0, y: 0})
+    colonia.mundo.agregarRecurso(madera)
+
+    colono.recogerRecursos("Madera")
+    colono.recogerRecursos("Madera")
+
+    expect(colono.inventario.recursos.get("Madera")).toBe(50)
+    expect(colono.destino).toBe(colonia.ayuntamiento.posicion)
+  })
+
 });

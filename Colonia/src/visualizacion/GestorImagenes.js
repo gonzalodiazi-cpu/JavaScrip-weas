@@ -9,6 +9,7 @@ export class GestorImagenes {
         this.cargar("Leñador", "./assets/Leñador.png")
         this.cargar("Madera", "./assets/Madera.png")
         this.cargar("Casa", "./assets/Casa.png")
+        this.cargar("Ayuntamiento", "./assets/Ayuntamiento.png")
     }
 
     cargar(nombre, ruta) {

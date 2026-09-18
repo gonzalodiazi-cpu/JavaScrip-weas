@@ -10,9 +10,10 @@ export class Colonia {
         this.mundo = mundo
         this.dinero =500
         this.comida = 200
+        this.madera = 0
         this.costoCrearCasa = 100
         this.casas= new Map()
-        this.ayuntamiento= new Ayuntamiento(this.mundo)
+        this.ayuntamiento= new Ayuntamiento(this.mundo, this)
         this.estadisticasBaseColono= new EstadisticasBaseColono()
         this.leñador = new Leñador()
         this.desempleado = new Desempleado()

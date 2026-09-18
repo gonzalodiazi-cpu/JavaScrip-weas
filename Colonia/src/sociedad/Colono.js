@@ -102,6 +102,11 @@ export class Colono {
     }
   }
 
+  recoger(recurso) {
+    if (recurso.posicion.x===this.posicion.x && recurso.posicion.y===this.posicion.y) {
+      this.inventario.agregar(recurso)
+    }
+  }
   talarArboles() {
     if (this.objetivo === null) {
         const arbolesDisponibles = this.colonia.mundo.arboles.filter(
@@ -125,6 +130,83 @@ export class Colono {
         this.destino = null
     }
   }
+  recogerRecursos(tipoRecurso = null) {
+    if (this.posicion.x === this.colonia.ayuntamiento.posicion.x &&
+      this.posicion.y === this.colonia.ayuntamiento.posicion.y) {
+
+      this.colonia.ayuntamiento.recibirInventario(this.inventario)
+
+      const maderaDisponible = this.colonia.mundo.recursos.some(
+          recurso => recurso.tipo === tipoRecurso && !recurso.agotado
+      )
+
+      const tieneMadera = this.inventario.recursos.has(tipoRecurso)
+
+      if (!maderaDisponible && !tieneMadera) {
+          this.actividad = null
+      }
+    }
+    if (this.objetivo === null) {
+        const recursosDisponibles = this.colonia.mundo.recursos.filter(
+            recurso =>
+                (tipoRecurso === null || recurso.tipo === tipoRecurso) &&
+                recurso.recogedor === null &&
+                !recurso.agotado
+        )
+
+        if (recursosDisponibles.length === 0) {
+          if (this.inventario.recursos.has(tipoRecurso)) {
+              this.destino = this.colonia.ayuntamiento.posicion
+              return
+          }
+
+          this.actividad = null
+          return
+        }
+
+        this.buscarOptimo(recursosDisponibles)
+
+        if (this.objetivo !== null) {
+            const cantidadAgregable =
+                this.inventario.consultarCantidadAgregable(
+                    this.objetivo,
+                    this.objetivo.cantidad
+                )
+
+            if (cantidadAgregable === 0) {
+                this.objetivo = null
+                this.destino = this.colonia.ayuntamiento.posicion
+                return
+            }
+
+            this.objetivo.recogedor = this
+        }
+
+        return
+    }
+
+    this.recoger(this.objetivo)
+
+    if (this.objetivo.agotado) {
+        this.objetivo.recogedor = null
+        this.objetivo = null
+        this.destino = null
+        return
+    }
+
+    const cantidadAgregable =
+      this.inventario.consultarCantidadAgregable(
+          this.objetivo,
+          this.objetivo.cantidad
+      )
+
+    if (cantidadAgregable === 0) {
+      this.objetivo.recogedor = null
+      this.objetivo = null
+      this.destino = this.colonia.ayuntamiento.posicion
+    }
+}
+  
   actualizar() {
     if (this.actividad !== null) {
         this.actividad()

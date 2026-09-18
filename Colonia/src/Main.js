@@ -11,8 +11,6 @@ export function iniciarJuego(canvas, requestAnimationFrame) {
 
     mundo.crearArbol({ x: 900, y: 500 })
     mundo.crearArbol({ x: 900, y: 300 })
-    mundo.crearArbol({ x: 600, y: 300 })
-    mundo.crearArbol({ x: 600, y: 500 })
     mundo.crearArbol({ x: 300, y: 300 })
     mundo.crearArbol({ x: 300, y: 500 })
     mundo.crearArbol({ x: 100, y: 300 })
@@ -23,6 +21,8 @@ export function iniciarJuego(canvas, requestAnimationFrame) {
     mundo.crearArbol({ x: 100, y: 800 })
 
     const colonia = new Colonia(mundo)
+    mundo.agregarColonia(colonia)
+    mundo.agregarAyuntamiento(colonia.ayuntamiento)
 
     const colono = new Colono(
         "Juan",
@@ -60,7 +60,7 @@ export function iniciarJuego(canvas, requestAnimationFrame) {
 
         botonDebug.addEventListener("click", () => {
             colono2.actividad=colono2.talarArboles
-            colono.actividad=colono.talarArboles
+            colono.actividad= colono.actividad = () => colono.recogerRecursos("Madera")
         })
     }
 

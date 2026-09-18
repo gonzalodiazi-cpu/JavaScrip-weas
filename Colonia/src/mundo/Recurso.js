@@ -5,6 +5,7 @@ export class Recurso {
         this.posicion=posicion
         this.ancho=50
         this.alto=50
+        this.recogedor=null
     }
 
     get agotado() {

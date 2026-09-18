@@ -44,9 +44,13 @@ export class Renderizador {
         for (const recurso of mundo.recursos) {
             this.dibujarObjeto(recurso)
         }
-
+        for (const ayuntamiento of mundo.ayuntamientos) {
+            this.dibujarObjeto(ayuntamiento)
+        }
+                
         for (const colono of mundo.colonos) {
             this.dibujarObjeto(colono)
         }
+        
     }
 }
