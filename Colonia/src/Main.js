@@ -9,16 +9,12 @@ import { Casa } from "./sociedad/Casa.js"
 export function iniciarJuego(canvas, requestAnimationFrame) {
     const mundo = new Mundo(canvas.width,canvas.height)
 
-    mundo.crearArbol({ x: 900, y: 500 })
-    mundo.crearArbol({ x: 900, y: 300 })
-    mundo.crearArbol({ x: 300, y: 300 })
-    mundo.crearArbol({ x: 300, y: 500 })
-    mundo.crearArbol({ x: 100, y: 300 })
-    mundo.crearArbol({ x: 100, y: 500 })
-    mundo.crearArbol({ x: 300, y: 800 })
-    mundo.crearArbol({ x: 600, y: 800 })
-    mundo.crearArbol({ x: 900, y: 800 })
-    mundo.crearArbol({ x: 100, y: 800 })
+    for (const a of [1,2,3,4,5,6,7,8]) {
+        for (const b of [1,2,3,4,5,6,7,8]) {
+            mundo.crearArbol({x: a*(canvas.width/10),y:b*(canvas.height/10)})
+        }
+    }
+
 
     const colonia = new Colonia(mundo)
     mundo.agregarColonia(colonia)
@@ -35,6 +31,7 @@ export function iniciarJuego(canvas, requestAnimationFrame) {
         colonia,
         { x: 100, y: 300 }
     )
+    colonia.estadisticasBaseColono.velocidad+=20
 
     colono2.asignarTrabajo(colonia.leñador)
     colono.asignarTrabajo(colonia.leñador)

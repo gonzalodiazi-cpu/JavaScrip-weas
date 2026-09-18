@@ -3,6 +3,49 @@ export class Renderizador {
         this.canvas = canvas
         this.contexto = canvas.getContext("2d")
         this.gestorImagenes = gestorImagenes
+        this.mouse = { x: 0, y: 0 }
+
+        canvas.addEventListener("mousemove", evento => {
+            const rect = canvas.getBoundingClientRect()
+
+            this.mouse = {
+                x: evento.clientX - rect.left,
+                y: evento.clientY - rect.top
+            }
+        })
+    }
+    mouseSobre(objeto) {
+        const posicion = this.obtPosDib(objeto)
+
+        return (
+            this.mouse.x >= posicion.x &&
+            this.mouse.x <= posicion.x + objeto.ancho &&
+            this.mouse.y >= posicion.y &&
+            this.mouse.y <= posicion.y + objeto.alto
+        )
+    }
+    dibujarInformacionAyuntamiento(ayuntamiento) {
+        if (!this.mouseSobre(ayuntamiento)) {
+            return
+        }
+
+        const posicion = this.obtPosDib(ayuntamiento)
+
+        this.contexto.fillStyle = "white"
+        this.contexto.fillRect(
+            posicion.x,
+            posicion.y - 50,
+            160,
+            40
+        )
+
+        this.contexto.fillStyle = "black"
+        this.contexto.font = "20px Arial"
+        this.contexto.fillText(
+            `Madera: ${ayuntamiento.colonia.madera}`,
+            posicion.x + 10,
+            posicion.y - 23
+        )
     }
 
     obtPosDib(objeto) {
@@ -46,6 +89,7 @@ export class Renderizador {
         }
         for (const ayuntamiento of mundo.ayuntamientos) {
             this.dibujarObjeto(ayuntamiento)
+            this.dibujarInformacionAyuntamiento(ayuntamiento)
         }
                 
         for (const colono of mundo.colonos) {
