@@ -136,6 +136,73 @@ describe("Renderizador", () => {
             recurso.alto
         )
     })
+    it("Dibuja las casas de las colonias del mundo", () => {
+        const contexto = {
+            drawImage: vi.fn(),
+            clearRect: vi.fn()
+        }
+
+        const canvas = {
+            width: 1200,
+            height: 800,
+            getContext: () => contexto
+        }
+
+        const gestorImagenes = {
+            obtener: vi.fn()
+        }
+
+        const renderizador = new Renderizador(canvas, gestorImagenes)
+
+        const colonia = crearColonia()
+
+        colonia.crearCasa("Casa 1", {x:200,y:300})
+
+        const mundo = {
+            colonias: [colonia],
+            arboles: [],
+            recursos: [],
+            colonos: []
+        }
+
+        renderizador.dibujarMundo(mundo)
+
+        expect(gestorImagenes.obtener).toHaveBeenCalledWith("Casa")
+    })
+
+    it("Dibuja los ayuntamientos de las colonias del mundo", () => {
+        const contexto = {
+            drawImage: vi.fn(),
+            clearRect: vi.fn()
+        }
+
+        const canvas = {
+            width: 1200,
+            height: 800,
+            getContext: () => contexto
+        }
+
+        const gestorImagenes = {
+            obtener: vi.fn()
+        }
+
+        const renderizador = new Renderizador(canvas, gestorImagenes)
+
+        const colonia = crearColonia()
+
+        const mundo = {
+            colonias: [colonia],
+            arboles: [],
+            recursos: [],
+            colonos: []
+        }
+
+        renderizador.dibujarMundo(mundo)
+
+        expect(gestorImagenes.obtener).toHaveBeenCalledWith(
+            colonia.ayuntamiento.imagen
+        )
+    })
 
     it("Un renderizador dibuja los árboles, ayuntamientos, casas, recursos y colonos del mundo", () => {
         const contexto = {
@@ -185,6 +252,7 @@ describe("Renderizador", () => {
         })
 
         const casa = new Casa("Casa 1", colonia, {x: 200, y:300})
+        colonia.casas.set("Casa 1", casa)
 
         const colono = new Colono(
             "Juan",
@@ -202,8 +270,7 @@ describe("Renderizador", () => {
             arboles: [arbol],
             colonos: [colono],
             recursos: [recurso],
-            casas: [casa],
-            ayuntamientos: [ayuntamiento]
+            colonias: [colonia]
         }
 
         renderizador.dibujarMundo(mundo)
@@ -268,8 +335,7 @@ describe("Renderizador", () => {
             arboles: [],
             colonos: [],
             recursos: [],
-            casas: [],
-            ayuntamientos: []
+            colonias: []
         }
 
         renderizador.dibujarMundo(mundo)

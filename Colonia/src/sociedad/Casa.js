@@ -12,7 +12,7 @@ export class Casa{
         this.alto = 100
         this.imagen = "Casa"
     }
-    crearColono(nombre) {
+    crearColono(nombre, posicion=this.posicion) {
 
         if (this.colonos.size >= this.capacidad) {
             return
@@ -24,7 +24,7 @@ export class Casa{
 
         this.colonia.gastarComida(this.costoCrearColono)
 
-        const colono = new Colono(nombre, this.colonia)
+        const colono = new Colono(nombre, this.colonia, posicion)
         this.colonos.set(nombre, colono)
     }
 }

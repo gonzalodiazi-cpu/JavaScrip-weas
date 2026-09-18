@@ -5,14 +5,16 @@ export class Renderizador {
         this.gestorImagenes = gestorImagenes
         this.mouse = { x: 0, y: 0 }
 
-        canvas.addEventListener("mousemove", evento => {
-            const rect = canvas.getBoundingClientRect()
+        if (canvas.addEventListener) {
+            canvas.addEventListener("mousemove", evento => {
+                const rect = canvas.getBoundingClientRect()
 
-            this.mouse = {
-                x: evento.clientX - rect.left,
-                y: evento.clientY - rect.top
-            }
-        })
+                this.mouse = {
+                    x: evento.clientX - rect.left,
+                    y: evento.clientY - rect.top
+                }
+            })
+        }
     }
     mouseSobre(objeto) {
         const posicion = this.obtPosDib(objeto)
@@ -31,20 +33,25 @@ export class Renderizador {
 
         const posicion = this.obtPosDib(ayuntamiento)
 
-        this.contexto.fillStyle = "white"
-        this.contexto.fillRect(
-            posicion.x,
-            posicion.y - 50,
-            160,
-            40
-        )
+        const x = posicion.x
+        const y = posicion.y - 60
+        const ancho = 180
+        const alto = 45
 
-        this.contexto.fillStyle = "black"
-        this.contexto.font = "20px Arial"
+        this.contexto.fillStyle = "rgba(30, 30, 30, 0.9)"
+        this.contexto.fillRect(x, y, ancho, alto)
+
+        this.contexto.strokeStyle = "white"
+        this.contexto.lineWidth = 2
+        this.contexto.strokeRect(x, y, ancho, alto)
+
+        this.contexto.fillStyle = "white"
+        this.contexto.font = "18px Arial"
+
         this.contexto.fillText(
-            `Madera: ${ayuntamiento.colonia.madera}`,
-            posicion.x + 10,
-            posicion.y - 23
+            `🪵 Madera: ${ayuntamiento.colonia.madera}`,
+            x + 12,
+            y + 29
         )
     }
 
@@ -75,9 +82,12 @@ export class Renderizador {
             this.canvas.width,
             this.canvas.height
         )
-
-        for (const casa of mundo.casas) {
-            this.dibujarObjeto(casa)
+        for (const colonia of mundo.colonias) {
+            for (const casa of colonia.casas.values()) {
+                this.dibujarObjeto(casa)
+            }
+            this.dibujarObjeto(colonia.ayuntamiento)
+            this.dibujarInformacionAyuntamiento(colonia.ayuntamiento)
         }
 
         for (const arbol of mundo.arboles) {
@@ -86,10 +96,6 @@ export class Renderizador {
 
         for (const recurso of mundo.recursos) {
             this.dibujarObjeto(recurso)
-        }
-        for (const ayuntamiento of mundo.ayuntamientos) {
-            this.dibujarObjeto(ayuntamiento)
-            this.dibujarInformacionAyuntamiento(ayuntamiento)
         }
                 
         for (const colono of mundo.colonos) {

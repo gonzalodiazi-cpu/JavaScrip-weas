@@ -18,7 +18,7 @@ export class Colonia {
         this.leñador = new Leñador()
         this.desempleado = new Desempleado()
     }
-    crearCasa(nombre) {
+    crearCasa(nombre, posicion) {
         if (this.casas.size >= this.ayuntamiento.capacidadCasas) {
             return
         }
@@ -29,7 +29,7 @@ export class Colonia {
 
         this.gastarDinero(this.costoCrearCasa)
 
-        const casa = new Casa(nombre,this)
+        const casa = new Casa(nombre,this,posicion)
         
         this.casas.set(nombre, casa)
     }

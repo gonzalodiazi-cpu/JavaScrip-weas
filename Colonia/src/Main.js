@@ -9,8 +9,8 @@ import { Casa } from "./sociedad/Casa.js"
 export function iniciarJuego(canvas, requestAnimationFrame) {
     const mundo = new Mundo(canvas.width,canvas.height)
 
-    for (const a of [1,2,3,4,5,6,7,8]) {
-        for (const b of [1,2,3,4,5,6,7,8]) {
+    for (const a of [1,2,3,4,6,7,8]) {
+        for (const b of [1,2,3,4,6,7,8]) {
             mundo.crearArbol({x: a*(canvas.width/10),y:b*(canvas.height/10)})
         }
     }
@@ -18,30 +18,27 @@ export function iniciarJuego(canvas, requestAnimationFrame) {
 
     const colonia = new Colonia(mundo)
     mundo.agregarColonia(colonia)
-    mundo.agregarAyuntamiento(colonia.ayuntamiento)
 
-    const colono = new Colono(
-        "Juan",
-        colonia,
-        { x: 100, y: 200 }
-    )
+    colonia.crearCasa("Casa 1", {x:200,y:300})
 
-    const colono2 = new Colono(
-        "Pedro",
-        colonia,
-        { x: 100, y: 300 }
-    )
+    const casa = colonia.casas.get("Casa 1")
+
+    casa.crearColono("Juan")
+    casa.crearColono("Pedro")
+
+    const colono = casa.colonos.get("Juan")
+    const colono2 = casa.colonos.get("Pedro")
+
     colonia.estadisticasBaseColono.velocidad+=20
 
     colono2.asignarTrabajo(colonia.leñador)
     colono.asignarTrabajo(colonia.leñador)
 
-    const casa = new Casa("Casa 1", colonia, { x: 200, y: 300 })
 
     mundo.agregarColono(colono)
     mundo.agregarColono(colono2)
 
-    mundo.agregarCasa(casa)
+
 
     const gestorImagenes = new GestorImagenes()
     const renderizador = new Renderizador(canvas, gestorImagenes)

@@ -1,7 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Colonia } from "@src/sociedad/Colonia.js";
-import { Casa } from "../../src/sociedad/Casa"; 
-import { Ayuntamiento } from "../../src/sociedad/Ayuntamiento";
+import { Casa } from "../../src/sociedad/Casa";
 import { crearColonia } from "../helpers/crearColonia";
 
 describe("Casa", () => {
@@ -12,11 +10,23 @@ describe("Casa", () => {
     expect(casa.imagen).toBe("Casa")
   })
 
+  it("crea un colono en la posición indicada", () => {
+    const colonia = crearColonia()
+
+    colonia.crearCasa("Casa 1", {x: 300, y: 450})
+
+    const casa = colonia.casas.get("Casa 1")
+
+    casa.crearColono("Juan", { x: 5, y: 10 })
+
+    expect(casa.colonos.get("Juan").posicion).toEqual({ x: 5, y: 10 })
+  })
+  
   it("crea un colono y descuenta comida de la colonia", () => {
     const colonia = crearColonia();
     const comida_Actual = colonia.comida;
 
-    colonia.crearCasa("Casa 1");
+    colonia.crearCasa("Casa 1", {x:300,y:450});
 
     const casa = colonia.casas.get("Casa 1");
 
@@ -30,7 +40,7 @@ describe("Casa", () => {
   it("no crea un colono cuando la casa está llena", () => {
     const colonia = crearColonia();
 
-    colonia.crearCasa("Casa 1");
+    colonia.crearCasa("Casa 1", {x:300,y:450});
 
     const casa = colonia.casas.get("Casa 1");
 
@@ -45,7 +55,7 @@ describe("Casa", () => {
   it("no crea colono si la colonia no tiene suficiente comida", () => {
     const colonia = crearColonia();
 
-    colonia.crearCasa("Casa 1");
+    colonia.crearCasa("Casa 1", {x:300,y:450});
 
     const casa = colonia.casas.get("Casa 1");
 

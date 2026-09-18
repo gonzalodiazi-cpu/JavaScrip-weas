@@ -5,9 +5,7 @@ export class Mundo {
         this.arboles = []
         this.recursos = []
         this.colonos = []
-        this.casas = []
         this.colonias=[]
-        this.ayuntamientos=[]
         this.ancho = ancho
         this.alto=alto
     }
@@ -21,14 +19,8 @@ export class Mundo {
     agregarColono(colono) {
         this.colonos.push(colono)
     }
-    agregarCasa(casa) {
-        this.casas.push(casa)
-    }
     agregarColonia(colonia) {
         this.colonias.push(colonia)
-    }
-    agregarAyuntamiento(ayuntamiento) {
-        this.ayuntamientos.push(ayuntamiento)
     }
 
     procesarArbolesTalados() {
