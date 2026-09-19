@@ -1,40 +1,84 @@
 export class Interfaz {
-    constructor(canvas, mundo, botonConstruirCasa) {
+    constructor(canvas, mundo, botonConstruirCasa, inputNombre) {
         this.canvas = canvas
         this.mundo = mundo
         this.botonConstruirCasa=botonConstruirCasa
         this.mouse = { x: 0, y: 0 }
         this.objetoSeleccionado = null
         this.construyendoCasa = false
+        this.posicionCasaEnConstruccion=null
+        this.nombreCasaEnConstruccion = null
+        this.coloniaConstruyendoCasa=null
+        this.inputNombre=inputNombre
+        
 
         if (
             botonConstruirCasa &&
             typeof botonConstruirCasa.addEventListener === "function"
         ) {
             botonConstruirCasa.addEventListener("click", evento => {
-                this.construyendoCasa = true
+                if (this.inputNombre) {
+                    this.inputNombre.hidden = false
+                }
+            })
+        }
+
+        if (
+            inputNombre &&
+            typeof inputNombre.addEventListener === "function"
+        ) {
+            inputNombre.addEventListener("keydown", evento => {
+                if (evento.key === "Enter") {
+                    this.nombreCasaEnConstruccion = this.inputNombre.value
+                    this.construyendoCasa = true
+                }
             })
         }
 
         canvas.addEventListener("click", evento => {
+            if (this.construyendoCasa) {
+                this.coloniaConstruyendoCasa.crearCasa(
+                    this.nombreCasaEnConstruccion,
+                    this.posicionCasaEnConstruccion
+                )
+
+                this.construyendoCasa = false
+                this.posicionCasaEnConstruccion = null
+                this.inputNombre.hidden = true
+                this.inputNombre.value = ""
+                return
+            }
+
             this.objetoSeleccionado = this.objetoBajoMouse()
+
             if (
                 this.mundo.colonias.length > 0 &&
                 this.objetoSeleccionado === this.mundo.colonias[0].ayuntamiento
             ) {
                 this.botonConstruirCasa.hidden = false
+                this.coloniaConstruyendoCasa =
+                    this.objetoSeleccionado.colonia
             }
             else {
                 this.botonConstruirCasa.hidden = true
             }
         })
 
-        canvas.addEventListener("mousemove", evento => {
-            this.mouse = {
-                x:evento.clientX,
-                y:evento.clientY
+    canvas.addEventListener("mousemove", evento => {
+        const rect = canvas.getBoundingClientRect()
+
+        this.mouse = {
+            x: evento.clientX - rect.left,
+            y: evento.clientY - rect.top
+        }
+
+        if (this.construyendoCasa) {
+            this.posicionCasaEnConstruccion = {
+                x: this.mouse.x,
+                y: this.mouse.y
             }
-        })
+        }
+    })
     }
     colisionPosicion(objeto) {
         if (
@@ -59,11 +103,6 @@ export class Interfaz {
                 if (this.colisionPosicion(casa)) {
                     return casa
                 }
-            }
-        }
-        for (const objeto of this.mundo.objetos) {
-            if (this.colisionPosicion(objeto)) {
-                return objeto
             }
         }
         return null

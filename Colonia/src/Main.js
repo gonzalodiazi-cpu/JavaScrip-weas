@@ -5,6 +5,7 @@ import { Colono } from "./sociedad/Colono.js"
 import { Colonia } from "./sociedad/Colonia.js"
 import { GestorImagenes } from "./visualizacion/GestorImagenes.js"
 import { Casa } from "./sociedad/Casa.js"
+import { Interfaz } from "./interfaz/Interfaz.js"
 
 export function iniciarJuego(canvas, requestAnimationFrame) {
     const mundo = new Mundo(canvas.width,canvas.height)
@@ -21,6 +22,10 @@ export function iniciarJuego(canvas, requestAnimationFrame) {
 
     colonia.crearCasa("Casa 1", {x:200,y:300})
     colonia.crearCasa("Casa 2", {x:200,y:500})
+
+    colonia.ayuntamiento.capacidadCasas=9
+    colonia.dinero=200
+    colonia.madera=300
 
     const casa = colonia.casas.get("Casa 1")
     const casa2 = colonia.casas.get("Casa 2")
@@ -52,22 +57,38 @@ export function iniciarJuego(canvas, requestAnimationFrame) {
     const gestorImagenes = new GestorImagenes()
     const renderizador = new Renderizador(canvas, gestorImagenes)
 
-    const juego = new Juego(
-        mundo,
-        requestAnimationFrame,
-        renderizador
-    )
+
+    let interfaz = null
 
     if (typeof document !== "undefined") {
+        const botonConstruirCasa =
+            document.getElementById("boton-construir-casa")
+        const inputNombre =
+            document.getElementById("nombre")
+
+        interfaz = new Interfaz(
+            canvas,
+            mundo,
+            botonConstruirCasa,
+            inputNombre
+        )
+
         const botonDebug = document.getElementById("boton-debug")
 
         botonDebug.addEventListener("click", () => {
-            colono2.actividad=colono2.talarArboles
-            colono.actividad= colono.actividad = () => colono.recogerRecursos("Madera")
+            colono2.actividad = colono2.talarArboles
+            colono.actividad = () => colono.recogerRecursos("Madera")
             colono3.actividad = colono3.talarArboles
-            colono4.actividad = colono4.actividad = () => colono4.recogerRecursos("Madera")
+            colono4.actividad = () => colono4.recogerRecursos("Madera")
         })
     }
+
+    const juego = new Juego(
+        mundo,
+        requestAnimationFrame,
+        renderizador,
+        interfaz
+    )
 
     juego.iniciar()
 }

@@ -8,8 +8,8 @@ export class Casa{
         this.capacidad = 2
         this.colonos = new Map()
         this.posicion = posicion
-        this.ancho = 100
-        this.alto = 100
+        this.ancho = 200
+        this.alto = 200
         this.imagen = "Casa"
     }
     crearColono(nombre, posicion=this.posicion) {

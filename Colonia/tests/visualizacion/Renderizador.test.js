@@ -4,9 +4,9 @@ import { Colono } from "@src/sociedad/Colono.js"
 import { Colonia } from "@src/sociedad/Colonia.js"
 import { Arbol } from "@src/mundo/Arbol.js"
 import { Recurso } from "@src/mundo/Recurso.js"
-import { Casa } from "../../src/sociedad/Casa"
-import { Mundo } from "../../src/mundo/Mundo"
-import { Ayuntamiento } from "../../src/sociedad/Ayuntamiento"
+import { Casa } from "../../src/sociedad/Casa.js"
+import { Mundo } from "../../src/mundo/Mundo.js"
+import { Ayuntamiento } from "../../src/sociedad/Ayuntamiento.js"
 
 function crearColonia() {
     const mundo = new Mundo(1200, 800)
@@ -371,5 +371,79 @@ describe("Renderizador", () => {
         renderizador.dibujarObjeto(objeto)
 
         expect(gestorImagenes.obtener).toHaveBeenCalledWith("Casa")
+    })
+
+    it("Dibuja la casa en construcción", () => {
+        const canvas = {
+            width: 1000,
+            height: 1000,
+            getContext: () => ({
+                drawImage: (...argumentos) => {
+                    canvas.argumentosDibujo = argumentos
+                }
+            })
+        }
+
+        const gestorImagenes = {
+            obtener: nombre => {
+                if (nombre === "Casa_Construccion") {
+                    return "imagenCasa"
+                }
+            }
+        }
+
+        const renderizador = new Renderizador(
+            canvas,
+            gestorImagenes
+        )
+
+        const interfaz = {
+            posicionCasaEnConstruccion: {
+                x: 300,
+                y: 400
+            }
+        }
+
+        renderizador.dibujarCasaEnConstruccion(interfaz)
+
+        expect(canvas.argumentosDibujo[0]).toBe("imagenCasa")
+    })
+    it("Dibuja la casa en construcción al dibujar el mundo", () => {
+        const contexto = {
+            drawImage: vi.fn(),
+            clearRect: vi.fn()
+        }
+
+        const canvas = {
+            width: 1000,
+            height: 1000,
+            getContext: () => contexto
+        }
+
+        const gestorImagenes = {
+            obtener: vi.fn()
+        }
+
+        const renderizador = new Renderizador(canvas, gestorImagenes)
+
+        const mundo = {
+            colonias: [],
+            arboles: [],
+            recursos: [],
+            colonos: []
+        }
+
+        const interfaz = {
+            posicionCasaEnConstruccion: {
+                x: 300,
+                y: 400
+            }
+        }
+
+        renderizador.dibujarMundo(mundo, interfaz)
+
+        expect(gestorImagenes.obtener).toHaveBeenCalledWith(
+            "Casa_Construccion"
+        )
     })
 })

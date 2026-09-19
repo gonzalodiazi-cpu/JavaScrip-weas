@@ -75,7 +75,7 @@ describe("Juego", () => {
 
         juego.actualizar()
 
-        expect(renderizador.dibujarMundo).toHaveBeenCalledWith(mundo)
+        expect(renderizador.dibujarMundo).toHaveBeenCalledWith(mundo,null)
     })
     it("Un juego calcula el tiempo transcurrido entre frames", () => {
         let callback
@@ -95,5 +95,32 @@ describe("Juego", () => {
         callback(150)
 
         expect(mundo.actualizar).toHaveBeenLastCalledWith(50)
+    })
+        it("Pasa la interfaz al renderizador al actualizar", () => {
+        const mundo = {
+            actualizar: vi.fn()
+        }
+
+        const renderizador = {
+            dibujarMundo: vi.fn()
+        }
+
+        const requestAnimationFrame = vi.fn()
+
+        const juego = new Juego(
+            mundo,
+            requestAnimationFrame,
+            renderizador
+        )
+
+        const interfaz = {}
+
+        juego.interfaz = interfaz
+        juego.actualizar(16)
+
+        expect(renderizador.dibujarMundo).toHaveBeenCalledWith(
+            mundo,
+            interfaz
+        )
     })
 })

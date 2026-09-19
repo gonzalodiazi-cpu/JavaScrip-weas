@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { Casa } from "../../src/sociedad/Casa";
-import { crearColonia } from "../helpers/crearColonia";
+import { Casa } from "../../src/sociedad/Casa.js";
+import { crearColonia } from "../helpers/crearColonia.js";
 
 describe("Casa", () => {
   it("Una casa tiene una imagen", () => {

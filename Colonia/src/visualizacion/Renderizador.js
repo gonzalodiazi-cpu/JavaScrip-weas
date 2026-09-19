@@ -1,3 +1,4 @@
+import { Casa } from "../sociedad/Casa.js"
 export class Renderizador {
     constructor(canvas, gestorImagenes) {
         this.canvas = canvas
@@ -75,7 +76,15 @@ export class Renderizador {
         )
     }
 
-    dibujarMundo(mundo) {
+    dibujarCasaEnConstruccion(interfaz) {
+        const casa = new Casa(null, null, interfaz.posicionCasaEnConstruccion)
+
+        casa.imagen = "Casa_Construccion"
+
+        this.dibujarObjeto(casa)
+    }
+
+    dibujarMundo(mundo, interfaz=null) {
         this.contexto.clearRect(
             0,
             0,
@@ -100,6 +109,9 @@ export class Renderizador {
                 
         for (const colono of mundo.colonos) {
             this.dibujarObjeto(colono)
+        }
+        if (interfaz!==null && interfaz.posicionCasaEnConstruccion !== null) {
+            this.dibujarCasaEnConstruccion(interfaz)
         }
         
     }
