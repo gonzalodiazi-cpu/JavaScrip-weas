@@ -20,23 +20,32 @@ export function iniciarJuego(canvas, requestAnimationFrame) {
     mundo.agregarColonia(colonia)
 
     colonia.crearCasa("Casa 1", {x:200,y:300})
+    colonia.crearCasa("Casa 2", {x:200,y:500})
 
     const casa = colonia.casas.get("Casa 1")
+    const casa2 = colonia.casas.get("Casa 2")
 
     casa.crearColono("Juan")
     casa.crearColono("Pedro")
+    casa2.crearColono("Zalo")
+    casa2.crearColono("Raul")
 
     const colono = casa.colonos.get("Juan")
     const colono2 = casa.colonos.get("Pedro")
+    const colono3 = casa2.colonos.get("Zalo")
+    const colono4 = casa2.colonos.get("Raul")
 
     colonia.estadisticasBaseColono.velocidad+=20
 
     colono2.asignarTrabajo(colonia.leñador)
     colono.asignarTrabajo(colonia.leñador)
+    colono3.asignarTrabajo(colonia.leñador)
 
 
     mundo.agregarColono(colono)
     mundo.agregarColono(colono2)
+    mundo.agregarColono(colono3)
+    mundo.agregarColono(colono4)
 
 
 
@@ -55,6 +64,8 @@ export function iniciarJuego(canvas, requestAnimationFrame) {
         botonDebug.addEventListener("click", () => {
             colono2.actividad=colono2.talarArboles
             colono.actividad= colono.actividad = () => colono.recogerRecursos("Madera")
+            colono3.actividad = colono3.talarArboles
+            colono4.actividad = colono4.actividad = () => colono4.recogerRecursos("Madera")
         })
     }
 
