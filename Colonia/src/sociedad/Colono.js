@@ -7,8 +7,8 @@ export class Colono {
     this.nombre = nombre
     this.colonia = colonia
     this.posicion = posicion
-    this.ancho = 75
-    this.alto = 75
+    this.ancho = 100
+    this.alto = 100
     this.trabajo = colonia.desempleado
     this.estadisticas = new EstadisticasColono(colonia.estadisticasBaseColono, this.trabajo)
     this.destino = null
@@ -31,6 +31,9 @@ export class Colono {
     })
   }
   get imagen() {
+    if (this.actividad===this.talarArboles) {
+      return this.trabajo.imagen + "_con_Hacha"
+    }
     return this.trabajo.imagen
   }
 
@@ -209,7 +212,7 @@ export class Colono {
   
   actualizar() {
     if (this.actividad !== null) {
-        this.actividad()
+      this.actividad()
     }
   }
 }

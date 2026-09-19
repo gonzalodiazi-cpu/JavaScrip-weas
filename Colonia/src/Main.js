@@ -35,7 +35,7 @@ export function iniciarJuego(canvas, requestAnimationFrame) {
     const colono3 = casa2.colonos.get("Zalo")
     const colono4 = casa2.colonos.get("Raul")
 
-    colonia.estadisticasBaseColono.velocidad+=20
+    colonia.estadisticasBaseColono.velocidad+=3
 
     colono2.asignarTrabajo(colonia.leñador)
     colono.asignarTrabajo(colonia.leñador)
