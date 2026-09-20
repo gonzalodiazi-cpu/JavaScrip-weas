@@ -81,23 +81,14 @@ describe("Mundo", () => {
     expect(recurso.cantidad).toBe(arbol.madera)
     expect(recurso.posicion).toEqual(posicion)
   })
-  it("Un mundo puede agregar un colono", () => {
-    const mundo = new Mundo()
-    const colonia = new Colonia(mundo)
-    const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
-
-    mundo.agregarColono(colono)
-
-    expect(mundo.colonos.length).toBe(1)
-    expect(mundo.colonos[0]).toBe(colono)
-  })
-  it("Un mundo actualiza el movimiento de sus colonos", () => {
+  it("El mundo actualiza el movimiento de los colonos de sus colonia", () => {
     const mundo = new Mundo()
     const colonia = new Colonia(mundo)
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
     colono.establecerDestino({ x: 10, y: 0 })
-    mundo.agregarColono(colono)
+    
+    colonia.agregarColono(colono)
 
     mundo.actualizar()
 
@@ -114,7 +105,7 @@ describe("Mundo", () => {
         ejecutada = true
     }
 
-    mundo.agregarColono(colono)
+    colonia.agregarColono(colono)
 
     mundo.actualizar()
 
@@ -154,7 +145,7 @@ describe("Mundo", () => {
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
     colono.actividad = colono.talarArboles
-    mundo.agregarColono(colono)
+    colonia.agregarColono(colono)
 
     mundo.actualizar()
 
@@ -180,7 +171,7 @@ describe("Mundo", () => {
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
     colono.actividad = colono.talarArboles
-    mundo.agregarColono(colono)
+    colonia.agregarColono(colono)
 
     mundo.actualizar()
     expect(colono.objetivo).toBe(arbol1)
@@ -197,7 +188,7 @@ describe("Mundo", () => {
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
     colono.actividad = colono.talarArboles
-    mundo.agregarColono(colono)
+    colonia.agregarColono(colono)
 
     mundo.actualizar()
 
@@ -218,8 +209,8 @@ describe("Mundo", () => {
     colono1.actividad = colono1.talarArboles
     colono2.actividad = colono2.talarArboles
 
-    mundo.agregarColono(colono1)
-    mundo.agregarColono(colono2)
+    colonia.agregarColono(colono1)
+    colonia.agregarColono(colono2)
 
     mundo.actualizar()
 
@@ -228,10 +219,22 @@ describe("Mundo", () => {
   })
 
   //Tests de actualizar
+  it("Un mundo actualiza sus colonias en segundos", () => {
+    const mundo = new Mundo()
+    const colonia = {
+        actualizar: vi.fn()
+    }
+
+    mundo.colonias.push(colonia)
+
+    mundo.actualizar(100)
+
+    expect(colonia.actualizar).toHaveBeenCalledWith(0.1)
+  })
+
   it("Actualiza una máquina encendida de una colonia convirtiendo el tiempo a segundos", () => {
       const mundo = new Mundo(100, 100)
       const colonia = new Colonia(mundo)
-      mundo.agregarColonia(colonia)
 
       const maquina = new MaquinaDePrueba()
       colonia.maquinas.add(maquina)

@@ -214,5 +214,6 @@ export class Colono {
     if (this.actividad !== null) {
       this.actividad()
     }
+    this.actualizarMovimiento()
   }
 }

@@ -6,7 +6,6 @@ import { Arbol } from "@src/mundo/Arbol.js"
 import { Recurso } from "@src/mundo/Recurso.js"
 import { Casa } from "../../src/sociedad/Casa.js"
 import { Mundo } from "../../src/mundo/Mundo.js"
-import { Ayuntamiento } from "../../src/sociedad/Ayuntamiento.js"
 
 function crearColonia() {
     const mundo = new Mundo(1200, 800)
@@ -161,8 +160,7 @@ describe("Renderizador", () => {
         const mundo = {
             colonias: [colonia],
             arboles: [],
-            recursos: [],
-            colonos: []
+            recursos: []
         }
 
         renderizador.dibujarMundo(mundo)
@@ -193,8 +191,7 @@ describe("Renderizador", () => {
         const mundo = {
             colonias: [colonia],
             arboles: [],
-            recursos: [],
-            colonos: []
+            recursos: []
         }
 
         renderizador.dibujarMundo(mundo)
@@ -202,6 +199,47 @@ describe("Renderizador", () => {
         expect(gestorImagenes.obtener).toHaveBeenCalledWith(
             colonia.ayuntamiento.imagen
         )
+    })
+
+    it("Un renderizador usa los objetos dibujables de cada colonia", () => {
+        const contexto = {
+            drawImage: vi.fn(),
+            clearRect: vi.fn()
+        }
+
+        const canvas = {
+            width: 1200,
+            height: 800,
+            getContext: () => contexto
+        }
+
+        const gestorImagenes = {
+            obtener: vi.fn()
+        }
+
+        const renderizador = new Renderizador(canvas, gestorImagenes)
+
+        const colonia = {
+            paraCadaObjetoDibujable: vi.fn(),
+            ayuntamiento: {
+                posicion: { x: 500, y: 500 },
+                ancho: 200,
+                alto: 200,
+                colonia: {
+                    madera: 0
+                }
+            }
+        }
+
+        const mundo = {
+            colonias: [colonia],
+            arboles: [],
+            recursos: []
+        }
+
+        renderizador.dibujarMundo(mundo)
+
+        expect(colonia.paraCadaObjetoDibujable).toHaveBeenCalled()
     })
 
     it("Un renderizador dibuja los árboles, ayuntamientos, casas, recursos y colonos del mundo", () => {
@@ -260,6 +298,7 @@ describe("Renderizador", () => {
             { x: 10, y: 20 }
         )
 
+        colonia.agregarColono(colono)
         const recurso = new Recurso(
             "madera",
             10,
@@ -268,7 +307,6 @@ describe("Renderizador", () => {
 
         const mundo = {
             arboles: [arbol],
-            colonos: [colono],
             recursos: [recurso],
             colonias: [colonia]
         }
@@ -313,6 +351,58 @@ describe("Renderizador", () => {
         )
     })
 
+    it("Un renderizador dibuja los colonos al final", () => {
+        const contexto = {
+            drawImage: vi.fn(),
+            clearRect: vi.fn()
+        }
+
+        const canvas = {
+            width: 1200,
+            height: 800,
+            getContext: () => contexto
+        }
+
+        const gestorImagenes = {
+            obtener: vi.fn(nombre => nombre)
+        }
+
+        const renderizador = new Renderizador(canvas, gestorImagenes)
+
+        const colonia = crearColonia()
+
+        colonia.crearCasa("Casa 1", { x: 200, y: 300 })
+
+        const colono = new Colono(
+            "Juan",
+            colonia,
+            { x: 100, y: 100 }
+        )
+
+        colonia.agregarColono(colono)
+
+        const arbol = new Arbol({ x: 30, y: 40 })
+        const recurso = new Recurso(
+            "Madera",
+            10,
+            { x: 50, y: 60 }
+        )
+
+        const mundo = {
+            arboles: [arbol],
+            recursos: [recurso],
+            colonias: [colonia]
+        }
+
+        renderizador.dibujarMundo(mundo)
+
+        const imagenesDibujadas = contexto.drawImage.mock.calls.map(
+            llamada => llamada[0]
+        )
+
+        expect(imagenesDibujadas.at(-1)).toBe(colono.imagen)
+    })
+
     it("Un renderizador limpia todo el canvas antes de dibujar el mundo", () => {
         const contexto = {
             drawImage: vi.fn(),
@@ -333,7 +423,6 @@ describe("Renderizador", () => {
 
         const mundo = {
             arboles: [],
-            colonos: [],
             recursos: [],
             colonias: []
         }
@@ -429,8 +518,7 @@ describe("Renderizador", () => {
         const mundo = {
             colonias: [],
             arboles: [],
-            recursos: [],
-            colonos: []
+            recursos: []
         }
 
         const interfaz = {

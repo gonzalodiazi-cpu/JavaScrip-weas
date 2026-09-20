@@ -91,14 +91,6 @@ export class Renderizador {
             this.canvas.width,
             this.canvas.height
         )
-        for (const colonia of mundo.colonias) {
-            for (const casa of colonia.casas.values()) {
-                this.dibujarObjeto(casa)
-            }
-            this.dibujarObjeto(colonia.ayuntamiento)
-            this.dibujarInformacionAyuntamiento(colonia.ayuntamiento)
-        }
-
         for (const arbol of mundo.arboles) {
             this.dibujarObjeto(arbol)
         }
@@ -107,12 +99,18 @@ export class Renderizador {
             this.dibujarObjeto(recurso)
         }
                 
-        for (const colono of mundo.colonos) {
-            this.dibujarObjeto(colono)
-        }
         if (interfaz!==null && interfaz.posicionCasaEnConstruccion !== null) {
             this.dibujarCasaEnConstruccion(interfaz)
         }
+
+        for (const colonia of mundo.colonias) {
+            colonia.paraCadaObjetoDibujable(
+                objeto => this.dibujarObjeto(objeto)
+            )
+            this.dibujarInformacionAyuntamiento(colonia.ayuntamiento)
+        }
         
     }
+
+    
 }

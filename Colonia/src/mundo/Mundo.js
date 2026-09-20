@@ -4,7 +4,6 @@ export class Mundo {
     constructor(ancho,alto) {
         this.arboles = []
         this.recursos = []
-        this.colonos = []
         this.colonias=[]
         this.ancho = ancho
         this.alto=alto
@@ -15,9 +14,6 @@ export class Mundo {
     }
     agregarRecurso(recurso) {
         this.recursos.push(recurso)
-    }
-    agregarColono(colono) {
-        this.colonos.push(colono)
     }
     agregarColonia(colonia) {
         this.colonias.push(colonia)
@@ -43,16 +39,10 @@ export class Mundo {
     }
     actualizar(deltaTime) {
         const deltaTimeEnSegundos=deltaTime/1000
-        for (const colono of this.colonos) {
-            colono.actualizar()
-            colono.actualizarMovimiento()
-        }
         for (const arbol of this.arboles)
             arbol.actualizar(deltaTimeEnSegundos)
         for (const colonia of this.colonias) {
-            for (const maquina of colonia.maquinas) {
-                maquina.actualizar(deltaTimeEnSegundos)
-            }
+            colonia.actualizar(deltaTimeEnSegundos)
         }
         this.procesarArbolesTalados()
         this.procesarRecursosAgotados()

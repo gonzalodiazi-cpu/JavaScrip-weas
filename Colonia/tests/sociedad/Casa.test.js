@@ -67,4 +67,16 @@ describe("Casa", () => {
     expect(casa.colonos.size).toBe(1);
     expect(casa.colonos.has("Pedro")).toBe(false);
   });
+  it("Al crear un colono, este pertenece a la colonia", () => {
+    const colonia = crearColonia()
+
+    colonia.crearCasa("Casa 1", { x: 300, y: 450 })
+    const casa = colonia.casas.get("Casa 1")
+
+    casa.crearColono("Juan", { x: 5, y: 10 })
+
+    const colono = casa.colonos.get("Juan")
+
+    expect(colonia.colonos.has(colono)).toBe(true)
+  })
 });

@@ -26,5 +26,6 @@ export class Casa{
 
         const colono = new Colono(nombre, this.colonia, posicion)
         this.colonos.set(nombre, colono)
+        this.colonia.agregarColono(colono)
     }
 }

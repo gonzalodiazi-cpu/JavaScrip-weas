@@ -204,7 +204,8 @@ describe("Colono", () => {
         arboles: [
             new Arbol({ x: 20, y: 0 }),
             new Arbol({ x: 5, y: 0 })
-        ]
+        ],
+        agregarColonia() {}
     }
 
     const colonia = new Colonia(mundo)
@@ -219,7 +220,8 @@ describe("Colono", () => {
         arboles: [
             new Arbol({ x: 5, y: 0 }),
             new Arbol({ x: 10, y: 0 })
-        ]
+        ],
+        agregarColonia() {}
     }
 
     const colonia = new Colonia(mundo)
@@ -234,7 +236,8 @@ describe("Colono", () => {
         arboles: [
             new Arbol({ x: 5, y: 0 }),
             new Arbol({ x: 10, y: 0 })
-        ]
+        ],
+        agregarColonia() {}
     }
 
     const colonia = new Colonia(mundo)
@@ -253,7 +256,8 @@ describe("Colono", () => {
         arboles: [
             new Arbol({ x: 5, y: 0 }),
             new Arbol({ x: 10, y: 0 })
-        ]
+        ],
+        agregarColonia() {}
     }
 
     const colonia = new Colonia(mundo)
@@ -268,7 +272,7 @@ describe("Colono", () => {
   })
   it("Un colono tala su árbol objetivo cuando llega a él", () => {
     const arbol = new Arbol({ x: 0, y: 0 })
-    const mundo = { arboles: [arbol] }
+    const mundo = { arboles: [arbol], agregarColonia() {} }
     const colonia = new Colonia(mundo)
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
@@ -285,7 +289,7 @@ describe("Colono", () => {
 
   it("Un colono se mueve hacia su árbol objetivo y luego lo tala", () => {
     const arbol = new Arbol({ x: 1, y: 0 })
-    const mundo = { arboles: [arbol] }
+    const mundo = { arboles: [arbol], agregarColonia() {} }
     const colonia = new Colonia(mundo)
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
@@ -306,7 +310,7 @@ describe("Colono", () => {
     const arbol = new Arbol({ x: 0, y: 0 })
     arbol.durabilidad = 1
 
-    const mundo = { arboles: [arbol] }
+    const mundo = { arboles: [arbol], agregarColonia() {} }
     const colonia = new Colonia(mundo)
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
@@ -332,7 +336,7 @@ describe("Colono", () => {
   })
   it("un colono ejecuta talarArboles cuando esa es su actividad", () => {
     const arbol = new Arbol({ x: 0, y: 0 })
-    const mundo = { arboles: [arbol] }
+    const mundo = { arboles: [arbol], agregarColonia() {} }
     const colonia = new Colonia(mundo)
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
@@ -386,7 +390,7 @@ describe("Colono", () => {
   })
   it("Un colono puede elegir un recurso disponible para recoger", () => {
     const recurso = new Recurso("Madera", 8, { x: 10, y: 0 })
-    const mundo = { recursos: [recurso] }
+    const mundo = { recursos: [recurso], agregarColonia() {} }
     const colonia = new Colonia(mundo)
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
@@ -396,7 +400,7 @@ describe("Colono", () => {
   })
   it("Un recurso elegido para recoger queda reservado para ese colono", () => {
     const recurso = new Recurso("Madera", 8, { x: 10, y: 0 })
-    const mundo = { recursos: [recurso] }
+    const mundo = { recursos: [recurso], agregarColonia() {} }
     const colonia = new Colonia(mundo)
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
@@ -407,7 +411,7 @@ describe("Colono", () => {
   it("Un colono no elige un recurso que ya está siendo recogido por otro colono", () => {
     const recurso1 = new Recurso("Madera", 8, { x: 5, y: 0 })
     const recurso2 = new Recurso("Madera", 8, { x: 10, y: 0 })
-    const mundo = { recursos: [recurso1, recurso2] }
+    const mundo = { recursos: [recurso1, recurso2], agregarColonia() {} }
     const colonia = new Colonia(mundo)
 
     const colono1 = new Colono("Juan", colonia, { x: 0, y: 0 })
@@ -421,7 +425,7 @@ describe("Colono", () => {
   })
   it("Un colono recoge su recurso objetivo cuando llega a él", () => {
     const recurso = new Recurso("Madera", 8, { x: 0, y: 0 })
-    const mundo = { recursos: [recurso] }
+    const mundo = { recursos: [recurso], agregarColonia() {} }
     const colonia = new Colonia(mundo)
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
@@ -432,7 +436,7 @@ describe("Colono", () => {
   })
   it("Un colono libera su recurso objetivo cuando lo recoge completamente", () => {
     const recurso = new Recurso("Madera", 8, { x: 0, y: 0 })
-    const mundo = { recursos: [recurso] }
+    const mundo = { recursos: [recurso], agregarColonia() {} }
     const colonia = new Colonia(mundo)
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 

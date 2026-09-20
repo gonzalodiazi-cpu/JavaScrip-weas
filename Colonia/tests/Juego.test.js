@@ -3,7 +3,7 @@ import { Juego } from "@src/Juego.js"
 import { Mundo } from "@src/mundo/Mundo.js"
 import { Colono } from "@src/sociedad/Colono.js"
 import { Colonia } from "@src/sociedad/Colonia.js"
-import { crearColonia } from "./helpers/crearColonia"
+
 
 describe("Juego", () => {
     it("Un juego actualiza su mundo con el tiempo transcurrido", () => {
@@ -25,14 +25,14 @@ describe("Juego", () => {
         const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
         colono.establecerDestino({ x: 10, y: 0 })
 
-        mundo.agregarColono(colono)
+        colonia.agregarColono(colono)
 
         let primeraLlamada = true
 
         const requestAnimationFrame = (callback) => {
             if (primeraLlamada) {
                 primeraLlamada = false
-                callback()
+                callback(0)
             }
         }
 

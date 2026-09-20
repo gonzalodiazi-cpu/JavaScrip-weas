@@ -90,12 +90,12 @@ export class Interfaz {
         return true
     }
     objetoBajoMouse() {
-        for (const colono of this.mundo.colonos) {
-            if (this.colisionPosicion(colono)) {
-                return colono
-            }
-        }
         for (const colonia of this.mundo.colonias) {
+            for (const colono of colonia.colonos) {
+                if (this.colisionPosicion(colono)) {
+                    return colono
+                }
+            }
             if (this.colisionPosicion(colonia.ayuntamiento)) {
                 return colonia.ayuntamiento
             }

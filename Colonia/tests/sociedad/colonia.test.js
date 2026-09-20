@@ -1,11 +1,23 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { Colonia } from "@src/sociedad/Colonia.js";
 import { Leñador } from "@src/sociedad/trabajos/Leñador.js"
 import { crearColonia } from "../helpers/crearColonia";
 
 describe("Colonia", () => {
+  it("Una colonia se agrega a su mundo al crearse", () => {
+    const mundo = {
+        agregarColonia: vi.fn()
+    }
+
+    const colonia = new Colonia(mundo)
+
+    expect(mundo.agregarColonia).toHaveBeenCalledWith(colonia)
+  })
   it("Una colonia pertenece a un mundo", () => {
-    const mundo = {}
+    const mundo = {
+        agregarColonia() {}
+    }
+
     const colonia = new Colonia(mundo)
 
     expect(colonia.mundo).toBe(mundo)
@@ -64,5 +76,56 @@ describe("Colonia", () => {
     const colonia = crearColonia()
 
     expect(colonia.maquinas).toBeInstanceOf(Set)
+  })
+
+  //Tests de colonos
+  it("Una colonia comienza con una colección de colonos", () => {
+    const colonia = crearColonia()
+
+    expect(colonia.colonos).toBeInstanceOf(Set)
+  })
+  //Tests de actualizar
+  it("Una colonia actualiza sus colonos", () => {
+      const colonia = crearColonia()
+
+      const colono = {
+          actualizar: vi.fn()
+      }
+
+      colonia.agregarColono(colono)
+      colonia.actualizar()
+
+      expect(colono.actualizar).toHaveBeenCalled()
+  })
+
+  it("Una colonia actualiza sus máquinas", () => {
+    const colonia = crearColonia()
+
+    const maquina = {
+        actualizar: vi.fn()
+    }
+
+    colonia.maquinas.add(maquina)
+    colonia.actualizar(2)
+
+    expect(maquina.actualizar).toHaveBeenCalledWith(2)
+  })
+  //Tests de dibujar
+  it("Una colonia recorre sus objetos dibujables", () => {
+    const colonia = crearColonia()
+
+    const casa = {}
+    const colono = {}
+
+    colonia.casas.set("Casa", casa)
+    colonia.colonos.add(colono)
+
+    const accion = vi.fn()
+
+    colonia.paraCadaObjetoDibujable(accion)
+
+    expect(accion).toHaveBeenNthCalledWith(1, casa)
+    expect(accion).toHaveBeenNthCalledWith(2, colonia.ayuntamiento)
+    expect(accion).toHaveBeenNthCalledWith(3, colono)
   })
 });

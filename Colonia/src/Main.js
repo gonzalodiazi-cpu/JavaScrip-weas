@@ -1,10 +1,8 @@
 import { Mundo } from "./mundo/Mundo.js"
 import { Juego } from "./Juego.js"
 import { Renderizador } from "./visualizacion/Renderizador.js"
-import { Colono } from "./sociedad/Colono.js"
 import { Colonia } from "./sociedad/Colonia.js"
 import { GestorImagenes } from "./visualizacion/GestorImagenes.js"
-import { Casa } from "./sociedad/Casa.js"
 import { Interfaz } from "./interfaz/Interfaz.js"
 
 export function iniciarJuego(canvas, requestAnimationFrame) {
@@ -18,7 +16,6 @@ export function iniciarJuego(canvas, requestAnimationFrame) {
 
 
     const colonia = new Colonia(mundo)
-    mundo.agregarColonia(colonia)
 
     colonia.crearCasa("Casa 1", {x:200,y:300})
     colonia.crearCasa("Casa 2", {x:200,y:500})
@@ -46,11 +43,6 @@ export function iniciarJuego(canvas, requestAnimationFrame) {
     colono.asignarTrabajo(colonia.leñador)
     colono3.asignarTrabajo(colonia.leñador)
 
-
-    mundo.agregarColono(colono)
-    mundo.agregarColono(colono2)
-    mundo.agregarColono(colono3)
-    mundo.agregarColono(colono4)
 
 
 

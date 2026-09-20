@@ -44,7 +44,6 @@ describe("Interfaz", () => {
         }
 
         const mundo = {
-            colonos: [],
             colonias: []
         }
 
@@ -85,6 +84,7 @@ describe("Interfaz", () => {
         }
 
         const colonia = {
+            colonos: new Set([colono]),
             casas: new Map([
                 ["Casa 1", casa]
             ]),
@@ -96,7 +96,6 @@ describe("Interfaz", () => {
         }
 
         const mundo = {
-            colonos: [colono],
             colonias: [colonia]
         }
 
@@ -138,6 +137,7 @@ describe("Interfaz", () => {
         }
 
         const colonia = {
+            colonos: new Set(),
             casas: new Map([
                 ["Casa 1", casa]
             ]),
@@ -149,7 +149,6 @@ describe("Interfaz", () => {
         }
 
         const mundo = {
-            colonos: [],
             colonias: [colonia]
         }
 
@@ -190,6 +189,7 @@ describe("Interfaz", () => {
         }
 
         const colonia = {
+            colonos: new Set(),
             casas: new Map([
                 ["Casa 1", casa]
             ]),
@@ -201,7 +201,6 @@ describe("Interfaz", () => {
         }
 
         const mundo = {
-            colonos: [],
             colonias: [colonia]
         }
 
@@ -234,12 +233,12 @@ describe("Interfaz", () => {
         }
 
         const colonia = {
+            colonos: new Set(),
             casas: new Map(),
             ayuntamiento: ayuntamiento
         }
 
         const mundo = {
-            colonos: [],
             colonias: [colonia]
         }
 
@@ -276,12 +275,12 @@ describe("Interfaz", () => {
         }
 
         const colonia = {
+            colonos: new Set(),
             casas: new Map(),
             ayuntamiento: ayuntamiento
         }
 
         const mundo = {
-            colonos: [],
             colonias: [colonia]
         }
         const botonConstruirCasa = {
@@ -328,12 +327,12 @@ describe("Interfaz", () => {
         }
 
         const colonia = {
+            colonos: new Set(),
             casas: new Map(),
             ayuntamiento: ayuntamiento
         }
 
         const mundo = {
-            colonos: [],
             colonias: [colonia]
         }
 
@@ -378,7 +377,6 @@ describe("Interfaz", () => {
 
         const mundo = {
             arboles: [],
-            colonos: [],
             colonias: []
         }
 
@@ -418,7 +416,6 @@ describe("Interfaz", () => {
         }
 
         const mundo = {
-            colonos: [],
             colonias: []
         }
 
@@ -457,7 +454,6 @@ describe("Interfaz", () => {
         }
 
         const mundo = {
-            colonos: [],
             colonias: []
         }
 
@@ -494,7 +490,6 @@ describe("Interfaz", () => {
         }
 
         const mundo = {
-            colonos: [],
             colonias: []
         }
 
@@ -550,6 +545,7 @@ describe("Interfaz", () => {
         }
 
         const colonia = {
+            colonos: new Set(),
             casas: new Map(),
             ayuntamiento: {
                 posicion: { x: 500, y: 500 },
@@ -567,7 +563,6 @@ describe("Interfaz", () => {
         colonia.ayuntamiento.colonia = colonia
 
         const mundo = {
-            colonos: [],
             colonias: [colonia]
         }
 
@@ -640,6 +635,7 @@ describe("Interfaz", () => {
         }
 
         const colonia = {
+            colonos: new Set(),
             casas: new Map(),
             ayuntamiento: {
                 posicion: { x: 500, y: 500 },
@@ -657,7 +653,6 @@ describe("Interfaz", () => {
         colonia.ayuntamiento.colonia = colonia
 
         const mundo = {
-            colonos: [],
             colonias: [colonia]
         }
         
