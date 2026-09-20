@@ -48,6 +48,11 @@ export class Inventario {
         return cantidadAgregable
     }
 
+    consultarTiene(tipo,cantidad) {
+        const cantidadActual = this.recursos.get(tipo) ?? 0
+        return cantidadActual >= cantidad
+    }
+
     agregar(recurso, cantidadSolicitada = recurso.cantidad) {
         const cantidadInicial = this.recursos.get(recurso.tipo) ?? 0
         const cantidadAgregable =

@@ -4,7 +4,18 @@ import { Arbol } from "@src/mundo/Arbol.js";
 import { Recurso } from "../../src/mundo/Recurso.js";
 import { Colono } from "../../src/sociedad/Colono.js";
 import { Colonia } from "../../src/sociedad/Colonia.js";
+import { MaquinaProcesadora } from "../../src/maquinas/MaquinaProcesadora.js";
+import { Receta } from "../../src/maquinas/Receta.js";
 
+class MaquinaDePrueba extends MaquinaProcesadora {
+    constructor() {
+        const receta = new Receta(
+            new Map([["Madera", 10]]),
+            new Map([["Tablas", 5]])
+        )
+        super(receta)
+    }
+}
 
 describe("Mundo", () => {
   it("Un mundo tiene un ancho y un alto", () => {
@@ -214,5 +225,22 @@ describe("Mundo", () => {
 
     expect(colono1.objetivo).toBe(arbol1)
     expect(colono2.objetivo).toBe(arbol2)
+  })
+
+  //Tests de actualizar
+  it("Actualiza una máquina encendida de una colonia convirtiendo el tiempo a segundos", () => {
+      const mundo = new Mundo(100, 100)
+      const colonia = new Colonia(mundo)
+      mundo.agregarColonia(colonia)
+
+      const maquina = new MaquinaDePrueba()
+      colonia.maquinas.add(maquina)
+
+      maquina.recibir("Madera", 10)
+      maquina.encender()
+
+      mundo.actualizar(2000)
+
+      expect(maquina.tiempoProcesando).toBe(2)
   })
 })

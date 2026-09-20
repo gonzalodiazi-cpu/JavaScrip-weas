@@ -57,4 +57,12 @@ describe("Colonia", () => {
 
     expect(colonia.leñador).toBeInstanceOf(Leñador);
   });
+
+  //Tests de máquinas
+
+  it("Una colonia comienza con una colección de máquinas", () => {
+    const colonia = crearColonia()
+
+    expect(colonia.maquinas).toBeInstanceOf(Set)
+  })
 });

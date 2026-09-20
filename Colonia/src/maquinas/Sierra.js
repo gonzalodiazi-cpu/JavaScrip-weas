@@ -1,0 +1,12 @@
+import { MaquinaProcesadora } from "./MaquinaProcesadora"
+import { Receta } from "./Receta.js"
+
+
+export class Sierra extends MaquinaProcesadora {
+    constructor(posicion, colonia=null) {
+        const receta = new Receta( new Map([["Madera",10]]), new Map([["Tablas", 5]]))
+        super(receta, colonia)
+        this.tiempoParaProcesar=5
+        this.posicion=posicion
+    }
+}

@@ -175,4 +175,20 @@ describe("Inventario", () => {
 
         expect(inventario.recursos.size).toBe(0)
     })
+    it("Un inventario permite consultar si tiene una cantidad de un tipo de recurso", () => {
+        const inventario = crearInventario()
+
+        const madera = new Recurso("Madera", 8, {x:0,y:0})
+        inventario.agregar(madera)
+
+        expect(inventario.consultarTiene("Madera", 5)).toBe(true)
+    })
+    it("Un inventario devuelve falso si no tiene suficiente cantidad de un recurso", () => {
+        const inventario = crearInventario()
+
+        const madera = new Recurso("Madera", 8, {x:0,y:0})
+        inventario.agregar(madera)
+
+        expect(inventario.consultarTiene("Madera", 9)).toBe(false)
+    })
 })

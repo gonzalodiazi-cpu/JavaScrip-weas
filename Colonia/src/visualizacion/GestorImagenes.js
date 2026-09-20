@@ -14,6 +14,7 @@ export class GestorImagenes {
         this.cargar("Ayuntamiento", "./assets/Ayuntamiento.png")
         this.cargar("Colono_con_Hacha", "./assets/Colono_con_Hacha.png")
         this.cargar("Leñador_con_Hacha", "./assets/Leñador_con_Hacha.png")
+        this.cargar("Sierra_Apagada", "./assets/Sierra_Apagada.png")
     }
 
     cargar(nombre, ruta) {

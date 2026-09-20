@@ -13,6 +13,7 @@ export class Colonia {
         this.madera = 0
         this.costoCrearCasa = 100
         this.casas= new Map()
+        this.maquinas = new Set()
         this.ayuntamiento= new Ayuntamiento(this.mundo, this)
         this.estadisticasBaseColono= new EstadisticasBaseColono()
         this.leñador = new Leñador()

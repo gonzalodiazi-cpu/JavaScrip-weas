@@ -49,6 +49,11 @@ export class Mundo {
         }
         for (const arbol of this.arboles)
             arbol.actualizar(deltaTimeEnSegundos)
+        for (const colonia of this.colonias) {
+            for (const maquina of colonia.maquinas) {
+                maquina.actualizar(deltaTimeEnSegundos)
+            }
+        }
         this.procesarArbolesTalados()
         this.procesarRecursosAgotados()
     }
