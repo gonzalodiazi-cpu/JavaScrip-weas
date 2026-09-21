@@ -4,6 +4,7 @@ import { Renderizador } from "./visualizacion/Renderizador.js"
 import { Colonia } from "./sociedad/Colonia.js"
 import { GestorImagenes } from "./visualizacion/GestorImagenes.js"
 import { Interfaz } from "./interfaz/Interfaz.js"
+import { Sierra } from "./maquinas/Sierra.js"
 
 export function iniciarJuego(canvas, requestAnimationFrame) {
     const mundo = new Mundo(canvas.width,canvas.height)
@@ -16,6 +17,9 @@ export function iniciarJuego(canvas, requestAnimationFrame) {
 
 
     const colonia = new Colonia(mundo)
+
+    const sierra = new Sierra({x:500, y:600}, colonia)
+    colonia.agregarMaquina(sierra)
 
     colonia.crearCasa("Casa 1", {x:200,y:300})
     colonia.crearCasa("Casa 2", {x:200,y:500})

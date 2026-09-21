@@ -41,6 +41,10 @@ export class Colonia {
         this.colonos.add(colono)
     }
 
+    agregarMaquina(maquina) {
+        this.maquinas.add(maquina)
+    }
+
     gastarComida(cantidad) {
         this.comida -= cantidad
     }
@@ -64,6 +68,10 @@ export class Colonia {
         }
 
         accion(this.ayuntamiento)
+
+        for (const maquina of this.maquinas) {
+            accion(maquina)
+        }
 
         for (const colono of this.colonos) {
             accion(colono)
