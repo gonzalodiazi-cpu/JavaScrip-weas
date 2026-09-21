@@ -15,4 +15,12 @@ export class Recurso {
     get imagen() {
         return this.tipo
     }
+
+    asignarResponsable(colono) {
+        this.responsable = colono
+    }
+
+    liberarResponsable() {
+        this.responsable = null
+    }
 }

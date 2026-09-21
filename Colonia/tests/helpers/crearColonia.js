@@ -1,8 +1,8 @@
-import { Mundo } from "../../src/mundo/Mundo"
 import { Colonia} from "../../src/sociedad/Colonia"
+import { crearMundo } from "./crearMundo.js"
 
 
 export function crearColonia() {
-    const mundo = new Mundo(1200, 800)
+    const mundo = crearMundo()
     return new Colonia(mundo)
 }

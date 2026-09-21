@@ -141,5 +141,24 @@ describe("Arbol", () => {
 
     expect(arbol.imagen).toBe("Arbol_etapa_2")
   })
+  //Tests de responsable
+  it("Un árbol puede asignar un responsable", () => {
+    const arbol = new Arbol({ x: 0, y: 0 })
+    const colono = {}
+
+    arbol.asignarResponsable(colono)
+
+    expect(arbol.responsable).toBe(colono)
+  })
+
+  it("Un árbol puede liberar a su responsable", () => {
+    const arbol = new Arbol({ x: 0, y: 0 })
+    const colono = {}
+
+    arbol.asignarResponsable(colono)
+    arbol.liberarResponsable()
+
+    expect(arbol.responsable).toBeNull()
+  })
 
 });

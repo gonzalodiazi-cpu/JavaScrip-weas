@@ -5,6 +5,8 @@ import { Colonia } from "./sociedad/Colonia.js"
 import { GestorImagenes } from "./visualizacion/GestorImagenes.js"
 import { Interfaz } from "./interfaz/Interfaz.js"
 import { Sierra } from "./maquinas/Sierra.js"
+import { ActividadTalarArboles } from "./sociedad/actividades/ActividadTalarArboles.js"
+import { ActividadRecogerRecursos } from "./sociedad/actividades/ActividadRecogerRecursos.js"
 
 export function iniciarJuego(canvas, requestAnimationFrame) {
     const mundo = new Mundo(canvas.width,canvas.height)
@@ -72,10 +74,10 @@ export function iniciarJuego(canvas, requestAnimationFrame) {
         const botonDebug = document.getElementById("boton-debug")
 
         botonDebug.addEventListener("click", () => {
-            colono2.actividad = colono2.talarArboles
-            colono.actividad = () => colono.recogerRecursos("Madera")
-            colono3.actividad = colono3.talarArboles
-            colono4.actividad = () => colono4.recogerRecursos("Madera")
+            colono2.actividad = new ActividadTalarArboles(colono2)
+            colono.actividad = new ActividadRecogerRecursos(colono)
+            colono3.actividad = new ActividadTalarArboles(colono3)
+            colono4.actividad = new ActividadRecogerRecursos(colono4)
         })
     }
 

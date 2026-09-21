@@ -6,7 +6,7 @@ import { Colono } from "../../src/sociedad/Colono.js";
 import { Colonia } from "../../src/sociedad/Colonia.js";
 import { MaquinaProcesadora } from "../../src/maquinas/MaquinaProcesadora.js";
 import { Receta } from "../../src/maquinas/Receta.js";
-
+import { ActividadTalarArboles } from "@src/sociedad/actividades/ActividadTalarArboles.js"
 class MaquinaDePrueba extends MaquinaProcesadora {
     constructor() {
         const receta = new Receta(
@@ -101,8 +101,10 @@ describe("Mundo", () => {
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
     let ejecutada = false
-    colono.actividad = () => {
-        ejecutada = true
+    colono.actividad = {
+        actualizar() {
+            ejecutada = true
+        }
     }
 
     colonia.agregarColono(colono)
@@ -144,7 +146,7 @@ describe("Mundo", () => {
     const colonia = new Colonia(mundo)
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
-    colono.actividad = colono.talarArboles
+    colono.actividad = new ActividadTalarArboles(colono)
     colonia.agregarColono(colono)
 
     mundo.actualizar()
@@ -170,7 +172,7 @@ describe("Mundo", () => {
     const colonia = new Colonia(mundo)
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
-    colono.actividad = colono.talarArboles
+    colono.actividad = new ActividadTalarArboles(colono)
     colonia.agregarColono(colono)
 
     mundo.actualizar()
@@ -187,7 +189,7 @@ describe("Mundo", () => {
     const colonia = new Colonia(mundo)
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
-    colono.actividad = colono.talarArboles
+    colono.actividad = new ActividadTalarArboles(colono)
     colonia.agregarColono(colono)
 
     mundo.actualizar()
@@ -206,8 +208,8 @@ describe("Mundo", () => {
     const colono1 = new Colono("Juan", colonia, { x: 0, y: 0 })
     const colono2 = new Colono("Pedro", colonia, { x: 0, y: 0 })
 
-    colono1.actividad = colono1.talarArboles
-    colono2.actividad = colono2.talarArboles
+    colono1.actividad = new ActividadTalarArboles(colono1)
+    colono2.actividad = new ActividadTalarArboles(colono2)
 
     colonia.agregarColono(colono1)
     colonia.agregarColono(colono2)

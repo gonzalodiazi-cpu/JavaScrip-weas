@@ -42,6 +42,13 @@ export class Arbol {
             this.durabilidad -=daño
         }
     }
+    asignarResponsable(colono) {
+        this.responsable = colono
+    }
+
+    liberarResponsable() {
+        this.responsable = null
+    }
     actualizar(deltaTime) {
         if (this.etapaCrecimiento==3) {
             return

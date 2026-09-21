@@ -38,4 +38,23 @@ describe("Recurso", () => {
     expect(recurso.descartable).toBe(true)
     expect(recurso2.descartable).toBe(true)
   })
+  //Tests de responsable
+  it("Un recurso puede asignar un responsable", () => {
+    const recurso = new Recurso("Madera", 10, { x: 0, y: 0 })
+    const colono = {}
+
+    recurso.asignarResponsable(colono)
+
+    expect(recurso.responsable).toBe(colono)
+  })
+
+it("Un recurso puede liberar a su responsable", () => {
+    const recurso = new Recurso("Madera", 10, { x: 0, y: 0 })
+    const colono = {}
+
+    recurso.asignarResponsable(colono)
+    recurso.liberarResponsable()
+
+    expect(recurso.responsable).toBeNull()
+  })
 })

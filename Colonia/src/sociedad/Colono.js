@@ -2,6 +2,7 @@ import { Desempleado } from "./trabajos/Desempleado.js"
 import { EstadisticasColono } from "./EstadisticasColono.js"
 import { Inventario } from "../inventario/Inventario.js"
 
+
 export class Colono {
   constructor(nombre, colonia, posicion) {
     this.nombre = nombre
@@ -31,9 +32,10 @@ export class Colono {
     })
   }
   get imagen() {
-    if (this.actividad===this.talarArboles) {
-      return this.trabajo.imagen + "_con_Hacha"
+    if (this.actividad !== null) {
+        return this.actividad.imagen
     }
+
     return this.trabajo.imagen
   }
 
@@ -99,120 +101,49 @@ export class Colono {
     }
   }
 
+  asignarObjetivo(objeto) {
+    this.objetivo = objeto
+    this.establecerDestino(objeto.posicion)
+    objeto.asignarResponsable(this)
+  }
+
+  liberarObjetivo() {
+    this.objetivo.liberarResponsable()
+    this.objetivo = null
+    this.destino = null
+  }
+
+  estaEnPosicion(posicion) {
+      return (
+          this.posicion.x === posicion.x &&
+          this.posicion.y === posicion.y
+      )
+  }
+
+  estaEnPosObj(objeto) {
+    return this.estaEnPosicion(objeto.posicion)
+  }
+
   talar(arbol) {
-    if (arbol.posicion.x===this.posicion.x && arbol.posicion.y===this.posicion.y) {
+    if (this.estaEnPosObj(arbol)) {
       arbol.talar(this.dañoTala)
     }
   }
 
   recoger(recurso) {
-    if (recurso.posicion.x===this.posicion.x && recurso.posicion.y===this.posicion.y) {
+    if (this.estaEnPosObj(recurso)) {
       this.inventario.agregar(recurso)
     }
   }
-  talarArboles() {
-    if (this.objetivo === null) {
-        const arbolesDisponibles = this.colonia.mundo.arboles.filter(
-            arbol => arbol.responsable === null && !arbol.descartable
-        )
 
-        this.buscarOptimo(arbolesDisponibles)
-
-        if (this.objetivo !== null) {
-            this.objetivo.responsable = this
-        }
-
-        return
-    }
-
-    this.talar(this.objetivo)
-
-    if (this.objetivo.descartable) {
-        this.objetivo.responsable = null
-        this.objetivo = null
-        this.destino = null
+  encenderMaquina(maquina) {
+    if (this.estaEnPosObj(maquina)) {
+      maquina.encender()
     }
   }
-  recogerRecursos(tipoRecurso = null) {
-    if (this.posicion.x === this.colonia.ayuntamiento.posicion.x &&
-      this.posicion.y === this.colonia.ayuntamiento.posicion.y) {
-
-      this.colonia.ayuntamiento.recibirInventario(this.inventario)
-
-      const maderaDisponible = this.colonia.mundo.recursos.some(
-          recurso => recurso.tipo === tipoRecurso && !recurso.descartable
-      )
-
-      const tieneMadera = this.inventario.recursos.has(tipoRecurso)
-
-      if (!maderaDisponible && !tieneMadera) {
-          this.actividad = null
-      }
-    }
-    if (this.objetivo === null) {
-        const recursosDisponibles = this.colonia.mundo.recursos.filter(
-            recurso =>
-                (tipoRecurso === null || recurso.tipo === tipoRecurso) &&
-                recurso.responsable === null &&
-                !recurso.descartable
-        )
-
-        if (recursosDisponibles.length === 0) {
-          if (this.inventario.recursos.has(tipoRecurso)) {
-              this.destino = this.colonia.ayuntamiento.posicion
-              return
-          }
-
-          this.actividad = null
-          return
-        }
-
-        this.buscarOptimo(recursosDisponibles)
-
-        if (this.objetivo !== null) {
-            const cantidadAgregable =
-                this.inventario.consultarCantidadAgregable(
-                    this.objetivo,
-                    this.objetivo.cantidad
-                )
-
-            if (cantidadAgregable === 0) {
-                this.objetivo = null
-                this.destino = this.colonia.ayuntamiento.posicion
-                return
-            }
-
-            this.objetivo.responsable = this
-        }
-
-        return
-    }
-
-    this.recoger(this.objetivo)
-
-    if (this.objetivo.descartable) {
-        this.objetivo.responsable = null
-        this.objetivo = null
-        this.destino = null
-        return
-    }
-
-    const cantidadAgregable =
-      this.inventario.consultarCantidadAgregable(
-          this.objetivo,
-          this.objetivo.cantidad
-      )
-
-    if (cantidadAgregable === 0) {
-      this.objetivo.responsable = null
-      this.objetivo = null
-      this.destino = this.colonia.ayuntamiento.posicion
-    }
-}
-  
   actualizar() {
     if (this.actividad !== null) {
-      this.actividad()
+      this.actividad.actualizar()
     }
     this.actualizarMovimiento()
   }
