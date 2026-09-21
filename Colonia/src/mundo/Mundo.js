@@ -19,10 +19,10 @@ export class Mundo {
         this.colonias.push(colonia)
     }
 
-    procesarArbolesTalados() {
-        const arbolesTalados = this.arboles.filter(arbol => arbol.talado)
+    procesarArbolesDescartables() {
+        const arbolesDescartables = this.arboles.filter(arbol => arbol.descartable)
 
-        for (const arbol of arbolesTalados) {
+        for (const arbol of arbolesDescartables) {
             const recurso = new Recurso(
                 "Madera",
                 arbol.madera,
@@ -31,11 +31,11 @@ export class Mundo {
             this.agregarRecurso(recurso)
         }
 
-        this.arboles = this.arboles.filter(arbol => !arbol.talado)
+        this.arboles = this.arboles.filter(arbol => !arbol.descartable)
     }
-    procesarRecursosAgotados() {
+    procesarRecursosDescartables() {
 
-        this.recursos = this.recursos.filter(recurso => !recurso.agotado)
+        this.recursos = this.recursos.filter(recurso => !recurso.descartable)
     }
     actualizar(deltaTime) {
         const deltaTimeEnSegundos=deltaTime/1000
@@ -44,8 +44,8 @@ export class Mundo {
         for (const colonia of this.colonias) {
             colonia.actualizar(deltaTimeEnSegundos)
         }
-        this.procesarArbolesTalados()
-        this.procesarRecursosAgotados()
+        this.procesarArbolesDescartables()
+        this.procesarRecursosDescartables()
     }
     
 }

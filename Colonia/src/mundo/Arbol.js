@@ -1,16 +1,16 @@
-import { Recurso } from "./Recurso.js"
+
 export class Arbol {
     constructor(posicion) {
         this.etapaCrecimiento = 1
         this.madera = 2
         this.durabilidad = 10
-        this.talado = false
+        this.descartable = false
         this.posicion=posicion
         this.ancho = 200
         this.alto = 200
         this.tiempoRequeridoParaCrecer = 5
         this.tiempoAcumuladoParaCrecer = 0
-        this.talador = null
+        this.responsable = null
     }
     get imagen() {
         return `Arbol_etapa_${this.etapaCrecimiento}`
@@ -36,7 +36,7 @@ export class Arbol {
     talar(daño) {
         if (daño>=this.durabilidad) {
             this.durabilidad = 0
-            this.talado = true
+            this.descartable = true
         }
         else {
             this.durabilidad -=daño

@@ -229,7 +229,7 @@ describe("Colono", () => {
 
     colono.talarArboles()
 
-    expect(mundo.arboles[0].talador).toBe(colono)
+    expect(mundo.arboles[0].responsable).toBe(colono)
   })
   it("Un colono no elige un árbol que ya está siendo talado por otro colono", () => {
     const mundo = {
@@ -317,9 +317,9 @@ describe("Colono", () => {
     colono.talarArboles()
     colono.talarArboles()
 
-    expect(arbol.talado).toBe(true)
+    expect(arbol.descartable).toBe(true)
     expect(colono.objetivo).toBeNull()
-    expect(arbol.talador).toBeNull()
+    expect(arbol.responsable).toBeNull()
   })
   it("Un colono ejecuta su actividad al actualizarse", () => {
     const colonia = crearColonia()
@@ -406,7 +406,7 @@ describe("Colono", () => {
 
     colono.recogerRecursos()
 
-    expect(recurso.recogedor).toBe(colono)
+    expect(recurso.responsable).toBe(colono)
   })
   it("Un colono no elige un recurso que ya está siendo recogido por otro colono", () => {
     const recurso1 = new Recurso("Madera", 8, { x: 5, y: 0 })
@@ -443,7 +443,7 @@ describe("Colono", () => {
     colono.recogerRecursos()
     colono.recogerRecursos()
 
-    expect(recurso.recogedor).toBeNull()
+    expect(recurso.responsable).toBeNull()
     expect(colono.objetivo).toBeNull()
   })
   it("Un colono va al ayuntamiento cuando no puede recoger más madera", () => {

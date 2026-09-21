@@ -8,8 +8,8 @@ export class Sierra extends MaquinaProcesadora {
         super(receta, colonia)
         this.tiempoParaProcesar=5
         this.posicion=posicion
-        this.ancho = 200
-        this.alto = 200
+        this.ancho = 150
+        this.alto = 150
     }
     get imagen() {
         return "Sierra_" + this.estado

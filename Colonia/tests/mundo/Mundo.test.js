@@ -61,7 +61,7 @@ describe("Mundo", () => {
     expect(mundo.recursos[0]).toBe(recurso)
   })
 
-  it("Un mundo elimina un árbol talado y deja su madera como recurso", () => {
+  it("Un mundo elimina un árbol descartable y deja su madera como recurso", () => {
     const mundo = new Mundo()
     const posicion = { x: 10, y: 5 }
 
@@ -70,7 +70,7 @@ describe("Mundo", () => {
 
     arbol.talar(arbol.durabilidad)
 
-    mundo.procesarArbolesTalados()
+    mundo.procesarArbolesDescartables()
 
     expect(mundo.arboles.length).toBe(0)
     expect(mundo.recursos.length).toBe(1)
@@ -124,7 +124,7 @@ describe("Mundo", () => {
 
     expect(arbol.actualizar).toHaveBeenCalledWith(0.1)
   })
-  it("Un mundo procesa los árboles talados al actualizarse", () => {
+  it("Un mundo procesa los árboles descartables al actualizarse", () => {
     const mundo = new Mundo()
     mundo.crearArbol({ x: 10, y: 5 })
 

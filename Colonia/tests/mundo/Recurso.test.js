@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { Recurso } from "@src/mundo/Recurso.js";
 
 describe("Recurso", () => {
-  it("Un recurso tiene un tipo, una cantidad, un estado agotado false y una posición al ser creado", () => {
+  it("Un recurso tiene un tipo, una cantidad, un estado descartable false y una posición al ser creado", () => {
     // preparar
     const posicion = { x: 10, y: 5 }
 
@@ -13,7 +13,7 @@ describe("Recurso", () => {
     expect(recurso.tipo).toBe("Madera")
     expect(recurso.cantidad).toBe(10)
     expect(recurso.posicion).toEqual(posicion)
-    expect(recurso.agotado).toBe(false)
+    expect(recurso.descartable).toBe(false)
   })
 
   it("Un recurso tiene una imagen según su tipo", () => {
@@ -28,14 +28,14 @@ describe("Recurso", () => {
     expect(recurso.tipo).toBe("Madera")
   })
 
-  it("Un recurso con cantidad 0 o negativa queda agotado", () => {
+  it("Un recurso con cantidad 0 o negativa queda descartable", () => {
     const recurso = new Recurso("Madera", 5, {x:0,y:0})
     const recurso2= new Recurso("Madera", 3, {x:0,y:1})
 
     recurso.cantidad=0
     recurso2.cantidad=-3
 
-    expect(recurso.agotado).toBe(true)
-    expect(recurso2.agotado).toBe(true)
+    expect(recurso.descartable).toBe(true)
+    expect(recurso2.descartable).toBe(true)
   })
 })

@@ -113,13 +113,13 @@ export class Colono {
   talarArboles() {
     if (this.objetivo === null) {
         const arbolesDisponibles = this.colonia.mundo.arboles.filter(
-            arbol => arbol.talador === null && !arbol.talado
+            arbol => arbol.responsable === null && !arbol.descartable
         )
 
         this.buscarOptimo(arbolesDisponibles)
 
         if (this.objetivo !== null) {
-            this.objetivo.talador = this
+            this.objetivo.responsable = this
         }
 
         return
@@ -127,8 +127,8 @@ export class Colono {
 
     this.talar(this.objetivo)
 
-    if (this.objetivo.talado) {
-        this.objetivo.talador = null
+    if (this.objetivo.descartable) {
+        this.objetivo.responsable = null
         this.objetivo = null
         this.destino = null
     }
@@ -140,7 +140,7 @@ export class Colono {
       this.colonia.ayuntamiento.recibirInventario(this.inventario)
 
       const maderaDisponible = this.colonia.mundo.recursos.some(
-          recurso => recurso.tipo === tipoRecurso && !recurso.agotado
+          recurso => recurso.tipo === tipoRecurso && !recurso.descartable
       )
 
       const tieneMadera = this.inventario.recursos.has(tipoRecurso)
@@ -153,8 +153,8 @@ export class Colono {
         const recursosDisponibles = this.colonia.mundo.recursos.filter(
             recurso =>
                 (tipoRecurso === null || recurso.tipo === tipoRecurso) &&
-                recurso.recogedor === null &&
-                !recurso.agotado
+                recurso.responsable === null &&
+                !recurso.descartable
         )
 
         if (recursosDisponibles.length === 0) {
@@ -182,7 +182,7 @@ export class Colono {
                 return
             }
 
-            this.objetivo.recogedor = this
+            this.objetivo.responsable = this
         }
 
         return
@@ -190,8 +190,8 @@ export class Colono {
 
     this.recoger(this.objetivo)
 
-    if (this.objetivo.agotado) {
-        this.objetivo.recogedor = null
+    if (this.objetivo.descartable) {
+        this.objetivo.responsable = null
         this.objetivo = null
         this.destino = null
         return
@@ -204,7 +204,7 @@ export class Colono {
       )
 
     if (cantidadAgregable === 0) {
-      this.objetivo.recogedor = null
+      this.objetivo.responsable = null
       this.objetivo = null
       this.destino = this.colonia.ayuntamiento.posicion
     }

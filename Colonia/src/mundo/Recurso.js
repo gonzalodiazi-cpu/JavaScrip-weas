@@ -5,10 +5,10 @@ export class Recurso {
         this.posicion=posicion
         this.ancho=50
         this.alto=50
-        this.recogedor=null
+        this.responsable=null
     }
 
-    get agotado() {
+    get descartable() {
         return this.cantidad<=0
     }
 

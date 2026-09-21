@@ -74,7 +74,7 @@ describe("Arbol", () => {
   // comprobar
     expect(arbol.durabilidad).toBe(0)
   })
-  it("Un árbol está talado cuando su durabilidad llega a 0", () => {
+  it("Un árbol es descartable cuando su durabilidad llega a 0", () => {
   // preparar
     const arbol = new Arbol({x:5,y:10})
 
@@ -82,7 +82,7 @@ describe("Arbol", () => {
     arbol.talar(arbol.durabilidad)
 
   // comprobar
-    expect(arbol.talado).toBe(true)
+    expect(arbol.descartable).toBe(true)
   })
   it("Un árbol tiene una posición al ser creado", () => {
   // preparar
