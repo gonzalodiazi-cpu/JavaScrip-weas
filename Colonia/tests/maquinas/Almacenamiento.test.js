@@ -193,6 +193,56 @@ describe("Almacenamiento", () => {
 
         expect(almacenamiento.tiene("Madera", 10)).toBe(false)
     })
+    //Tests de refactor inventario
+
+    it("Un almacenamiento puede permitir crear nuevos tipos", () => {
+        const almacenamiento = new Almacenamiento(new Map(), 1, true)
+
+        almacenamiento.establecerCapacidad("Madera", 50)
+
+        expect(almacenamiento.capacidades.get("Madera")).toBe(50)
+    })
+
+    it("Un almacenamiento normal no puede crear un tipo nuevo", () => {
+        const almacenamiento = new Almacenamiento(
+            new Map([["Madera", 20]])
+        )
+
+        almacenamiento.establecerCapacidad("Piedra", 50)
+
+        expect(almacenamiento.capacidades.has("Piedra")).toBe(false)
+    })
+
+    it("Permite consultar la cantidad almacenada de un tipo", () => {
+        const almacenamiento = new Almacenamiento(
+            new Map([
+                ["Madera", 20]
+            ])
+        )
+
+        almacenamiento.guardar("Madera", 15)
+
+        expect(
+            almacenamiento.consultarCantidad("Madera")
+        ).toBe(15)
+    })
+
+    it("Permite consultar los tipos de recursos almacenados", () => {
+        const almacenamiento = new Almacenamiento(
+            new Map([
+                ["Madera", 20],
+                ["Piedra", 10]
+            ])
+        )
+
+        almacenamiento.guardar("Madera", 5)
+        almacenamiento.guardar("Piedra", 3)
+
+        expect(almacenamiento.consultarTipos()).toEqual([
+            "Madera",
+            "Piedra"
+        ])
+    })
 
     
 })

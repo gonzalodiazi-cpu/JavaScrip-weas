@@ -271,6 +271,6 @@ describe("Colono", () => {
 
     colono.recoger(recurso)
 
-    expect(colono.inventario.recursos.get("Madera")).toBe(8)
+    expect(colono.inventario.consultarCantidad("Madera")).toBe(8)
   })
 });

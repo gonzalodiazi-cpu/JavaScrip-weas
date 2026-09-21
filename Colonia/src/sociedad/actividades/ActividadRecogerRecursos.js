@@ -23,7 +23,7 @@ export class ActividadRecogerRecursos extends Actividad {
                     !recurso.descartable
             )
 
-            const tieneRecurso = this.colono.inventario.recursos.has(
+            const tieneRecurso = this.colono.inventario.tiene(
                 this.tipoRecurso
             )
 
@@ -42,7 +42,7 @@ export class ActividadRecogerRecursos extends Actividad {
             )
 
             if (recursosDisponibles.length === 0) {
-                if (this.colono.inventario.recursos.has(this.tipoRecurso)) {
+                if (this.colono.inventario.tiene(this.tipoRecurso)) {
                     this.colono.destino =
                         this.ayuntamiento.posicion
                     return

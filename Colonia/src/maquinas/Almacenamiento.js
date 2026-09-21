@@ -1,7 +1,8 @@
 export class Almacenamiento {
-    constructor(capacidadesBase, factor = 1) {
+    constructor(capacidadesBase, factor = 1, permiteNuevosTipos=false) {
         this.capacidades = this._crearCapacidades(capacidadesBase, factor)
         this.recursos = new Map()
+        this.permiteNuevosTipos=permiteNuevosTipos
     }
 
 
@@ -17,7 +18,14 @@ export class Almacenamiento {
     }
 
     //Métodos de clase
-    tiene(tipo, cantidad) {
+    establecerCapacidad(tipo, cantidad) {
+        if (!this.permiteNuevosTipos && !this.capacidades.has(tipo)) {
+            return
+        }
+        this.capacidades.set(tipo, cantidad)
+    }
+
+    tiene(tipo, cantidad=1) {
         return (this.recursos.get(tipo) ?? 0) >= cantidad
     }
 
@@ -32,6 +40,14 @@ export class Almacenamiento {
             cantidadSolicitada,
             capacidadDisponible
         )
+    }
+
+    consultarCantidad(tipo) {
+        return this.recursos.get(tipo) ?? 0
+    }
+
+    consultarTipos() {
+        return [...this.recursos.keys()]
     }
 
     consultarCantidadSacable(tipo, cantidadSolicitada) {
@@ -70,4 +86,5 @@ export class Almacenamiento {
         }
         this.recursos.set(tipo, cantidadActual-cantidadSacable)
     }
+    
 }

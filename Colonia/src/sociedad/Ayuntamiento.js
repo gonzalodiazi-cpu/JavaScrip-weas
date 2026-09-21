@@ -16,8 +16,8 @@ export class Ayuntamiento {
         this.colonia.madera+=cantidad
     }
     recibirInventario(inventario) {
-        const madera = inventario.recursos.get("Madera") ?? 0
+        const madera = inventario.consultarCantidad("Madera")
         this.recibirMadera(madera)
-        inventario.sacarTipo("Madera")
+        inventario.eliminarTipo("Madera")
     }
 }

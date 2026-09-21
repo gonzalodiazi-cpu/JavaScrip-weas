@@ -1,7 +1,9 @@
+import { Almacenamiento } from "../maquinas/Almacenamiento.js"
+
 export class Inventario {
     constructor(estadisticas) {
         this.estadisticas = estadisticas
-        this.recursos = new Map()
+        this.almacenamiento = new Almacenamiento(new Map(),1,true)
     }
 
     get cantidadSlotsInventario() {
@@ -15,10 +17,13 @@ export class Inventario {
         let cantidadAgregable = Math.min(cantidadSolicitada, recurso.cantidad)
 
         const cantidadActualRecursoSolicitado =
-            this.recursos.get(recurso.tipo) ?? 0
+            this.almacenamiento.consultarCantidad(recurso.tipo)
 
         let slotsOcupados = 0
-        for (const cantidad of this.recursos.values()) {
+        for (const tipo of this.almacenamiento.consultarTipos()) {
+            const cantidad =
+                this.almacenamiento.consultarCantidad(tipo)
+
             slotsOcupados += Math.ceil(
                 cantidad / this.capacidadSlotsInventario
             )
@@ -48,47 +53,81 @@ export class Inventario {
         return cantidadAgregable
     }
 
-    consultarTiene(tipo,cantidad) {
-        const cantidadActual = this.recursos.get(tipo) ?? 0
-        return cantidadActual >= cantidad
-    }
-
     agregar(recurso, cantidadSolicitada = recurso.cantidad) {
-        const cantidadInicial = this.recursos.get(recurso.tipo) ?? 0
         const cantidadAgregable =
-            this.consultarCantidadAgregable(recurso, cantidadSolicitada)
+            this.consultarCantidadAgregable(
+                recurso,
+                cantidadSolicitada
+            )
 
-        const cantidadNueva = cantidadInicial + cantidadAgregable
-
-        this.recursos.set(recurso.tipo, cantidadNueva)
+        this.guardarTipo(recurso.tipo, cantidadAgregable)
         recurso.cantidad -= cantidadAgregable
     }
-
-    sacar(tipo, cantidadSolicitada) {
-        const cantidadActual = this.recursos.get(tipo)
-
-        if (cantidadActual === undefined) {
-            return
-        }
-
-        if (cantidadSolicitada<=0) {
-                    return
-        }
-
-        if (cantidadSolicitada >= cantidadActual) {
-            this.recursos.delete(tipo)
-            return
-        }
-
-        
-
-        this.recursos.set(tipo, cantidadActual - cantidadSolicitada)
+    tiene(tipo, cantidad) {
+        return this.almacenamiento.tiene(tipo, cantidad)
     }
-    sacarTipo(tipo) {
-        const cantidad = this.recursos.get(tipo)
+
+    consultarCantidad(tipo) {
+        return this.almacenamiento.consultarCantidad(tipo)
+    }
+
+    guardarTipo(tipo, cantidad) {
+        let slotsOcupados = 0
+
+        for (const otroTipo of this.almacenamiento.consultarTipos()) {
+            if (otroTipo !== tipo) {
+                const cantidadActual =
+                    this.almacenamiento.consultarCantidad(otroTipo)
+
+                slotsOcupados += Math.ceil(
+                    cantidadActual / this.capacidadSlotsInventario
+                )
+            }
+        }
+
+        const capacidad =
+            (this.cantidadSlotsInventario - slotsOcupados) *
+            this.capacidadSlotsInventario
+
+        this.almacenamiento.establecerCapacidad(tipo, capacidad)
+        this.almacenamiento.guardar(tipo, cantidad)
+
+        this._actualizarCapacidades()
+    }
+
+    sacar(tipo, cantidad) {
+        this.almacenamiento.sacar(tipo, cantidad)
+        this._actualizarCapacidades()
+    }
+
+    eliminarTipo(tipo) {
+        const cantidad =
+            this.almacenamiento.consultarCantidad(tipo)
+
         this.sacar(tipo, cantidad)
     }
-    vaciar() {
-        this.recursos.clear()
+
+    _actualizarCapacidades() {
+        for (const tipo of this.almacenamiento.consultarTipos()) {
+            let slotsOcupados = 0
+
+            for (const otroTipo of this.almacenamiento.consultarTipos()) {
+                if (otroTipo !== tipo) {
+                    const cantidad =
+                        this.almacenamiento.consultarCantidad(otroTipo)
+
+                    slotsOcupados += Math.ceil(
+                        cantidad / this.capacidadSlotsInventario
+                    )
+                }
+            }
+
+            const capacidad =
+                (this.cantidadSlotsInventario - slotsOcupados) *
+                this.capacidadSlotsInventario
+
+            this.almacenamiento.establecerCapacidad(tipo, capacidad)
+        }
     }
+        
 }

@@ -54,6 +54,6 @@ describe("Ayuntamiento", () => {
 
         colonia.ayuntamiento.recibirInventario(colono.inventario)
 
-        expect(colono.inventario.recursos.has("Madera")).toBe(false)
+        expect(colono.inventario.tiene("Madera")).toBe(false)
     })
 })

@@ -2,15 +2,9 @@ import { describe, it, expect } from "vitest"
 import { Inventario } from "@src/inventario/Inventario.js"
 import { Recurso } from "../../src/mundo/Recurso"
 import { crearInventario } from "../helpers/crearInventario"
+import { Almacenamiento } from "../../src/maquinas/Almacenamiento.js"
 
 describe("Inventario", () => {
-    it("Un inventario comienza vacío y sus recursos se representan como un map", () => {
-        const estadisticas = {}
-        const inventario = new Inventario(estadisticas)
-
-        expect(inventario.recursos).toBeInstanceOf(Map)
-        expect(inventario.recursos.size).toBe(0)
-    })
     it("Un inventario puede agregar un recurso que cabe completamente", () => {
         const inventario = crearInventario()
 
@@ -18,7 +12,7 @@ describe("Inventario", () => {
 
         inventario.agregar(recurso)
 
-        expect(inventario.recursos.get("Madera")).toBe(7)
+        expect(inventario.consultarCantidad("Madera")).toBe(7)
     })
     it("Un inventario acumula recursos del mismo tipo", () => {
         const inventario = crearInventario()
@@ -29,7 +23,7 @@ describe("Inventario", () => {
         inventario.agregar(recurso)
         inventario.agregar(recurso2)
 
-        expect(inventario.recursos.get("Madera")).toBe(15)
+        expect(inventario.consultarCantidad("Madera")).toBe(15)
     })
     it("Un inventario puede agregar una cantidad específica de un recurso", () => {
         const inventario = crearInventario()
@@ -38,7 +32,7 @@ describe("Inventario", () => {
 
         inventario.agregar(recurso, 5)
         
-        expect(inventario.recursos.get("Piedra")).toBe(5)
+        expect(inventario.consultarCantidad("Piedra")).toBe(5)
     })
     it("Al agregar una cantidad de un recurso, se descuenta esa cantidad del recurso", () => {
         const inventario = crearInventario()
@@ -98,97 +92,102 @@ describe("Inventario", () => {
 
         expect(inventario.consultarCantidadAgregable(hierro, 33)).toBe(10)
     })
-    it("Un inventario puede sacar una cantidad específica de un recurso", () => {
+
+
+
+    //Refactor Almacenamiento
+    it("Un inventario tiene un almacenamiento", () => {
         const inventario = crearInventario()
 
-        const madera = new Recurso("Madera", 10, {x:0,y:0})
-        inventario.agregar(madera)
-
-        inventario.sacar("Madera", 4)
-
-        expect(inventario.recursos.get("Madera")).toBe(6)
+        expect(inventario.almacenamiento).toBeInstanceOf(Almacenamiento)
     })
-    it("Si se pide sacar mas de la cantidad almacenada actual de un recurso del inventario, se elimina ese recurso del inventario", () => {
+
+    it("Un inventario puede guardar una cantidad por tipo según sus slots", () => {
         const inventario = crearInventario()
-        const madera = new Recurso("Madera", 8, {x:0,y:0})
 
-        inventario.agregar(madera)
-        inventario.sacar("Madera", 10)
+        inventario.guardarTipo("Madera", 8)
 
-        expect(inventario.recursos.has("Madera")).toBe(false)
+        expect(
+            inventario.almacenamiento.capacidades.get("Madera")
+        ).toBe(50)
+
+        expect(
+            inventario.consultarCantidad("Madera")
+        ).toBe(8)
     })
-    it("Al sacar una cantidad negativa o igual a cero, el inventario no cambia", () => {
+
+    it("Al guardar otro tipo, reduce la capacidad de los tipos existentes según los slots ocupados", () => {
         const inventario = crearInventario()
 
-        const madera = new Recurso("Madera", 8, {x:0,y:0})
-        inventario.agregar(madera)
+        inventario.guardarTipo("Madera", 15)
+        inventario.guardarTipo("Piedra", 15)
 
-        inventario.sacar("Madera", 0)
+        expect(
+            inventario.almacenamiento.capacidades.get("Madera")
+        ).toBe(30)
 
-        expect(inventario.recursos.get("Madera")).toBe(8)
-
-        inventario.sacar("Madera", -2)
-
-        expect(inventario.recursos.get("Madera")).toBe(8)
+        expect(
+            inventario.almacenamiento.capacidades.get("Piedra")
+        ).toBe(30)
     })
-    it("Al sacar de un recurso que no existe en el inventario, el inventario no cambia", () => {
+    it("Al guardar más cantidad del mismo tipo puede ocupar los slots restantes", () => {
         const inventario = crearInventario()
 
+        inventario.guardarTipo("Madera", 15)
+        inventario.guardarTipo("Madera", 20)
+
+        expect(
+            inventario.consultarCantidad("Madera")
+        ).toBe(35)
+    })
+
+    it("Un inventario puede sacar una cantidad de un tipo", () => {
+        const inventario = crearInventario()
+
+        inventario.guardarTipo("Madera", 20)
         inventario.sacar("Madera", 5)
 
-        expect(inventario.recursos.size).toBe(0)
+        expect(
+            inventario.consultarCantidad("Madera")
+        ).toBe(15)
     })
-    it("Al sacar todo un tipo de recurso, se elimina toda la cantidad de ese tipo", () => {
+
+    it("Al sacar recursos, libera capacidad para los otros tipos según los slots", () => {
         const inventario = crearInventario()
 
-        const madera = new Recurso("Madera", 8, {x:0,y:0})
-        inventario.agregar(madera)
+        inventario.guardarTipo("Madera", 15)
+        inventario.guardarTipo("Piedra", 15)
 
-        inventario.sacarTipo("Madera")
+        inventario.sacar("Madera", 15)
 
-        expect(inventario.recursos.has("Madera")).toBe(false)
+        expect(
+            inventario.almacenamiento.capacidades.get("Piedra")
+        ).toBe(50)
     })
-    it("Al sacar todo un tipo de recurso que no existe, el inventario no cambia", () => {
+
+    it("Un inventario puede sacar todo un tipo", () => {
         const inventario = crearInventario()
 
-        inventario.sacarTipo("Madera")
+        inventario.guardarTipo("Madera", 20)
+        inventario.eliminarTipo("Madera")
 
-        expect(inventario.recursos.size).toBe(0)
+        expect(
+            inventario.almacenamiento.tiene("Madera",1)
+        ).toBe(false)
     })
-    it("Al vaciar un inventario, se eliminan todos sus recursos", () => {
+
+    it("Un inventario permite consultar si tiene una cantidad de un tipo", () => {
         const inventario = crearInventario()
 
-        const madera = new Recurso("Madera", 8, {x:0,y:0})
-        const piedra = new Recurso("Piedra", 5, {x:10,y:0})
+        inventario.guardarTipo("Madera", 10)
 
-        inventario.agregar(madera)
-        inventario.agregar(piedra)
-
-        inventario.vaciar()
-
-        expect(inventario.recursos.size).toBe(0)
+        expect(inventario.tiene("Madera", 5)).toBe(true)
     })
-    it("Al vaciar un inventario vacío, el inventario sigue vacío", () => {
+
+    it("Un inventario permite consultar la cantidad de un tipo", () => {
         const inventario = crearInventario()
+        inventario.guardarTipo("Madera", 15)
 
-        inventario.vaciar()
-
-        expect(inventario.recursos.size).toBe(0)
-    })
-    it("Un inventario permite consultar si tiene una cantidad de un tipo de recurso", () => {
-        const inventario = crearInventario()
-
-        const madera = new Recurso("Madera", 8, {x:0,y:0})
-        inventario.agregar(madera)
-
-        expect(inventario.consultarTiene("Madera", 5)).toBe(true)
-    })
-    it("Un inventario devuelve falso si no tiene suficiente cantidad de un recurso", () => {
-        const inventario = crearInventario()
-
-        const madera = new Recurso("Madera", 8, {x:0,y:0})
-        inventario.agregar(madera)
-
-        expect(inventario.consultarTiene("Madera", 9)).toBe(false)
+        expect(inventario.consultarCantidad("Madera")).toBe(15)
     })
 })

@@ -69,7 +69,7 @@ describe("ActividadRecogerRecursos", () => {
         actividad.actualizar()
         actividad.actualizar()
 
-        expect(colono.inventario.recursos.get("Madera")).toBe(8)
+        expect(colono.inventario.consultarCantidad("Madera")).toBe(8)
     })
 
     it("Un colono libera su recurso objetivo cuando lo recoge completamente", () => {
@@ -158,7 +158,7 @@ describe("ActividadRecogerRecursos", () => {
         actividad.actualizar()
 
         expect(colonia.madera).toBe(10)
-        expect(colono.inventario.recursos.has("Madera")).toBe(false)
+        expect(colono.inventario.tiene("Madera")).toBe(false)
     })
     it("Un colono termina la actividad cuando no queda madera en el mundo ni en su inventario", () => {
         const colonia = crearColonia()
@@ -213,7 +213,7 @@ describe("ActividadRecogerRecursos", () => {
 
         actividad.actualizar()
 
-        expect(colono.inventario.recursos.has("Madera")).toBe(false)
+        expect(colono.inventario.tiene("Madera")).toBe(false)
         expect(colono.objetivo).toBe(maderaDisponible)
         expect(colono.destino).toBe(maderaDisponible.posicion)
     })
