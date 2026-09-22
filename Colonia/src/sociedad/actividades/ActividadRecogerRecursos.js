@@ -55,7 +55,7 @@ export class ActividadRecogerRecursos extends Actividad {
             this.buscarYReservar(recursosDisponibles)
 
             const cantidadAgregable =
-                this.colono.inventario.consultarCantidadAgregable(
+                this.colono.inventario.consultarCantidadGuardable(
                     this.colono.objetivo,
                     this.colono.objetivo.cantidad
                 )
@@ -77,7 +77,7 @@ export class ActividadRecogerRecursos extends Actividad {
         }
 
         const cantidadAgregable =
-            this.colono.inventario.consultarCantidadAgregable(
+            this.colono.inventario.consultarCantidadGuardable(
                 this.colono.objetivo,
                 this.colono.objetivo.cantidad
             )

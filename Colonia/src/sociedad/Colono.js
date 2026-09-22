@@ -132,7 +132,7 @@ export class Colono {
 
   recoger(recurso) {
     if (this.estaEnPosObj(recurso)) {
-      this.inventario.agregar(recurso)
+      this.inventario.recogerRecurso(recurso)
     }
   }
 

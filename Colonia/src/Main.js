@@ -28,7 +28,7 @@ export function iniciarJuego(canvas, requestAnimationFrame) {
 
     colonia.ayuntamiento.capacidadCasas=9
     colonia.dinero=200
-    colonia.madera=300
+    colonia.ayuntamiento.recibirMadera(300)
 
     const casa = colonia.casas.get("Casa 1")
     const casa2 = colonia.casas.get("Casa 2")

@@ -9,7 +9,6 @@ export class Colonia {
         mundo.agregarColonia(this)
         this.dinero =500
         this.comida = 200
-        this.madera = 0
         this.costoCrearCasa = 100
         this.colonos = new Set()
         this.casas= new Map()
@@ -19,6 +18,9 @@ export class Colonia {
         this.leñador = new Leñador()
         this.desempleado = new Desempleado()
         
+    }
+    get madera() {
+        return this.ayuntamiento.madera
     }
 
     crearCasa(nombre, posicion) {

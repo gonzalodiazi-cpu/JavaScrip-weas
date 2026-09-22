@@ -111,7 +111,7 @@ describe("ActividadRecogerRecursos", () => {
             { x: 0, y: 0 }
         )
 
-        colono.inventario.agregar(
+        colono.inventario.recogerRecurso(
             new Recurso("Madera", 50, { x: 0, y: 0 })
         )
 
@@ -148,7 +148,7 @@ describe("ActividadRecogerRecursos", () => {
             { x: 0, y: 0 }
         )
 
-        colono.inventario.agregar(recurso)
+        colono.inventario.recogerRecurso(recurso)
 
         const actividad = new ActividadRecogerRecursos(
             colono,
@@ -196,7 +196,7 @@ describe("ActividadRecogerRecursos", () => {
             { x: 0, y: 0 }
         )
 
-        colono.inventario.agregar(maderaInventario)
+        colono.inventario.recogerRecurso(maderaInventario)
 
         const maderaDisponible = new Recurso(
             "Madera",
@@ -226,7 +226,7 @@ describe("ActividadRecogerRecursos", () => {
             { x: 0, y: 0 }
         )
 
-        colono.inventario.agregar(
+        colono.inventario.recogerRecurso(
             new Recurso("Madera", 50, { x: 0, y: 0 })
         )
 
@@ -258,7 +258,7 @@ describe("ActividadRecogerRecursos", () => {
             { x: 0, y: 0 }
         )
 
-        colono.inventario.agregar(
+        colono.inventario.recogerRecurso(
             new Recurso("Madera", 10, { x: 0, y: 0 })
         )
 
