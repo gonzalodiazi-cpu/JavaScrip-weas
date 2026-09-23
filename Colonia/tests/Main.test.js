@@ -92,6 +92,8 @@ describe("Main", () => {
             addEventListener: vi.fn()
         }
 
+
+
         let siguienteFrame
 
         const requestAnimationFrame = (callback) => {
@@ -110,8 +112,8 @@ describe("Main", () => {
                     return botonConstruirCasa
                 }
 
-                if (id === "boton-debug") {
-                    return botonDebug
+                return {
+                    addEventListener: vi.fn()
                 }
             })
         })

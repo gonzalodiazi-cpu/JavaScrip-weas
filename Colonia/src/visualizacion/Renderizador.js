@@ -50,7 +50,7 @@ export class Renderizador {
         this.contexto.font = "18px Arial"
 
         this.contexto.fillText(
-            `🪵 Madera: ${ayuntamiento.colonia.madera}`,
+            `🪵 Madera: ${ayuntamiento.colonia.madera} and tablas: ${ayuntamiento.tablas}`,
             x + 12,
             y + 29
         )

@@ -28,7 +28,7 @@ export class ActividadRecogerRecursos extends Actividad {
             )
 
             if (!recursoDisponible && !tieneRecurso) {
-                this.colono.actividad = null
+                this.terminarActividad()
                 return
             }
         }
@@ -48,7 +48,7 @@ export class ActividadRecogerRecursos extends Actividad {
                     return
                 }
 
-                this.colono.actividad = null
+                this.terminarActividad()
                 return
             }
 
@@ -78,7 +78,7 @@ export class ActividadRecogerRecursos extends Actividad {
 
         const cantidadAgregable =
             this.colono.inventario.consultarCantidadGuardable(
-                this.colono.objetivo,
+                this.colono.objetivo.tipo,
                 this.colono.objetivo.cantidad
             )
 

@@ -11,6 +11,7 @@ export class MaquinaProcesadora {
         this.almacenamientoSalida = null
         this.tiempoProcesando = 0
         this.tiempoParaProcesar = 5
+        this.responsable=null
         
         this._crearAlmacenamientos()
     }
@@ -73,6 +74,14 @@ export class MaquinaProcesadora {
 
             }
         }
+    }
+
+    asignarResponsable(colono) {
+        this.responsable = colono
+    }
+
+    liberarResponsable() {
+        this.responsable = null
     }
 
 }

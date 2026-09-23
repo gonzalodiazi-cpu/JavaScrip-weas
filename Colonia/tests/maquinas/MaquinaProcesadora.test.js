@@ -169,4 +169,31 @@ describe("MaquinaProcesadora", () => {
             maquina.almacenamientoSalida.recursos.has("Tablas")
         ).toBe(false)
     })
+
+    it("Una máquina comienza sin responsable", () => {
+        const maquina = new MaquinaDePrueba()
+
+        expect(maquina.responsable).toBeNull()
+    })
+
+    it("Una máquina puede asignar un responsable", () => {
+        const maquina = new MaquinaDePrueba()
+
+        const responsable = {}
+
+        maquina.asignarResponsable(responsable)
+
+        expect(maquina.responsable).toBe(responsable)
+    })
+
+    it("Una máquina puede liberar a su responsable", () => {
+        const maquina = new MaquinaDePrueba()
+
+        const responsable = {}
+
+        maquina.asignarResponsable(responsable)
+        maquina.liberarResponsable()
+
+        expect(maquina.responsable).toBeNull()
+    })
 })

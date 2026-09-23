@@ -234,11 +234,11 @@ describe("Colono", () => {
 
     let ejecutada = false
 
-    colono.actividad = {
+    colono.iniciarActividad({
         actualizar() {
             ejecutada = true
         }
-    }
+    })
 
     colono.actualizar()
 

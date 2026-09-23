@@ -12,6 +12,9 @@ export class ActividadTalarArboles extends Actividad {
             )
 
             this.buscarYReservar(arbolesDisponibles)
+            if (this.colono.objetivo === null) {
+                this.terminarActividad()
+            }
 
             return
         }

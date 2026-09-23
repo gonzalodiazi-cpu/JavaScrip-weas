@@ -14,7 +14,7 @@ describe("ActividadRecogerRecursos", () => {
         )
 
         const actividad = new ActividadRecogerRecursos(colono, "Madera")
-        colono.actividad = actividad
+        colono.iniciarActividad(actividad)
 
         expect(colono.imagen).toBe(colonia.desempleado.imagen)
     })
@@ -174,7 +174,7 @@ describe("ActividadRecogerRecursos", () => {
             "Madera"
         )
 
-        colono.actividad = actividad
+        colono.iniciarActividad(actividad)
 
         actividad.actualizar()
 

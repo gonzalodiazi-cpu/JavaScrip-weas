@@ -14,7 +14,7 @@ export class Colono {
     this.estadisticas = new EstadisticasColono(colonia.estadisticasBaseColono, this.trabajo)
     this.destino = null
     this.objetivo = null
-    this.actividad= null
+    this.actividades= []
     this.inventario = new Inventario(this.estadisticas)
 
     return new Proxy(this, {
@@ -30,6 +30,9 @@ export class Colono {
         return undefined
       }
     })
+  }
+  get actividad() {
+    return this.actividades.at(-1) ?? null
   }
   get imagen() {
     if (this.actividad !== null) {
@@ -140,6 +143,14 @@ export class Colono {
     if (this.estaEnPosObj(maquina)) {
       maquina.encender()
     }
+  }
+
+  iniciarActividad(actividad) {
+      this.actividades.push(actividad)
+  }
+
+  terminarActividad() {
+      this.actividades.pop()
   }
   actualizar() {
     if (this.actividad !== null) {

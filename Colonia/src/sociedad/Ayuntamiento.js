@@ -11,11 +11,15 @@ export class Ayuntamiento {
         this.ancho=200
         this.alto=200
         this.colonia=colonia
-        this.almacenamiento = new Almacenamiento(new Map([["Madera", Infinity]]))
+        this.almacenamiento = new Almacenamiento(new Map([["Madera", Infinity],["Tablas",Infinity]]))
     }
 
     get madera() {
         return this.almacenamiento.consultarCantidad("Madera")
+    }
+
+    get tablas() {
+        return this.almacenamiento.consultarCantidad("Tablas")
     }
     
     recibirMadera(cantidad) {
@@ -23,7 +27,10 @@ export class Ayuntamiento {
     }
     recibirInventario(inventario) {
         const madera = inventario.consultarCantidad("Madera")
+        const tablas = inventario.consultarCantidad("Tablas")
         
         inventario.entregarAAlmacenamiento(this.almacenamiento, "Madera", madera)
+        inventario.entregarAAlmacenamiento(this.almacenamiento, "Tablas", tablas)
+        
     }
 }

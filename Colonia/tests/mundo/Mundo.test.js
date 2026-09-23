@@ -101,11 +101,11 @@ describe("Mundo", () => {
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
     let ejecutada = false
-    colono.actividad = {
+    colono.iniciarActividad({
         actualizar() {
             ejecutada = true
         }
-    }
+    })
 
     colonia.agregarColono(colono)
 
@@ -146,7 +146,7 @@ describe("Mundo", () => {
     const colonia = new Colonia(mundo)
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
-    colono.actividad = new ActividadTalarArboles(colono)
+    colono.iniciarActividad(new ActividadTalarArboles(colono))
     colonia.agregarColono(colono)
 
     mundo.actualizar()
@@ -172,7 +172,7 @@ describe("Mundo", () => {
     const colonia = new Colonia(mundo)
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
-    colono.actividad = new ActividadTalarArboles(colono)
+    colono.iniciarActividad(new ActividadTalarArboles(colono))
     colonia.agregarColono(colono)
 
     mundo.actualizar()
@@ -189,7 +189,7 @@ describe("Mundo", () => {
     const colonia = new Colonia(mundo)
     const colono = new Colono("Juan", colonia, { x: 0, y: 0 })
 
-    colono.actividad = new ActividadTalarArboles(colono)
+    colono.iniciarActividad(new ActividadTalarArboles(colono))
     colonia.agregarColono(colono)
 
     mundo.actualizar()
@@ -208,8 +208,8 @@ describe("Mundo", () => {
     const colono1 = new Colono("Juan", colonia, { x: 0, y: 0 })
     const colono2 = new Colono("Pedro", colonia, { x: 0, y: 0 })
 
-    colono1.actividad = new ActividadTalarArboles(colono1)
-    colono2.actividad = new ActividadTalarArboles(colono2)
+    colono1.iniciarActividad(new ActividadTalarArboles(colono1))
+    colono2.iniciarActividad(new ActividadTalarArboles(colono2))
 
     colonia.agregarColono(colono1)
     colonia.agregarColono(colono2)
